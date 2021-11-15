@@ -2,9 +2,9 @@ import React, { Component } from "react";
 
 import { Link } from "react-router-dom";
 
-import { Fab, Box } from "@material-ui/core";
+import { Fab, Box } from "@mui/material";
 
-import { Home as HomeIcon } from "@material-ui/icons";
+import { Home as HomeIcon } from "@mui/icons-material";
 
 import EmptyState from "../EmptyState";
 

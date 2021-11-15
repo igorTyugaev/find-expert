@@ -19,13 +19,13 @@ import {
   Checkbox,
   Switch,
   Button,
-} from "@material-ui/core";
+} from "@mui/material";
 
 import {
   FiberManualRecord as FiberManualRecordIcon,
   Brightness4 as Brightness4Icon,
   FormatColorReset as FormatColorResetIcon,
-} from "@material-ui/icons";
+} from "@mui/icons-material";
 
 import appearance from "../../services/appearance";
 
@@ -248,7 +248,7 @@ class AppearanceTab extends Component {
         <List disablePadding>
           <Box mb={1}>
             <ListItem>
-              <Hidden xsDown>
+              <Hidden smDown>
                 <ListItemIcon>
                   <FiberManualRecordIcon color="primary" />
                 </ListItemIcon>
@@ -282,7 +282,7 @@ class AppearanceTab extends Component {
                   </Select>
                 </Hidden>
 
-                <Hidden xsDown>
+                <Hidden smDown>
                   <Select
                     value={theme.primaryColor.id}
                     labelWidth={primaryColorLabelWidth}
@@ -305,7 +305,7 @@ class AppearanceTab extends Component {
 
           <Box mb={1}>
             <ListItem>
-              <Hidden xsDown>
+              <Hidden smDown>
                 <ListItemIcon>
                   <FiberManualRecordIcon color="secondary" />
                 </ListItemIcon>
@@ -339,7 +339,7 @@ class AppearanceTab extends Component {
                   </Select>
                 </Hidden>
 
-                <Hidden xsDown>
+                <Hidden smDown>
                   <Select
                     value={theme.secondaryColor.id}
                     labelWidth={secondaryColorLabelWidth}
@@ -361,7 +361,7 @@ class AppearanceTab extends Component {
           </Box>
 
           <ListItem>
-            <Hidden xsDown>
+            <Hidden smDown>
               <ListItemIcon>
                 <Brightness4Icon />
               </ListItemIcon>
@@ -373,7 +373,7 @@ class AppearanceTab extends Component {
             />
 
             <ListItemSecondaryAction>
-              <Hidden xsDown>
+              <Hidden smDown>
                 <Checkbox
                   color="primary"
                   checked={theme.dark}
@@ -396,7 +396,7 @@ class AppearanceTab extends Component {
           </Box>
 
           <ListItem>
-            <Hidden xsDown>
+            <Hidden smDown>
               <ListItemIcon>
                 <FormatColorResetIcon />
               </ListItemIcon>

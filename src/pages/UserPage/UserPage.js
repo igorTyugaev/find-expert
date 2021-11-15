@@ -2,11 +2,11 @@ import React, {useState, useEffect} from "react";
 
 import {useParams, Link} from "react-router-dom";
 
-import {Grid, Fab, Box} from "@material-ui/core";
+import {Grid, Fab, Box} from "@mui/material";
 
-import {makeStyles} from "@material-ui/core/styles";
+import makeStyles from '@mui/styles/makeStyles';
 
-import {Refresh as RefreshIcon, Home as HomeIcon} from "@material-ui/icons";
+import {Refresh as RefreshIcon, Home as HomeIcon} from "@mui/icons-material";
 
 import {firestore} from "../../firebase";
 
@@ -95,7 +95,7 @@ function UserPage() {
 
     if (hasProfile) {
         return (
-            <Grid className={classes.grid} container justify="center" spacing={5}>
+            <Grid className={classes.grid} container justifyContent="center" spacing={5}>
                 <Grid item xs={4}>
                     <UserCard user={user}/>
                 </Grid>

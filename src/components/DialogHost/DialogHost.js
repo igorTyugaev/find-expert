@@ -2,7 +2,7 @@ import React, { Component } from "react";
 
 import PropTypes from "prop-types";
 
-import { Hidden } from "@material-ui/core";
+import { Hidden } from "@mui/material";
 
 import AboutDialog from "../AboutDialog";
 
@@ -27,161 +27,159 @@ class DialogHost extends Component {
     const deleteAccountDialog = dialogs.deleteAccountDialog;
     const signOutDialog = dialogs.signOutDialog;
 
-    return (
-      <>
-        <AboutDialog
-          dialogProps={aboutDialog.dialogProps}
-          performingAction={performingAction}
-          theme={theme}
-          user={user}
-          userData={userData}
-          openSnackbar={openSnackbar}
-          {...aboutDialog.props}
-        />
+    return <>
+      <AboutDialog
+        dialogProps={aboutDialog.dialogProps}
+        performingAction={performingAction}
+        theme={theme}
+        user={user}
+        userData={userData}
+        openSnackbar={openSnackbar}
+        {...aboutDialog.props}
+      />
 
+      {user && (
+        <>
+          <AlertDialog
+            dialogProps={signOutDialog.dialogProps}
+            performingAction={performingAction}
+            theme={theme}
+            user={user}
+            userData={userData}
+            openSnackbar={openSnackbar}
+            {...signOutDialog.props}
+          />
+        </>
+      )}
+
+      <Hidden smDown>
         {user && (
           <>
-            <AlertDialog
-              dialogProps={signOutDialog.dialogProps}
+            <DeleteAccountDialog
+              dialogProps={deleteAccountDialog.dialogProps}
               performingAction={performingAction}
               theme={theme}
               user={user}
               userData={userData}
               openSnackbar={openSnackbar}
-              {...signOutDialog.props}
+              {...deleteAccountDialog.props}
             />
           </>
         )}
 
-        <Hidden xsDown>
-          {user && (
-            <>
-              <DeleteAccountDialog
-                dialogProps={deleteAccountDialog.dialogProps}
-                performingAction={performingAction}
-                theme={theme}
-                user={user}
-                userData={userData}
-                openSnackbar={openSnackbar}
-                {...deleteAccountDialog.props}
-              />
-            </>
-          )}
+        {!user && (
+          <>
+            <SignUpDialog
+              dialogProps={signUpDialog.dialogProps}
+              performingAction={performingAction}
+              theme={theme}
+              user={user}
+              userData={userData}
+              openSnackbar={openSnackbar}
+              {...signUpDialog.props}
+            />
 
-          {!user && (
-            <>
-              <SignUpDialog
-                dialogProps={signUpDialog.dialogProps}
-                performingAction={performingAction}
-                theme={theme}
-                user={user}
-                userData={userData}
-                openSnackbar={openSnackbar}
-                {...signUpDialog.props}
-              />
+            <SignInDialog
+              dialogProps={signInDialog.dialogProps}
+              performingAction={performingAction}
+              theme={theme}
+              user={user}
+              userData={userData}
+              openSnackbar={openSnackbar}
+              {...signInDialog.props}
+            />
+          </>
+        )}
+      </Hidden>
 
-              <SignInDialog
-                dialogProps={signInDialog.dialogProps}
-                performingAction={performingAction}
-                theme={theme}
-                user={user}
-                userData={userData}
-                openSnackbar={openSnackbar}
-                {...signInDialog.props}
-              />
-            </>
-          )}
-        </Hidden>
+      <Hidden mdDown>
+        {user && (
+          <>
+            <SettingsDialog
+              dialogProps={settingsDialog.dialogProps}
+              performingAction={performingAction}
+              theme={theme}
+              user={user}
+              userData={userData}
+              openSnackbar={openSnackbar}
+              {...settingsDialog.props}
+            />
+          </>
+        )}
+      </Hidden>
 
-        <Hidden smDown>
-          {user && (
-            <>
-              <SettingsDialog
-                dialogProps={settingsDialog.dialogProps}
-                performingAction={performingAction}
-                theme={theme}
-                user={user}
-                userData={userData}
-                openSnackbar={openSnackbar}
-                {...settingsDialog.props}
-              />
-            </>
-          )}
-        </Hidden>
+      <Hidden smUp>
+        {user && (
+          <>
+            <DeleteAccountDialog
+              dialogProps={{
+                fullScreen: true,
 
-        <Hidden smUp>
-          {user && (
-            <>
-              <DeleteAccountDialog
-                dialogProps={{
-                  fullScreen: true,
+                ...deleteAccountDialog.dialogProps,
+              }}
+              performingAction={performingAction}
+              theme={theme}
+              user={user}
+              userData={userData}
+              openSnackbar={openSnackbar}
+              {...deleteAccountDialog.props}
+            />
+          </>
+        )}
 
-                  ...deleteAccountDialog.dialogProps,
-                }}
-                performingAction={performingAction}
-                theme={theme}
-                user={user}
-                userData={userData}
-                openSnackbar={openSnackbar}
-                {...deleteAccountDialog.props}
-              />
-            </>
-          )}
+        {!user && (
+          <>
+            <SignUpDialog
+              dialogProps={{
+                fullScreen: true,
 
-          {!user && (
-            <>
-              <SignUpDialog
-                dialogProps={{
-                  fullScreen: true,
+                ...signUpDialog.dialogProps,
+              }}
+              performingAction={performingAction}
+              theme={theme}
+              user={user}
+              userData={userData}
+              openSnackbar={openSnackbar}
+              {...signUpDialog.props}
+            />
 
-                  ...signUpDialog.dialogProps,
-                }}
-                performingAction={performingAction}
-                theme={theme}
-                user={user}
-                userData={userData}
-                openSnackbar={openSnackbar}
-                {...signUpDialog.props}
-              />
+            <SignInDialog
+              dialogProps={{
+                fullScreen: true,
 
-              <SignInDialog
-                dialogProps={{
-                  fullScreen: true,
+                ...signInDialog.dialogProps,
+              }}
+              performingAction={performingAction}
+              theme={theme}
+              user={user}
+              userData={userData}
+              openSnackbar={openSnackbar}
+              {...signInDialog.props}
+            />
+          </>
+        )}
+      </Hidden>
 
-                  ...signInDialog.dialogProps,
-                }}
-                performingAction={performingAction}
-                theme={theme}
-                user={user}
-                userData={userData}
-                openSnackbar={openSnackbar}
-                {...signInDialog.props}
-              />
-            </>
-          )}
-        </Hidden>
+      <Hidden mdUp>
+        {user && (
+          <>
+            <SettingsDialog
+              dialogProps={{
+                fullScreen: true,
 
-        <Hidden mdUp>
-          {user && (
-            <>
-              <SettingsDialog
-                dialogProps={{
-                  fullScreen: true,
-
-                  ...settingsDialog.dialogProps,
-                }}
-                performingAction={performingAction}
-                theme={theme}
-                user={user}
-                userData={userData}
-                openSnackbar={openSnackbar}
-                {...settingsDialog.props}
-              />
-            </>
-          )}
-        </Hidden>
-      </>
-    );
+                ...settingsDialog.dialogProps,
+              }}
+              performingAction={performingAction}
+              theme={theme}
+              user={user}
+              userData={userData}
+              openSnackbar={openSnackbar}
+              {...settingsDialog.props}
+            />
+          </>
+        )}
+      </Hidden>
+    </>;
   }
 }
 

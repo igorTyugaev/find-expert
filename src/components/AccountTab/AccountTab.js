@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 import validate from "validate.js";
 import moment from "moment";
 
-import { withStyles } from "@material-ui/core/styles";
+import withStyles from '@mui/styles/withStyles';
 
 import {
   DialogContent,
@@ -28,7 +28,7 @@ import {
   Tooltip,
   IconButton,
   Divider,
-} from "@material-ui/core";
+} from "@mui/material";
 
 import {
   Close as CloseIcon,
@@ -42,7 +42,7 @@ import {
   Check as CheckIcon,
   AccessTime as AccessTimeIcon,
   DeleteForever as DeleteForeverIcon,
-} from "@material-ui/icons";
+} from "@mui/icons-material";
 
 import constraints from "../../data/constraints";
 import authentication from "../../services/authentication";
@@ -764,7 +764,7 @@ class AccountTab extends Component {
     return (
       <DialogContent classes={{ root: classes.dialogContent }}>
         <Box mb={2}>
-          <Hidden xsDown>
+          <Hidden smDown>
             <Grid alignItems="center" container>
               <Grid item xs>
                 <Box textAlign="center">
@@ -1211,7 +1211,7 @@ class AccountTab extends Component {
 
         <List disablePadding>
           <ListItem>
-            <Hidden xsDown>
+            <Hidden smDown>
               <ListItemIcon>
                 <PersonIcon />
               </ListItemIcon>
@@ -1268,7 +1268,7 @@ class AccountTab extends Component {
                         <IconButton
                           disabled={performingAction}
                           onClick={() => this.showField("first-name")}
-                        >
+                          size="large">
                           <EditIcon />
                         </IconButton>
                       </div>
@@ -1291,7 +1291,7 @@ class AccountTab extends Component {
           </ListItem>
 
           <ListItem>
-            <Hidden xsDown>
+            <Hidden smDown>
               <ListItemIcon>
                 <PersonIcon />
               </ListItemIcon>
@@ -1348,7 +1348,7 @@ class AccountTab extends Component {
                         <IconButton
                           disabled={performingAction}
                           onClick={() => this.showField("last-name")}
-                        >
+                          size="large">
                           <EditIcon />
                         </IconButton>
                       </div>
@@ -1371,7 +1371,7 @@ class AccountTab extends Component {
           </ListItem>
 
           <ListItem>
-            <Hidden xsDown>
+            <Hidden smDown>
               <ListItemIcon>
                 <PersonOutlineIcon />
               </ListItemIcon>
@@ -1428,7 +1428,7 @@ class AccountTab extends Component {
                         <IconButton
                           disabled={performingAction}
                           onClick={() => this.showField("username")}
-                        >
+                          size="large">
                           <EditIcon />
                         </IconButton>
                       </div>
@@ -1451,7 +1451,7 @@ class AccountTab extends Component {
           </ListItem>
 
           <ListItem>
-            <Hidden xsDown>
+            <Hidden smDown>
               <ListItemIcon>
                 <EmailIcon />
               </ListItemIcon>
@@ -1528,7 +1528,7 @@ class AccountTab extends Component {
                             color="secondary"
                             disabled={performingAction || sentVerificationEmail}
                             onClick={this.verifyEmailAddress}
-                          >
+                            size="large">
                             <CheckIcon />
                           </IconButton>
                         </div>
@@ -1544,7 +1544,7 @@ class AccountTab extends Component {
                         <IconButton
                           disabled={performingAction}
                           onClick={() => this.showField("email-address")}
-                        >
+                          size="large">
                           <EditIcon />
                         </IconButton>
                       </div>
@@ -1567,13 +1567,13 @@ class AccountTab extends Component {
           </ListItem>
 
           <ListItem>
-            <Hidden xsDown>
+            <Hidden smDown>
               <ListItemIcon>
                 <AccessTimeIcon />
               </ListItemIcon>
             </Hidden>
 
-            <Hidden xsDown>
+            <Hidden smDown>
               <ListItemText
                 primary="Signed in"
                 secondary={moment(user.metadata.lastSignInTime).format("LLLL")}
@@ -1593,7 +1593,7 @@ class AccountTab extends Component {
           </Box>
 
           <ListItem>
-            <Hidden xsDown>
+            <Hidden smDown>
               <ListItemIcon>
                 <DeleteForeverIcon />
               </ListItemIcon>

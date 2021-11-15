@@ -8,10 +8,11 @@ import { auth } from "../../firebase";
 
 import authentication from "../../services/authentication";
 
-import EmptyState from "../EmptyState";
+
 
 import { ReactComponent as CabinIllustration } from "../../illustrations/cabin.svg";
 import { ReactComponent as InsertBlockIllustration } from "../../illustrations/insert-block.svg";
+import EmptyState from "../../domain/EmptyState";
 
 class HomePage extends Component {
   signInWithEmailLink = () => {

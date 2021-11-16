@@ -1,504 +1,170 @@
-import React, {Component} from "react";
+import React from "react";
 
-import readingTime from "reading-time";
-
-import { ThemeProvider, StyledEngineProvider } from "@mui/material/styles";
-
+import {ThemeProvider, StyledEngineProvider} from "@mui/material/styles";
 import {CssBaseline, Button, Snackbar} from "@mui/material";
 
-import {auth, firestore} from "./firebase";
-import authentication from "./services/authentication";
-import appearance from "./services/appearance";
-
-
-import Bar from "./components/Bar";
-import Router from "./Router";
+import AppRouter from "./AppRouter";
 import DialogHost from "./components/DialogHost";
 import ErrorBoundary from "./domain/ErrorBoundary";
 import LaunchScreen from "./pages/LaunchScreen";
+import {useAppContext} from "./AppContext";
 
-const initialState = {
-    ready: false,
-    performingAction: false,
-    theme: appearance.defaultTheme,
-    user: null,
-    userData: null,
-    roles: [],
+const App = () => {
+    // INFO: @mui/styles is not compatible with React.StrictMode or React 18.
+    // TODO: Perform a full migration to emotion
+    const valueContext = useAppContext();
+    const {
+        ready,
+        performingAction,
+        theme,
+        user,
+        userData,
+    } = valueContext;
 
-    aboutDialog: {
-        open: false,
-    },
+    const {
+        aboutDialog,
+        signUpDialog,
+        signInDialog,
+        settingsDialog,
+        deleteAccountDialog,
+        signOutDialog,
+    } = valueContext;
 
-    signUpDialog: {
-        open: false,
-    },
+    const {snackbar} = valueContext;
+    const {
+        openDialog,
+        closeDialog,
+        deleteAccount,
+        signOut,
+        openSnackbar,
+        closeSnackbar
+    } = valueContext;
 
-    signInDialog: {
-        open: false,
-    },
+    return (
+        <StyledEngineProvider injectFirst>
+            <ThemeProvider theme={theme}>
+                <CssBaseline/>
+                <ErrorBoundary>
+                    {!ready && <LaunchScreen/>}
 
-    settingsDialog: {
-        open: false,
-    },
+                    {ready && (
+                        <>
+                            <AppRouter/>
 
-    deleteAccountDialog: {
-        open: false,
-    },
+                            <DialogHost
+                                performingAction={performingAction}
+                                theme={theme}
+                                user={user}
+                                userData={userData}
+                                openSnackbar={openSnackbar}
+                                dialogs={{
+                                    aboutDialog: {
+                                        dialogProps: {
+                                            open: aboutDialog.open,
 
-    signOutDialog: {
-        open: false,
-    },
+                                            onClose: () => closeDialog("aboutDialog"),
+                                        },
+                                    },
 
-    snackbar: {
-        autoHideDuration: 0,
-        message: "",
-        open: false,
-    },
-};
+                                    signUpDialog: {
+                                        dialogProps: {
+                                            open: signUpDialog.open,
 
-class App extends Component {
-    constructor(props) {
-        super(props);
-        this.state = initialState;
-    }
+                                            onClose: (callback) => {
+                                                closeDialog("signUpDialog");
 
-    resetState = (callback) => {
-        this.setState(
-            {
-                ready: true,
-                theme: appearance.defaultTheme,
-                user: null,
-                userData: null,
-                roles: [],
-            },
-            callback
-        );
-    };
-
-    setTheme = (theme, callback) => {
-        if (!theme) {
-            this.setState(
-                {
-                    theme: appearance.defaultTheme,
-                },
-                callback
-            );
-
-            return;
-        }
-
-        this.setState(
-            {
-                theme: appearance.createMuiTheme(theme),
-            },
-            callback
-        );
-    };
-
-    openDialog = (dialogId, callback) => {
-        const dialog = this.state[dialogId];
-
-        if (!dialog || dialog.open === undefined || null) {
-            return;
-        }
-
-        dialog.open = true;
-
-        this.setState({dialog}, callback);
-    };
-
-    closeDialog = (dialogId, callback) => {
-        const dialog = this.state[dialogId];
-
-        if (!dialog || dialog.open === undefined || null) {
-            return;
-        }
-
-        dialog.open = false;
-
-        this.setState({dialog}, callback);
-    };
-
-    closeAllDialogs = (callback) => {
-        this.setState(
-            {
-                aboutDialog: {
-                    open: false,
-                },
-
-                signUpDialog: {
-                    open: false,
-                },
-
-                signInDialog: {
-                    open: false,
-                },
-
-                settingsDialog: {
-                    open: false,
-                },
-
-                deleteAccountDialog: {
-                    open: false,
-                },
-
-                signOutDialog: {
-                    open: false,
-                },
-            },
-            callback
-        );
-    };
-
-    deleteAccount = () => {
-        this.setState(
-            {
-                performingAction: true,
-            },
-            () => {
-                authentication
-                    .deleteAccount()
-                    .then(() => {
-                        this.closeAllDialogs(() => {
-                            this.openSnackbar("Deleted account");
-                        });
-                    })
-                    .catch((reason) => {
-                        const code = reason.code;
-                        const message = reason.message;
-
-                        switch (code) {
-                            default:
-                                this.openSnackbar(message);
-                                return;
-                        }
-                    })
-                    .finally(() => {
-                        this.setState({
-                            performingAction: false,
-                        });
-                    });
-            }
-        );
-    };
-
-    signOut = () => {
-        this.setState(
-            {
-                performingAction: true,
-            },
-            () => {
-                authentication
-                    .signOut()
-                    .then(() => {
-                        this.closeAllDialogs(() => {
-                            this.openSnackbar("Signed out");
-                        });
-                    })
-                    .catch((reason) => {
-                        const code = reason.code;
-                        const message = reason.message;
-
-                        switch (code) {
-                            default:
-                                this.openSnackbar(message);
-                                return;
-                        }
-                    })
-                    .finally(() => {
-                        this.setState({
-                            performingAction: false,
-                        });
-                    });
-            }
-        );
-    };
-
-    openSnackbar = (message, autoHideDuration = 2, callback) => {
-        this.setState(
-            {
-                snackbar: {
-                    autoHideDuration: readingTime(message).time * autoHideDuration,
-                    message,
-                    open: true,
-                },
-            },
-            () => {
-                if (callback && typeof callback === "function") {
-                    callback();
-                }
-            }
-        );
-    };
-
-    closeSnackbar = (clearMessage = false) => {
-        const {snackbar} = this.state;
-
-        this.setState({
-            snackbar: {
-                message: clearMessage ? "" : snackbar.message,
-                open: false,
-            },
-        });
-    };
-
-    render() {
-        const {
-            ready,
-            performingAction,
-            theme,
-            user,
-            userData,
-            roles,
-        } = this.state;
-
-        const {
-            aboutDialog,
-            signUpDialog,
-            signInDialog,
-            settingsDialog,
-            deleteAccountDialog,
-            signOutDialog,
-        } = this.state;
-
-        const {snackbar} = this.state;
-
-        return (
-            <StyledEngineProvider injectFirst>
-                <ThemeProvider theme={theme}>
-                    <CssBaseline/>
-
-                    <ErrorBoundary>
-                        {!ready && <LaunchScreen/>}
-
-                        {ready && (
-                            <>
-                                <Router
-                                    user={user}
-                                    roles={roles}
-                                    bar={
-                                        <Bar
-                                            performingAction={performingAction}
-                                            theme={theme}
-                                            user={user}
-                                            userData={userData}
-                                            roles={roles}
-                                            onSignUpClick={() => this.openDialog("signUpDialog")}
-                                            onSignInClick={() => this.openDialog("signInDialog")}
-                                            onAboutClick={() => this.openDialog("aboutDialog")}
-                                            onSettingsClick={() => this.openDialog("settingsDialog")}
-                                            onSignOutClick={() => this.openDialog("signOutDialog")}
-                                        />
-                                    }
-                                    openSnackbar={this.openSnackbar}
-                                />
-
-                                <DialogHost
-                                    performingAction={performingAction}
-                                    theme={theme}
-                                    user={user}
-                                    userData={userData}
-                                    openSnackbar={this.openSnackbar}
-                                    dialogs={{
-                                        aboutDialog: {
-                                            dialogProps: {
-                                                open: aboutDialog.open,
-
-                                                onClose: () => this.closeDialog("aboutDialog"),
+                                                if (callback && typeof callback === "function") {
+                                                    callback();
+                                                }
                                             },
                                         },
+                                    },
 
-                                        signUpDialog: {
-                                            dialogProps: {
-                                                open: signUpDialog.open,
+                                    signInDialog: {
+                                        dialogProps: {
+                                            open: signInDialog.open,
 
-                                                onClose: (callback) => {
-                                                    this.closeDialog("signUpDialog");
+                                            onClose: (callback) => {
+                                                closeDialog("signInDialog");
 
-                                                    if (callback && typeof callback === "function") {
-                                                        callback();
-                                                    }
-                                                },
+                                                if (callback && typeof callback === "function") {
+                                                    callback();
+                                                }
                                             },
                                         },
+                                    },
 
-                                        signInDialog: {
-                                            dialogProps: {
-                                                open: signInDialog.open,
+                                    settingsDialog: {
+                                        dialogProps: {
+                                            open: settingsDialog.open,
 
-                                                onClose: (callback) => {
-                                                    this.closeDialog("signInDialog");
-
-                                                    if (callback && typeof callback === "function") {
-                                                        callback();
-                                                    }
-                                                },
-                                            },
+                                            onClose: () => closeDialog("settingsDialog"),
                                         },
 
-                                        settingsDialog: {
-                                            dialogProps: {
-                                                open: settingsDialog.open,
+                                        props: {
+                                            onDeleteAccountClick: () =>
+                                                openDialog("deleteAccountDialog"),
+                                        },
+                                    },
 
-                                                onClose: () => this.closeDialog("settingsDialog"),
-                                            },
+                                    deleteAccountDialog: {
+                                        dialogProps: {
+                                            open: deleteAccountDialog.open,
 
-                                            props: {
-                                                onDeleteAccountClick: () =>
-                                                    this.openDialog("deleteAccountDialog"),
-                                            },
+                                            onClose: () => closeDialog("deleteAccountDialog"),
                                         },
 
-                                        deleteAccountDialog: {
-                                            dialogProps: {
-                                                open: deleteAccountDialog.open,
+                                        props: {
+                                            deleteAccount: deleteAccount,
+                                        },
+                                    },
 
-                                                onClose: () => this.closeDialog("deleteAccountDialog"),
-                                            },
+                                    signOutDialog: {
+                                        dialogProps: {
+                                            open: signOutDialog.open,
 
-                                            props: {
-                                                deleteAccount: this.deleteAccount,
-                                            },
+                                            onClose: () => closeDialog("signOutDialog"),
                                         },
 
-                                        signOutDialog: {
-                                            dialogProps: {
-                                                open: signOutDialog.open,
-
-                                                onClose: () => this.closeDialog("signOutDialog"),
-                                            },
-
-                                            props: {
-                                                title: "Sign out?",
-                                                contentText:
-                                                    "While signed out you are unable to manage your profile and conduct other activities that require you to be signed in.",
-                                                dismissiveAction: (
-                                                    <Button
-                                                        color="primary"
-                                                        onClick={() => this.closeDialog("signOutDialog")}
-                                                    >
-                                                        Cancel
-                                                    </Button>
-                                                ),
-                                                confirmingAction: (
-                                                    <Button
-                                                        color="primary"
-                                                        disabled={performingAction}
-                                                        variant="contained"
-                                                        onClick={this.signOut}
-                                                    >
-                                                        Sign Out
-                                                    </Button>
-                                                ),
-                                            },
+                                        props: {
+                                            title: "Sign out?",
+                                            contentText:
+                                                "While signed out you are unable to manage your profile and conduct other activities that require you to be signed in.",
+                                            dismissiveAction: (
+                                                <Button
+                                                    color="primary"
+                                                    onClick={() => closeDialog("signOutDialog")}
+                                                >
+                                                    Cancel
+                                                </Button>
+                                            ),
+                                            confirmingAction: (
+                                                <Button
+                                                    color="primary"
+                                                    disabled={performingAction}
+                                                    variant="contained"
+                                                    onClick={signOut}
+                                                >
+                                                    Sign Out
+                                                </Button>
+                                            ),
                                         },
-                                    }}
-                                />
+                                    },
+                                }}
+                            />
 
-                                <Snackbar
-                                    autoHideDuration={snackbar.autoHideDuration}
-                                    message={snackbar.message}
-                                    open={snackbar.open}
-                                    onClose={this.closeSnackbar}
-                                />
-                            </>
-                        )}
-                    </ErrorBoundary>
-                </ThemeProvider>
-            </StyledEngineProvider>
-        );
-    }
-
-    componentDidMount() {
-        this.onAuthStateChangedObserver = auth.onAuthStateChanged(
-            (user) => {
-                // The user is not signed in or doesn’t have a user ID.
-                if (!user || !user.uid) {
-                    if (this.userDocumentSnapshotListener) {
-                        this.userDocumentSnapshotListener();
-                    }
-
-                    this.resetState();
-
-                    return;
-                }
-
-                // The user is signed in, begin retrieval of external user data.
-                this.userDocumentSnapshotListener = firestore
-                    .collection("users")
-                    .doc(user.uid)
-                    .onSnapshot(
-                        (snapshot) => {
-                            const data = snapshot.data();
-
-                            // The user doesn’t have a data point, equivalent to not signed in.
-                            if (!snapshot.exists || !data) {
-                                return;
-                            }
-
-                            authentication
-                                .getRoles()
-                                .then((value) => {
-                                    this.setTheme(data.theme, () => {
-                                        this.setState({
-                                            ready: true,
-                                            user: user,
-                                            userData: data,
-                                            roles: value || [],
-                                        });
-                                    });
-                                })
-                                .catch((reason) => {
-                                    this.resetState(() => {
-                                        const code = reason.code;
-                                        const message = reason.message;
-
-                                        switch (code) {
-                                            default:
-                                                this.openSnackbar(message);
-                                                return;
-                                        }
-                                    });
-                                });
-                        },
-                        (error) => {
-                            this.resetState(() => {
-                                const code = error.code;
-                                const message = error.message;
-
-                                switch (code) {
-                                    default:
-                                        this.openSnackbar(message);
-                                        return;
-                                }
-                            });
-                        }
-                    );
-            },
-            (error) => {
-                this.resetState(() => {
-                    const code = error.code;
-                    const message = error.message;
-
-                    switch (code) {
-                        default:
-                            this.openSnackbar(message);
-                            return;
-                    }
-                });
-            }
-        );
-    }
-
-    componentWillUnmount() {
-        if (this.onAuthStateChangedObserver) {
-            this.onAuthStateChangedObserver();
-        }
-
-        if (this.userDocumentSnapshotListener) {
-            this.userDocumentSnapshotListener();
-        }
-    }
+                            <Snackbar
+                                autoHideDuration={snackbar.autoHideDuration}
+                                message={snackbar.message}
+                                open={snackbar.open}
+                                onClose={closeSnackbar}
+                            />
+                        </>
+                    )}
+                </ErrorBoundary>
+            </ThemeProvider>
+        </StyledEngineProvider>
+    );
 }
 
 export default App;

@@ -119,7 +119,7 @@ class SettingsDialog extends Component {
           onExited: this.handleExited
         }}>
         <DialogTitle>
-          <Typography variant="h6">Settings</Typography>
+          <Typography variant="span">Settings</Typography>
 
           <Tooltip title="Close">
             <IconButton

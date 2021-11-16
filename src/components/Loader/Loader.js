@@ -1,27 +1,21 @@
 import React from "react";
+import {CircularProgress, styled} from "@mui/material";
 
-import makeStyles from '@mui/styles/makeStyles';
-
-import { CircularProgress } from "@mui/material";
-
-const useStyles = makeStyles({
-  center: {
+const CircularProgressWrapper = styled('div')(({theme}) => ({
     position: "absolute",
     top: "50%",
     left: "50%",
     transform: "translate(-50%, -50%)",
     textAlign: "center",
-  },
-});
+}));
 
-function Loader() {
-  const classes = useStyles();
+const Loader = () => {
 
-  return (
-    <div className={classes.center}>
-      <CircularProgress />
-    </div>
-  );
+    return (
+        <CircularProgressWrapper>
+            <CircularProgress/>
+        </CircularProgressWrapper>
+    );
 }
 
 export default Loader;

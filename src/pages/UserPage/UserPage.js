@@ -1,10 +1,7 @@
 import React, {useState, useEffect} from "react";
-
 import {useParams, Link} from "react-router-dom";
 
-import {Grid, Fab, Box} from "@mui/material";
-
-import makeStyles from '@mui/styles/makeStyles';
+import {Grid, Fab, Box, styled} from "@mui/material";
 
 import {Refresh as RefreshIcon, Home as HomeIcon} from "@mui/icons-material";
 
@@ -17,19 +14,17 @@ import EmptyState from "../../domain/EmptyState";
 import Loader from "../../components/Loader";
 import UserCard from "../../components/UserCard";
 
-const useStyles = makeStyles({
-    grid: {
-        margin: 0,
-        width: "100%"
-    },
-});
 
-function UserPage() {
+const ProfileGrid = styled(Grid)(({theme}) => ({
+    margin: 0,
+    width: "100%"
+}));
+
+const UserPage = () => {
     const [loading, setLoading] = useState(true);
     const [user, setUser] = useState(null);
     const [error, setError] = useState(null);
     const {userId} = useParams();
-    const classes = useStyles();
 
     useEffect(() => {
         return firestore
@@ -95,11 +90,11 @@ function UserPage() {
 
     if (hasProfile) {
         return (
-            <Grid className={classes.grid} container justifyContent="center" spacing={5}>
+            <ProfileGrid container justifyContent="center" spacing={5}>
                 <Grid item xs={4}>
                     <UserCard user={user}/>
                 </Grid>
-            </Grid>
+            </ProfileGrid>
         );
     }
 

@@ -70,7 +70,7 @@ const DashboardList = ({role}) => {
                 <Button variant="outlined" onClick={handlerNewOrder}>
                     {role === 'author' ?
                         "Запросить услугу" :
-                        "Найти заказы"
+                        "Новый заказ"
                     }
                 </Button>
             </ListHeader>

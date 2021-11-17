@@ -1,6 +1,6 @@
 import React from 'react';
 import {useHistory} from "react-router-dom";
-import {styled} from "@mui/material";
+import {Box, styled, Typography} from "@mui/material";
 import RoleCard from "../../components/RoleCard";
 import StudentIllustration from "../../illustrations/student.svg";
 import TeachingIllustration from "../../illustrations/teaching.svg";
@@ -31,7 +31,7 @@ const roles = [
     },
 ]
 
-const SelectRoleWrapper = styled('div')(({theme}) => ({
+const SelectRoleInner = styled('div')(({theme}) => ({
     display: "inline-flex",
     flexWrap: "wrap",
     justifyContent: "center",
@@ -40,6 +40,10 @@ const SelectRoleWrapper = styled('div')(({theme}) => ({
 }));
 
 const SelectRoleItem = styled('div')(({theme}) => ({
+    margin: "1em 0 0 1em"
+}));
+
+const SelectRoleHeader = styled('div')(({theme}) => ({
     margin: "1em 0 0 1em"
 }));
 
@@ -66,14 +70,24 @@ const SelectRole = () => {
     }
 
     return (
-        <SelectRoleWrapper>
-            <SelectRoleItem>
-                <RoleCard role={roles[0]} handleSelect={handleSelect}/>
-            </SelectRoleItem>
-            <SelectRoleItem>
-                <RoleCard role={roles[1]} handleSelect={handleSelect}/>
-            </SelectRoleItem>
-        </SelectRoleWrapper>
+        <Box sx={{margin: "auto", width: "100%", height: "100%"}}>
+            <SelectRoleInner>
+                <SelectRoleItem>
+                    <Typography variant="h5" component="h3" align="center" sx={{fontWeight: "bold"}}>
+                        Как вы планируете использовать приложение?
+                    </Typography>
+                    <Typography variant="body1" component="p" align="center">
+                        Чтобы продолжить, выберите тип учетной записи
+                    </Typography>
+                </SelectRoleItem>
+                <SelectRoleItem>
+                    <RoleCard role={roles[0]} handleSelect={handleSelect}/>
+                </SelectRoleItem>
+                <SelectRoleItem>
+                    <RoleCard role={roles[1]} handleSelect={handleSelect}/>
+                </SelectRoleItem>
+            </SelectRoleInner>
+        </Box>
     );
 };
 

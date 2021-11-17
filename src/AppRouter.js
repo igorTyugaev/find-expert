@@ -29,7 +29,8 @@ const AppBody = styled('div')(({theme}) => ({
     flex: "1 1 auto",
     marginTop: "0.35em",
     paddingTop: "1.12em",
-    overflowY: "scroll"
+    overflowY: "scroll",
+    paddingBottom: "8em",
 }));
 
 const AppRouter = () => {

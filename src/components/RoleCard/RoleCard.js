@@ -1,20 +1,45 @@
 import React from 'react';
-import makeStyles from '@mui/styles/makeStyles';
-import {Button, Card, CardActions, CardContent, CardMedia, Typography} from "@mui/material";
+import {Button, Card, CardContent, CardMedia, styled, Typography} from "@mui/material";
 import * as PropTypes from "prop-types";
 
-const useStyles = makeStyles({
-    root: {
-        maxWidth: 345,
-        height: "100%",
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "space-between",
-    },
-});
+const Role = styled(Card)(({theme}) => ({
+    height: "100%",
+    display: "flex",
+    justifyContent: "flex-start",
+    padding: "1em",
+
+    "@media screen and (max-width: 567px)": {
+        flexDirection: "column"
+    }
+}));
+
+const RoleHeader = styled(CardMedia)(({theme}) => ({
+    width: "20%",
+    minWidth: "120px",
+    objectFit: "contain",
+    padding: "0",
+    paddingRight: "1em",
+
+    "@media screen and (max-width: 567px)": {
+        maxHeight: "180px",
+        width: "100%",
+        flexDirection: "column"
+    }
+}));
+
+const RoleBody = styled('div')(({theme}) => ({
+    width: "80%",
+    padding: "0",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "flex-start",
+
+    "@media screen and (max-width: 567px)": {
+        width: "100%",
+    }
+}));
 
 const RoleCard = ({role, handleSelect}) => {
-    const classes = useStyles();
 
     const handleClick = (event) => {
         if (!event) {
@@ -25,32 +50,26 @@ const RoleCard = ({role, handleSelect}) => {
     };
 
     return (
-        <Card className={classes.root}>
-
-            <CardMedia
+        <Role>
+            <RoleHeader
                 component="img"
-                height="140"
                 image={role?.img}
                 alt={role?.title}
                 title={role?.title}
-                sx={{width: "100%", objectFit: "contain", padding: "0.5em"}}
             />
-            <CardContent>
-                <Typography gutterBottom variant="h5" component="h2" align="center">
+            <RoleBody>
+                <Typography gutterBottom variant="h5" component="h2">
                     {role?.title}
                 </Typography>
-                <Typography variant="body2" color="textSecondary" component="p">
+                <Typography sx={{margin: "1em 0"}} variant="body2" color="textSecondary" component="p">
                     {role?.description}
                 </Typography>
-            </CardContent>
-
-            <CardActions>
-                <Button color="primary" variant="contained" fullWidth onClick={handleClick}>
+                <Button sx={{marginTop: "auto", minWidth: "180px"}} color="primary" variant="contained"
+                        onClick={handleClick}>
                     {role?.txtBtn}
                 </Button>
-            </CardActions>
-
-        </Card>
+            </RoleBody>
+        </Role>
     );
 }
 

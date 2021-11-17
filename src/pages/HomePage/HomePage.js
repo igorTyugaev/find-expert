@@ -11,63 +11,9 @@ import EmptyState from "../../domain/EmptyState";
 import {useAppContext} from "../../AppContext";
 
 const HomePage = () => {
-    const history = useHistory();
     const appContext = useAppContext();
     // Properties
     const {user} = appContext;
-    // Functions
-    const {openSnackbar} = appContext;
-
-    const signInWithEmailLink = () => {
-        if (user) return;
-
-        const emailLink = window.location.href;
-        if (!emailLink) return;
-
-        if (auth.isSignInWithEmailLink(emailLink)) {
-            const emailAddress = localStorage.getItem("emailAddress");
-
-            if (!emailAddress) {
-                history.push("/");
-                return;
-            }
-
-            authentication
-                .signInWithEmailLink(emailAddress, emailLink)
-                .then((value) => {
-                    const user = value.user;
-                    const displayName = user.displayName;
-                    const emailAddress = user.email;
-
-                    openSnackbar(
-                        `Signed in as ${displayName || emailAddress}`
-                    );
-                })
-                .catch((reason) => {
-                    const code = reason.code;
-                    const message = reason.message;
-
-                    switch (code) {
-                        case "auth/expired-action-code":
-                        case "auth/invalid-email":
-                        case "auth/user-disabled":
-                            openSnackbar(message);
-                            break;
-
-                        default:
-                            openSnackbar(message);
-                            return;
-                    }
-                })
-                .finally(() => {
-                    history.push("/");
-                });
-        }
-    };
-
-    useEffect(() => {
-        signInWithEmailLink();
-    }, []);
 
     if (user) {
         return (

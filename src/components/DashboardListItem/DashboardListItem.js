@@ -38,10 +38,11 @@ const ItemFooter = styled('div')(({theme}) => ({
     marginTop: "1em"
 }));
 
-const DashboardListItem = ({id, status, budget, deadline, title, description}) => {
-
-    const handlerClick = () => {
+const DashboardListItem = ({id, status, budget, deadline, title, description, handlerOrder}) => {
+    const handlerBtn = () => {
         console.log("Choose order id", id);
+        if (!handlerOrder) return;
+        handlerOrder(id);
     }
 
     return (
@@ -60,7 +61,7 @@ const DashboardListItem = ({id, status, budget, deadline, title, description}) =
                 </Typography>
             </ItemBody>
             <ItemFooter>
-                <Button variant="outlined" onClick={handlerClick}>
+                <Button variant="outlined" onClick={handlerBtn}>
                     Подробнее
                 </Button>
             </ItemFooter>

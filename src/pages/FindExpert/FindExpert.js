@@ -1,5 +1,5 @@
 import React from 'react';
-import {useHistory} from "react-router-dom";
+import {useHistory, useParams} from "react-router-dom";
 import BaseCard from "../../components/BaseCard";
 import ExpertListItem from "../../components/ExpertListItem";
 
@@ -31,6 +31,7 @@ const experts = [
 ]
 const FindExpert = () => {
     const history = useHistory();
+    const {orderId} = useParams();
     const handlerMyOrder = () => {
         history.push('/');
     }

@@ -11,6 +11,8 @@ import DashboardPage from "./pages/DashboardPage";
 import RequestService from "./pages/RequestService";
 import FindOrder from "./pages/FindOrder";
 import FindExpert from "./pages/FindExpert";
+import OrderPage from "./pages/OrderPage";
+import ExpertForm from "./pages/ExpertForm";
 
 const AppWrapper = styled('div')(({theme}) => ({
     display: "flex",
@@ -64,6 +66,13 @@ const AppRouter = () => {
                                     <Redirect to="/"/>
                                 }
                             </Route>
+                            {/*Форма регистрации эксперта*/}
+                            <Route path="/expert-form" exact>
+                                {user ?
+                                    <ExpertForm/> :
+                                    <Redirect to="/"/>
+                                }
+                            </Route>
                             {/*Эксперт видет список закзаов, которые соотвествуют его профилю*/}
                             <Route path="/find-order" exact>
                                 {user ?
@@ -72,11 +81,19 @@ const AppRouter = () => {
                                 }
                             </Route>
                             {/*Автор видет список экспертов, которые соотвествуют его запросу на услуги*/}
-                            <Route path="/find-expert" exact>
+                            <Route path="/find-expert/:orderId" exact>
                                 {user ?
                                     <FindExpert/> :
                                     <Redirect to="/"/>
                                 }
+                            </Route>
+
+                            <Route path="/order/:orderId">
+                                {user ? <OrderPage/> : <Redirect to="/"/>}
+                            </Route>
+
+                            <Route>
+                                <NotFoundPage/>
                             </Route>
                             <Route path="/user/:userId">
                                 {user ? <UserPage/> : <Redirect to="/"/>}

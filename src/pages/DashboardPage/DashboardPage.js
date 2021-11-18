@@ -60,10 +60,16 @@ const orders = [
         description: "It's important to realize that the style of a typography component is independent from the semantic underlying element."
     }
 ]
-
+/**
+ * Выполнять переадресацию в зависимости от роли и статуса заказа
+ * Автор:
+ * - Требуеться выбрать эксперта (FindExpert) - missing
+ * - Требуеться выбрать эксперта (ChatOrder) - working
+ */
 const DashboardPage = () => {
     const appContext = useAppContext();
     const history = useHistory();
+
     // Properties
     const {user, userData} = appContext;
     const role = userData?.role?.toLowerCase();
@@ -73,6 +79,9 @@ const DashboardPage = () => {
         } else {
             history.push('/find-order');
         }
+    }
+    const handlerOrder = (orderId) => {
+        history.push(`/order/${orderId}`);
     }
 
     return (
@@ -94,6 +103,7 @@ const DashboardPage = () => {
                                            deadline={deadline}
                                            title={title}
                                            description={description}
+                                           handlerOrder={handlerOrder}
                         />
                     ))}
                 </BaseCard>

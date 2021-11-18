@@ -10,6 +10,7 @@ import LandingPage from "./pages/LandingPage";
 import DashboardPage from "./pages/DashboardPage";
 import RequestService from "./pages/RequestService";
 import FindOrder from "./pages/FindOrder";
+import FindExpert from "./pages/FindExpert";
 
 const AppWrapper = styled('div')(({theme}) => ({
     display: "flex",
@@ -67,6 +68,13 @@ const AppRouter = () => {
                             <Route path="/find-order" exact>
                                 {user ?
                                     <FindOrder/> :
+                                    <Redirect to="/"/>
+                                }
+                            </Route>
+                            {/*Автор видет список экспертов, которые соотвествуют его запросу на услуги*/}
+                            <Route path="/find-expert" exact>
+                                {user ?
+                                    <FindExpert/> :
                                     <Redirect to="/"/>
                                 }
                             </Route>

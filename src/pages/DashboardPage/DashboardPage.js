@@ -1,8 +1,10 @@
 import React from 'react';
+import {useHistory} from "react-router-dom";
 import {Card, styled} from "@mui/material";
 import {useAppContext} from "../../AppContext";
 import AsideCard from "../../components/AsideCard";
-import DashboardList from "../../components/DashboardList";
+import BaseCard from "../../components/BaseCard";
+import DashboardListItem from "../../components/DashboardListItem";
 
 const DashboardWrapper = styled('div')(({theme}) => ({
     display: "flex",
@@ -32,16 +34,69 @@ const DashboardAsideItem = styled('div')(({theme}) => ({
     }
 }));
 
+const orders = [
+    {
+        id: 1,
+        status: "draft",
+        budget: "$3252",
+        deadline: "11/12/21",
+        title: "Changing the semantic element",
+        description: "It's important to realize that the style of a typography component is independent from the semantic underlying element."
+    },
+    {
+        id: 2,
+        status: "open",
+        budget: "$3252",
+        deadline: "11/12/21",
+        title: "Changing the semantic element",
+        description: "It's important to realize that the style of a typography component is independent from the semantic underlying element."
+    },
+    {
+        id: 3,
+        status: "complite",
+        budget: "$3252",
+        deadline: "11/12/21",
+        title: "Changing the semantic element",
+        description: "It's important to realize that the style of a typography component is independent from the semantic underlying element."
+    }
+]
+
 const DashboardPage = () => {
     const appContext = useAppContext();
+    const history = useHistory();
     // Properties
     const {user, userData} = appContext;
     const role = userData?.role?.toLowerCase();
+    const handlerNewOrder = () => {
+        if (role === 'author') {
+            history.push('/request-service');
+        } else {
+            history.push('/find-order');
+        }
+    }
 
     return (
         <DashboardWrapper>
             <DashboardOrders>
-                <DashboardList role={role}/>
+                <BaseCard
+                    title="Ваши заказы"
+                    btnTitle={role === 'author' ?
+                        "Запросить услугу" :
+                        "Новый заказ"}
+                    btnHandler={handlerNewOrder}>
+                    {/* TODO: Сделать заглушку, если список пустой */}
+                    {/* TODO: Показывать заглушку для эксперта, если он не заполнил профиль*/}
+                    {orders.map(({id, status, budget, deadline, title, description}) => (
+                        <DashboardListItem id={id}
+                                           key={id}
+                                           status={status}
+                                           budget={budget}
+                                           deadline={deadline}
+                                           title={title}
+                                           description={description}
+                        />
+                    ))}
+                </BaseCard>
             </DashboardOrders>
             <DashboardAside>
                 <DashboardAsideItem>

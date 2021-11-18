@@ -47,19 +47,23 @@ const Bar = () => {
 
     const menuItems = [
         {
-            name: "About",
+            name: "О сервисе",
             onClick: onAboutClick,
         },
         {
-            name: "Profile",
+            name: "Мой профиль",
             to: user ? `/user/${user.uid}` : null,
         },
         {
-            name: "Settings",
+            name: "Сменить роль",
+            to: "/select-role",
+        },
+        {
+            name: "Настройки",
             onClick: onSettingsClick,
         },
         {
-            name: "Sign out",
+            name: "Выйти",
             divide: true,
             onClick: onSignOutClick,
         },

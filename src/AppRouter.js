@@ -1,16 +1,13 @@
 import React from "react";
 import {BrowserRouter, Switch, Redirect, Route} from "react-router-dom";
-
-import AdminPage from "./pages/AdminPage";
+import {Container, styled} from "@mui/material";
 import UserPage from "./pages/UserPage";
 import NotFoundPage from "./domain/NotFoundPage";
 import {useAppContext} from "./AppContext";
 import Bar from "./components/Bar";
-import UserFormPage from "./pages/UserFormPage";
 import SelectRole from "./pages/SelectRole";
 import LandingPage from "./pages/LandingPage";
 import DashboardPage from "./pages/DashboardPage";
-import {Container, styled} from "@mui/material";
 import RequestService from "./pages/RequestService";
 import FindOrder from "./pages/FindOrder";
 
@@ -72,16 +69,6 @@ const AppRouter = () => {
                                     <FindOrder/> :
                                     <Redirect to="/"/>
                                 }
-                            </Route>
-                            <Route path="/form" exact>
-                                <UserFormPage/>
-                            </Route>
-                            <Route path="/admin">
-                                {user && roles.includes("admin") ? (
-                                    <AdminPage/>
-                                ) : (
-                                    <Redirect to="/"/>
-                                )}
                             </Route>
                             <Route path="/user/:userId">
                                 {user ? <UserPage/> : <Redirect to="/"/>}

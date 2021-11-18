@@ -83,19 +83,6 @@ const Bar = () => {
 
                 {user && (
                     <>
-                        {roles.includes("admin") && (
-                            <Box mr={1}>
-                                <Button
-                                    color="inherit"
-                                    component={RouterLink}
-                                    to="/admin"
-                                    variant="outlined"
-                                >
-                                    Admin
-                                </Button>
-                            </Box>
-                        )}
-
                         <IconButton
                             color="inherit"
                             disabled={performingAction}

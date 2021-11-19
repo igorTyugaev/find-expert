@@ -1,6 +1,6 @@
 import React from 'react';
 import {useHistory} from "react-router-dom";
-import {Card, styled} from "@mui/material";
+import {Card, Container, styled} from "@mui/material";
 import {useAppContext} from "../../AppContext";
 import AsideCard from "../../components/AsideCard";
 import BaseCard from "../../components/BaseCard";

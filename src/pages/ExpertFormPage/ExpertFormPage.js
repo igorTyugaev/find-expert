@@ -16,7 +16,7 @@ import {
 import {DesktopDatePicker, LocalizationProvider} from "@mui/lab";
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import BaseCard from "../../components/BaseCard";
-import SelectMultiple from "../../components/SelectMultiple";
+import SelectField from "../../components/SelectField";
 
 const serviceList = [
     "(Grant) Proposal editing",
@@ -102,75 +102,73 @@ const ExpertFormPage = () => {
     }
 
     return (
-        <div>
-            <BaseCard
-                title="Заполнить профиль эксперта"
-                description="Расскажите о своих профессиональных достижениях и мы подберем для заказы персонально для Вас."
-                btnTitle="Мои заказы"
-                btnHandler={handlerMyOrder}
-                isPaddingBody>
-                <Stack spacing={3}>
-                    <Field>
-                        <Typography variant="h6" component="h3">
+        <BaseCard
+            title="Заполнить профиль эксперта"
+            description="Расскажите о своих профессиональных достижениях и мы подберем для заказы персонально для Вас."
+            btnTitle="Мои заказы"
+            btnHandler={handlerMyOrder}
+            isPaddingBody>
+            <Stack spacing={3}>
+                <Field>
+                    <Typography variant="h6" component="h3">
+                        Выберите услуги, по вашему профилю
+                    </Typography>
+                    <FormControl fullWidth>
+                        <InputLabel>
                             Выберите услуги, по вашему профилю
-                        </Typography>
-                        <FormControl fullWidth>
-                            <InputLabel>
-                                Выберите услуги, по вашему профилю
-                            </InputLabel>
-                            <SelectMultiple list={serviceList} data={service} setData={setService}
-                                            title="Выберите услуги, по вашему профилю"/>
-                        </FormControl>
-                    </Field>
-                    <Field>
-                        <Typography variant="h6" component="h3">
-                            Предметная область
-                        </Typography>
-                        <FormControl fullWidth>
-                            <InputLabel>
-                                Выберите вашу предметную область
-                            </InputLabel>
-                            <SelectMultiple list={subjectList} data={subject} setData={setSubject}
-                                            title="Выберите вашу предметную область"/>
-                        </FormControl>
-                    </Field>
-                    <Field>
-                        <Typography variant="h6" component="h3">
-                            Мотивационное письмо
-                        </Typography>
-                        <TextField
-                            placeholder="Ваше личное заявление, которое может быть использовано для продвижения вас как эксперта"
-                            label="Ваше личное заявление"
-                            multiline
-                            fullWidth
-                            rows={5}
-                        />
-                    </Field>
-                    <Field>
-                        <Typography variant="h6" component="h3">
-                            О вас
-                        </Typography>
-                        <TextField
-                            placeholder="Пожалуйста, добавьте информацию о себе. Например о вашем происхождении, соотвествующем опыте работы и образовании"
-                            label="Расскажите о себе"
-                            multiline
-                            fullWidth
-                            rows={5}
-                        />
-                    </Field>
-                    <Field>
-                        <Typography variant="h6" component="h3">
-                            Ссылка на соц. сети
-                        </Typography>
-                        <TextField
-                            fullWidth
-                            label="Ссылка на соц. сети"
-                        />
-                    </Field>
-                    <Button color="primary" variant="contained" type="submit">Сохранить</Button>
-                </Stack>
-            </BaseCard>
-        </div>
+                        </InputLabel>
+                        <SelectField options={serviceList} value={service} onChange={setService}
+                                     label="Выберите услуги, по вашему профилю"/>
+                    </FormControl>
+                </Field>
+                <Field>
+                    <Typography variant="h6" component="h3">
+                        Предметная область
+                    </Typography>
+                    <FormControl fullWidth>
+                        <InputLabel>
+                            Выберите вашу предметную область
+                        </InputLabel>
+                        <SelectField options={subjectList} value={subject} onChange={setSubject}
+                                     label="Выберите вашу предметную область"/>
+                    </FormControl>
+                </Field>
+                <Field>
+                    <Typography variant="h6" component="h3">
+                        Мотивационное письмо
+                    </Typography>
+                    <TextField
+                        placeholder="Ваше личное заявление, которое может быть использовано для продвижения вас как эксперта"
+                        label="Ваше личное заявление"
+                        multiline
+                        fullWidth
+                        rows={5}
+                    />
+                </Field>
+                <Field>
+                    <Typography variant="h6" component="h3">
+                        О вас
+                    </Typography>
+                    <TextField
+                        placeholder="Пожалуйста, добавьте информацию о себе. Например о вашем происхождении, соотвествующем опыте работы и образовании"
+                        label="Расскажите о себе"
+                        multiline
+                        fullWidth
+                        rows={5}
+                    />
+                </Field>
+                <Field>
+                    <Typography variant="h6" component="h3">
+                        Ссылка на соц. сети
+                    </Typography>
+                    <TextField
+                        fullWidth
+                        label="Ссылка на соц. сети"
+                    />
+                </Field>
+                <Button color="primary" variant="contained" type="submit">Сохранить</Button>
+            </Stack>
+        </BaseCard>
     );
 };
 

@@ -32,7 +32,9 @@ const BtnHeader = styled(Button)(({theme}) => ({
     }
 }));
 
-const ListBody = styled('div')(({theme, isPadding}) => ({
+const ListBody = styled('div', {
+    shouldForwardProp: (prop) => prop !== "isPadding"
+})(({theme, isPadding}) => ({
     width: '100%',
     display: "flex",
     flexDirection: "column",
@@ -53,7 +55,7 @@ const BaseCard = ({children, title, description, btnTitle, btnHandler, isPadding
                     <Typography variant="h6" component="h3">
                         {title}
                     </Typography>
-                    {description && <Typography color="#616161" variant="body1" component="span">
+                    {description && <Typography color="gray" variant="body1" component="span">
                         {description}
                     </Typography>}
                 </Box>

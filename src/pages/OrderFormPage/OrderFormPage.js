@@ -1,20 +1,12 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {useHistory} from "react-router-dom";
 import BaseCard from "../../components/BaseCard";
 import {
     Button,
-    Card,
-    FormControl,
-    InputLabel,
-    MenuItem,
-    Select,
     Stack,
-    styled,
-    TextField,
-    Typography
 } from "@mui/material";
-import {DesktopDatePicker, LocalizationProvider} from "@mui/lab";
-import AdapterDateFns from '@mui/lab/AdapterDateFns';
+import Field from "../../components/Field";
+import {useForm} from "react-hook-form";
 
 const serviceList = [
     "Select a service",
@@ -85,117 +77,89 @@ const subjectList = [
     "Social Sciences"
 ];
 
-const Field = styled('div')(({theme}) => ({
-    width: "100%",
-    "& > *:last-child": {
-        marginTop: "1em"
-    }
-}));
-
 const OrderFormPage = () => {
     const history = useHistory();
-    const [service, setService] = React.useState('');
-    const [subject, setSubject] = React.useState('');
-    const [date, setDate] = React.useState(new Date());
+    const {register, handleSubmit, formState: {errors}} = useForm({
+        mode: "onChange",
+    });
 
-    const handlerMyOrder = () => {
+    useEffect(() => {
+        console.log(errors)
+    }, [errors]);
+
+    const handlerBtnHeader = () => {
         history.push('/');
-    }
-    const handleService = (event) => {
-        setService(event.target.value);
     };
 
-    const handleSubject = (event) => {
-        setSubject(event.target.value);
+    const onSubmit = (data) => {
+        console.log(data)
     };
 
-    const handleDate = (newValue) => {
-        setDate(newValue);
-    };
 
     return (
-        <div>
-            <BaseCard
-                title="Разместить новый запрос"
-                description="Добавьте как можно больше деталей к вашему запросу.
+        <BaseCard
+            title="Разместить новый запрос"
+            description="Добавьте как можно больше деталей к вашему запросу.
                 Это поможет эксперам в формировании индивидуального предложения для Вас."
-                btnTitle="Мои заказы"
-                btnHandler={handlerMyOrder}
-                isPaddingBody>
+            btnTitle="Мои заказы"
+            btnHandler={handlerBtnHeader}
+            isPaddingBody>
+            <form onSubmit={handleSubmit(onSubmit)} noValidate>
                 <Stack spacing={3}>
-                    <Field>
-                        <Typography variant="h6" component="h3">
-                            Услуга
-                        </Typography>
-                        <FormControl fullWidth>
-                            <InputLabel>Выберите услугу</InputLabel>
-                            <Select
-                                value={service}
-                                label="Выберите услугу"
-                                onChange={handleService}
-                            >
-                                {serviceList.map((item) => <MenuItem
-                                    value={item.toLocaleLowerCase()}>{item}</MenuItem>)}
-                            </Select>
-                        </FormControl>
-                    </Field>
-                    <Field>
-                        <Typography variant="h6" component="h3">
-                            Предметная область
-                        </Typography>
-                        <FormControl fullWidth>
-                            <InputLabel>Выберите предметную область</InputLabel>
-                            <Select
-                                value={subject}
-                                label="Выберите предметную область"
-                                onChange={handleSubject}
-                            >
-                                {subjectList.map((item) => <MenuItem
-                                    value={item.toLocaleLowerCase()}>{item}</MenuItem>)}
-                            </Select>
-                        </FormControl>
-                    </Field>
-                    <Field>
-                        <Typography variant="h6" component="h3">
-                            Опишите свой заказ
-                        </Typography>
-                        <TextField placeholder="Пожалуйста, опишите как можно подробнее ваш заказ.
-                               Например: предысторию вашего исследовани, количество слов, необходимые сроки (когда оно должно быть закончено).
-                               Если возможно, пожалуйста, также укажите свой уровень английского языка (базовый/средний/продвинутый)."
-                                   label="Опишите Ваш запрос"
-                                   multiline
-                                   fullWidth
-                                   rows={5}
-                        />
-                    </Field>
-                    <Field>
-                        <Typography variant="h6" component="h3">
-                            Крайний срок
-                        </Typography>
-                        <LocalizationProvider dateAdapter={AdapterDateFns}>
-                            <DesktopDatePicker
-                                label="Крайний срок"
-                                inputFormat="MM/dd/yyyy"
-                                value={date}
-                                onChange={handleDate}
-                                renderInput={(params) => <TextField {...params} />}
-                            />
-                        </LocalizationProvider>
-                    </Field>
-                    <Field>
-                        <Typography variant="h6" component="h3">
-                            Бюджет
-                        </Typography>
-                        <TextField
-                            fullWidth
-                            label="Доступный бюджет"
-                            type="number"
-                        />
-                    </Field>
-                    <Button color="primary" variant="contained" type="submit">Продолжить</Button>
+                    <Field name="service"
+                           {...register("service", {required: true})}
+                           error={!!errors?.service}
+                           helperText={errors?.service?.message}
+                           title="Услуга"
+                           label="Выберите услугу"
+                           type="select"
+                           options={serviceList}
+                           fullWidth/>
+                    <Field name="subject"
+                           {...register("subject", {required: true})}
+                           error={!!errors?.subject}
+                           helperText={errors?.subject?.message}
+                           title="Предметная область"
+                           label="Выберите вашу предметную область"
+                           type="select"
+                           options={subjectList}
+                           multiple
+                           fullWidth/>
+                    <Field name="description"
+                           {...register("description", {required: true})}
+                           error={!!errors?.description}
+                           helperText={errors?.description?.message}
+                           title="Опишите свой заказ"
+                           label="Опишите свой заказ"
+                           type="text"
+                           placeholder="Пожалуйста, опишите как можно подробнее ваш заказ."
+                           multiline
+                           rows={5}
+                           fullWidth/>
+                    <Field name="deadline"
+                           {...register("deadline", {required: true})}
+                           error={!!errors?.deadline}
+                           helperText={errors?.deadline?.message}
+                           title="Крайний срок"
+                           label="Крайний срок"
+                           type="date"
+                           fullWidth/>
+                    <Field name="budget"
+                           {...register("budget", {required: true})}
+                           error={!!errors?.budget}
+                           helperText={errors?.budget?.message}
+                           title="Бюджет"
+                           label="Доступный бюджет"
+                           type="number"
+                           fullWidth/>
+                    <Button color="primary"
+                            variant="contained"
+                            type="submit">
+                        Продолжить
+                    </Button>
                 </Stack>
-            </BaseCard>
-        </div>
+            </form>
+        </BaseCard>
     );
 };
 

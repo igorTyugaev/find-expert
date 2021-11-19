@@ -30,7 +30,6 @@ const AppBody = styled('div')(({theme}) => ({
     marginTop: "0.35em",
     paddingTop: "1.12em",
     overflowY: "scroll",
-    paddingBottom: "8em",
 }));
 
 const AppRouter = () => {
@@ -40,39 +39,39 @@ const AppRouter = () => {
     const role = userData?.role?.toLowerCase();
 
     const getPublicRoutes = () => ([
-        <Route path="/" exact>
+        <Route path="/" exact key="LandingPage">
             <LandingPage/>
         </Route>
     ]);
 
     const getPrivateRoutes = () => ([
-        <Route path="/" exact>
+        <Route path="/" exact key="DashboardPage">
             <DashboardPage/>
         </Route>,
-        <Route path="/select-role" exact>
+        <Route path="/select-role" exact key="SelectRolePage">
             {/*Выбор типа учетной записи пользователя*/}
             <SelectRolePage/>
         </Route>,
-        <Route path="/order-form" exact>
+        <Route path="/order-form" exact key="OrderFormPage">
             {/*Автор заполняет форму на новую услугу*/}
             <OrderFormPage/>
         </Route>,
-        <Route path="/expert-form" exact>
+        <Route path="/expert-form" exact key="ExpertFormPage">
             {/*Форма регистрации эксперта*/}
             <ExpertFormPage/>
         </Route>,
-        <Route path="/find-order" exact>
+        <Route path="/find-order" exact key="FindOrderPage">
             {/*Эксперт видет список закзаов, которые соотвествуют его профилю*/}
             <FindOrderPage/>
         </Route>,
-        <Route path="/find-expert/:orderId" exact>
+        <Route path="/find-expert/:orderId" exact key="FindExpertPage">
             {/*Автор видет список экспертов, которые соотвествуют его запросу на услуги*/}
             <FindExpertPage/>
         </Route>,
-        <Route path="/order/:orderId">
+        <Route path="/order/:orderId" key="OrderPage">
             {user ? <OrderPage/> : <Redirect to="/"/>}
         </Route>,
-        <Route path="/user/:userId">
+        <Route path="/user/:userId" key="UserPage">
             {user ? <UserPage/> : <Redirect to="/"/>}
         </Route>
     ]);

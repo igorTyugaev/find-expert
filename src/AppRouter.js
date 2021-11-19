@@ -5,14 +5,14 @@ import UserPage from "./pages/UserPage";
 import NotFoundPage from "./domain/NotFoundPage";
 import {useAppContext} from "./AppContext";
 import Bar from "./components/Bar";
-import SelectRole from "./pages/SelectRole";
+import SelectRolePage from "./pages/SelectRolePage";
 import LandingPage from "./pages/LandingPage";
 import DashboardPage from "./pages/DashboardPage";
-import RequestService from "./pages/RequestService";
-import FindOrder from "./pages/FindOrder";
-import FindExpert from "./pages/FindExpert";
+import OrderFormPage from "./pages/OrderFormPage";
+import FindOrderPage from "./pages/FindOrderPage";
+import FindExpertPage from "./pages/FindExpertPage";
 import OrderPage from "./pages/OrderPage";
-import ExpertForm from "./pages/ExpertForm";
+import ExpertFormPage from "./pages/ExpertFormPage";
 
 const AppWrapper = styled('div')(({theme}) => ({
     display: "flex",
@@ -36,8 +36,58 @@ const AppBody = styled('div')(({theme}) => ({
 const AppRouter = () => {
     const appContext = useAppContext();
     // Properties
-    const {user, userData, roles} = appContext;
+    const {user, userData} = appContext;
     const role = userData?.role?.toLowerCase();
+
+    const getPublicRoutes = () => ([
+        <Route path="/" exact>
+            <LandingPage/>
+        </Route>
+    ]);
+
+    const getPrivateRoutes = () => ([
+        <Route path="/" exact>
+            <DashboardPage/>
+        </Route>,
+        <Route path="/select-role" exact>
+            {/*Выбор типа учетной записи пользователя*/}
+            <SelectRolePage/>
+        </Route>,
+        <Route path="/order-form" exact>
+            {/*Автор заполняет форму на новую услугу*/}
+            <OrderFormPage/>
+        </Route>,
+        <Route path="/expert-form" exact>
+            {/*Форма регистрации эксперта*/}
+            <ExpertFormPage/>
+        </Route>,
+        <Route path="/find-order" exact>
+            {/*Эксперт видет список закзаов, которые соотвествуют его профилю*/}
+            <FindOrderPage/>
+        </Route>,
+        <Route path="/find-expert/:orderId" exact>
+            {/*Автор видет список экспертов, которые соотвествуют его запросу на услуги*/}
+            <FindExpertPage/>
+        </Route>,
+        <Route path="/order/:orderId">
+            {user ? <OrderPage/> : <Redirect to="/"/>}
+        </Route>,
+        <Route path="/user/:userId">
+            {user ? <UserPage/> : <Redirect to="/"/>}
+        </Route>
+    ]);
+
+    const AllRoutes = () => (
+        <Switch>
+            {user ?
+                role ? getPrivateRoutes() : <SelectRolePage/> :
+                getPublicRoutes()
+            }
+            <Route>
+                <NotFoundPage/>
+            </Route>
+        </Switch>
+    );
 
     return (
         <BrowserRouter basename={process.env.REACT_APP_BASENAME}>
@@ -45,63 +95,7 @@ const AppRouter = () => {
                 <AppHeader/>
                 <AppBody>
                     <Container>
-                        <Switch>
-                            <Route path="/" exact>
-                                {user ?
-                                    role ? <DashboardPage/> : <Redirect to="/select-role"/> :
-                                    <LandingPage/>
-                                }
-                            </Route>
-                            {/*Выбор типа учетной записи пользователя*/}
-                            <Route path="/select-role" exact>
-                                {user ?
-                                    <SelectRole/> :
-                                    <Redirect to="/"/>
-                                }
-                            </Route>
-                            {/*Автор заполняет форму на новую услугу*/}
-                            <Route path="/request-service" exact>
-                                {user ?
-                                    <RequestService/> :
-                                    <Redirect to="/"/>
-                                }
-                            </Route>
-                            {/*Форма регистрации эксперта*/}
-                            <Route path="/expert-form" exact>
-                                {user ?
-                                    <ExpertForm/> :
-                                    <Redirect to="/"/>
-                                }
-                            </Route>
-                            {/*Эксперт видет список закзаов, которые соотвествуют его профилю*/}
-                            <Route path="/find-order" exact>
-                                {user ?
-                                    <FindOrder/> :
-                                    <Redirect to="/"/>
-                                }
-                            </Route>
-                            {/*Автор видет список экспертов, которые соотвествуют его запросу на услуги*/}
-                            <Route path="/find-expert/:orderId" exact>
-                                {user ?
-                                    <FindExpert/> :
-                                    <Redirect to="/"/>
-                                }
-                            </Route>
-
-                            <Route path="/order/:orderId">
-                                {user ? <OrderPage/> : <Redirect to="/"/>}
-                            </Route>
-
-                            <Route>
-                                <NotFoundPage/>
-                            </Route>
-                            <Route path="/user/:userId">
-                                {user ? <UserPage/> : <Redirect to="/"/>}
-                            </Route>
-                            <Route>
-                                <NotFoundPage/>
-                            </Route>
-                        </Switch>
+                        <AllRoutes/>
                     </Container>
                 </AppBody>
             </AppWrapper>

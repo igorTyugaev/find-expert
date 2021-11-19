@@ -47,7 +47,7 @@ const SelectRoleHeader = styled('div')(({theme}) => ({
     margin: "1em 0 0 1em"
 }));
 
-const SelectRole = () => {
+const SelectRolePage = () => {
     const valueContext = useAppContext();
     const history = useHistory();
 
@@ -91,4 +91,4 @@ const SelectRole = () => {
     );
 };
 
-export default SelectRole;
+export default SelectRolePage;

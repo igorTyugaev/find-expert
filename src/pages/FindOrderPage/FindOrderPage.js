@@ -1,9 +1,9 @@
 import React from 'react';
-import {useHistory, useParams} from "react-router-dom";
+import {useHistory} from "react-router-dom";
 import BaseCard from "../../components/BaseCard";
-import ExpertListItem from "../../components/ExpertListItem";
+import OrdersListItem from "../../components/OrdersListItem";
 
-const experts = [
+const orders = [
     {
         id: 1,
         status: "draft",
@@ -29,24 +29,23 @@ const experts = [
         description: "It's important to realize that the style of a typography component is independent from the semantic underlying element."
     }
 ]
-const FindExpert = () => {
+const FindOrderPage = () => {
     const history = useHistory();
-    const {orderId} = useParams();
     const handlerMyOrder = () => {
         history.push('/');
     }
-
     return (
-        <BaseCard
-            title="Эксперты, соответствующие вашему заказу"
-            description="Выберите подходящего эксперта и нажиме 'Выбрать'"
-            btnTitle="Активные заказы"
-            btnHandler={handlerMyOrder}>
-            {experts.map((expert) => (
-                <ExpertListItem expert={expert} key={expert.id}/>
+        <BaseCard title="Заказы, которые соответствуют вашему профилю"
+                  description="Выберите интересующий заказ и нажиме 'Откликнуться'"
+                  btnTitle="Активные заказы"
+                  btnHandler={handlerMyOrder}>
+            {/* TODO: Сделать заглушку, если список пустой */}
+            {/* TODO: Показывать заглушку для эксперта, если он не заполнил профиль*/}
+            {orders.map((order) => (
+                <OrdersListItem order={order} key={order.id}/>
             ))}
         </BaseCard>
     );
 };
 
-export default FindExpert;
+export default FindOrderPage;

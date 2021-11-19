@@ -63,7 +63,7 @@ const orders = [
 /**
  * Выполнять переадресацию в зависимости от роли и статуса заказа
  * Автор:
- * - Требуеться выбрать эксперта (FindExpert) - missing
+ * - Требуеться выбрать эксперта (FindExpertPage) - missing
  * - Требуеться выбрать эксперта (ChatOrder) - working
  */
 const DashboardPage = () => {
@@ -75,7 +75,7 @@ const DashboardPage = () => {
     const role = userData?.role?.toLowerCase();
     const handlerNewOrder = () => {
         if (role === 'author') {
-            history.push('/request-service');
+            history.push('/order-form');
         } else {
             history.push('/find-order');
         }

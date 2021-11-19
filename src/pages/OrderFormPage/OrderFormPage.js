@@ -92,7 +92,7 @@ const Field = styled('div')(({theme}) => ({
     }
 }));
 
-const RequestService = () => {
+const OrderFormPage = () => {
     const history = useHistory();
     const [service, setService] = React.useState('');
     const [subject, setSubject] = React.useState('');
@@ -199,4 +199,4 @@ const RequestService = () => {
     );
 };
 
-export default RequestService;
+export default OrderFormPage;

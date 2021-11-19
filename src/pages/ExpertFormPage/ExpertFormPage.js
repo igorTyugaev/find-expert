@@ -92,7 +92,7 @@ const Field = styled('div')(({theme}) => ({
     }
 }));
 
-const ExpertForm = () => {
+const ExpertFormPage = () => {
     const history = useHistory();
     const [service, setService] = useState([]);
     const [subject, setSubject] = useState([]);
@@ -174,4 +174,4 @@ const ExpertForm = () => {
     );
 };
 
-export default ExpertForm;
+export default ExpertFormPage;

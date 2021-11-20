@@ -1,151 +1,16 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {useHistory} from "react-router-dom";
+import {useForm} from "react-hook-form";
 import BaseCard from "../../components/BaseCard";
 import {
     Button,
     Stack,
 } from "@mui/material";
 import Field from "../../components/Field";
-import {useForm} from "react-hook-form";
 import {useAppContext} from "../../AppContext";
 import OrderService from "../../services/OrderService";
+import {serviceListRu, subjectListRu} from "../../constants";
 
-const serviceList = [
-    "Select a service",
-    "(Grant) Proposal editing",
-    "(Grant) Proposal review",
-    "(PhD) Application support",
-    "Copy editing",
-    "Copy writing ",
-    "CV support",
-    "Data collection support",
-    "Data management",
-    "Data sharing support",
-    "Data visualisation",
-    "Figure editing",
-    "Indexing services",
-    "Journal guidance",
-    "Language editing",
-    "Literature search",
-    "Manuscript review",
-    "Manuscript writing support",
-    "OA book funding service",
-    "Post editing after Machine Translation",
-    "Promotion services",
-    "Publication support",
-    "Research mentor",
-    "Rights and permissions",
-    "Scientific editing",
-    "Statistical and data analysis",
-    "Statistical review",
-    "Study design",
-    "Submission service",
-    "Thesis services",
-    "Translation services",
-    "Transliteration",
-    "Video and graphical abstracts",
-    "Workshop/training",
-    "Other"
-];
-
-const serviceListRu = [
-    // "(Grant) Proposal editing", // редактирование предложения? содержания?
-    // "(Grant) Proposal review", // проверка содержания?
-    "Помощь с приложением",
-    // "Copy editing", 
-    "Копирайтинг",
-    "Написание резюме",
-    "Помощь в сборе данных",
-    "Управление данными",
-    "Помощь в распределении данных",
-    "Визуализация данных",
-    "Редактирование рисунков",
-    "Индексирование сервисов",
-    "Руководство журнала",
-    "Проверка языка",
-    "Поиск литературы",
-    "Обзор манускрипта",
-    "Помощь в написании манускрипта",
-    // "OA book funding service",
-    "Редактирование после машинного перевода",
-    // "Promotion services",
-    "Помощь в публикации",
-    "Ментор при поиске",
-    "Права и доступ",
-    "Научное редактирование",
-    "Статистика и анализ данных",
-    "Проверка статисктики",
-    // "Study design",
-    // "Submission service",
-    "Работа над тезисом",
-    "Работа над переводом",
-    "Транслитерация",
-    "Графические и видео абстракции",
-    "Семинар/тренинг",
-    "Другое"
-];
-const subjectList = [
-    "Select a subject area",
-    "Health Sciences",
-    "Medicine and Dentistry",
-    "Nursing and Health Professions",
-    "Pharmacology, Toxicology and Pharmaceutical Science",
-    "Veterinary Science and Veterinary Medicine",
-    "Life Sciences",
-    "Agricultural and Biological Sciences",
-    "Biochemistry, Genetics and Molecular Biology",
-    "Environmental Science",
-    "Immunology and Microbiology",
-    "Neuroscience",
-    "Physical Sciences",
-    "Chemical Engineering",
-    "Chemistry",
-    "Computer Science",
-    "Earth and Planetary Sciences",
-    "Energy",
-    "Engineering",
-    "Materials Science",
-    "Mathematics",
-    "Physics and Astronomy",
-    "Social Sciences and Humanities",
-    "Arts and Humanities",
-    "Business, Management and Accounting",
-    "Decision Sciences",
-    "Economics, Econometrics and Finance",
-    "Psychology",
-    "Social Sciences"
-];
-
-const subjectListRu = [
-    "Здоровье",
-    "Медицина и стоматология",
-    "Уход за больными",
-    "Фармакология, токсикология и фармацевтика",
-    "Ветеринарная наука и медицина",
-    "Наука о жизни",
-    "Сельскохозяйственные и биологические науки",
-    "Биохимия, генетика и молекулярная биология",
-    "Наука об окружающей среде",
-    "Иммунология и микробиология",
-    "Неврология",
-    "Физические науки",
-    "Химическая инженерия",
-    "Химия",
-    "Информатика",
-    "Науки о Земле и планетах",
-    "Энергия",
-    "Инженерное дело",
-    "Материаловедение",
-    "Математика",
-    "Физика и астрономия",
-    "Социальные и гуманитарные науки",
-    "Искусство и гуманитарные науки",
-    "Бизнес, менеджмент и бухгалтерский учет",
-    "Науки о принятии решений",
-    "Экономика, эконометрика и финансы",
-    "Психология",
-    "Социальные науки"
-];
 const OrderFormPage = () => {
     const appContext = useAppContext();
     const history = useHistory();
@@ -193,8 +58,8 @@ const OrderFormPage = () => {
                            title="Услуга"
                            label="Выберите услугу"
                            type="select"
-                        options={serviceListRu}
-                        fullWidth/>
+                           options={serviceListRu}
+                           fullWidth/>
                     <Field name="subject"
                            {...register("subject", {required: true})}
                            error={!!errors?.subject}
@@ -202,7 +67,7 @@ const OrderFormPage = () => {
                            title="Предметная область"
                            label="Выберите вашу предметную область"
                            type="select"
-                        options={subjectListRu}
+                           options={subjectListRu}
                            multiple
                            fullWidth/>
                     <Field name="description"

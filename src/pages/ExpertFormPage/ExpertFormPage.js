@@ -1,81 +1,15 @@
 import React from 'react';
 import {useHistory} from "react-router-dom";
+import {useForm} from "react-hook-form";
 import {
     Button,
     Stack,
 } from "@mui/material";
 import BaseCard from "../../components/BaseCard";
 import {useAppContext} from "../../AppContext";
-import {useForm} from "react-hook-form";
 import UserService from "../../services/UserService";
 import Field from "../../components/Field";
-
-const serviceList = [
-    "(Grant) Proposal editing",
-    "(Grant) Proposal review",
-    "(PhD) Application support",
-    "Copy editing",
-    "Copy writing ",
-    "CV support",
-    "Data collection support",
-    "Data management",
-    "Data sharing support",
-    "Data visualisation",
-    "Figure editing",
-    "Indexing services",
-    "Journal guidance",
-    "Language editing",
-    "Literature search",
-    "Manuscript review",
-    "Manuscript writing support",
-    "OA book funding service",
-    "Post editing after Machine Translation",
-    "Promotion services",
-    "Publication support",
-    "Research mentor",
-    "Rights and permissions",
-    "Scientific editing",
-    "Statistical and data analysis",
-    "Statistical review",
-    "Study design",
-    "Submission service",
-    "Thesis services",
-    "Translation services",
-    "Transliteration",
-    "Video and graphical abstracts",
-    "Workshop/training",
-];
-const subjectList = [
-    "Select a subject area",
-    "Health Sciences",
-    "Medicine and Dentistry",
-    "Nursing and Health Professions",
-    "Pharmacology, Toxicology and Pharmaceutical Science",
-    "Veterinary Science and Veterinary Medicine",
-    "Life Sciences",
-    "Agricultural and Biological Sciences",
-    "Biochemistry, Genetics and Molecular Biology",
-    "Environmental Science",
-    "Immunology and Microbiology",
-    "Neuroscience",
-    "Physical Sciences",
-    "Chemical Engineering",
-    "Chemistry",
-    "Computer Science",
-    "Earth and Planetary Sciences",
-    "Energy",
-    "Engineering",
-    "Materials Science",
-    "Mathematics",
-    "Physics and Astronomy",
-    "Social Sciences and Humanities",
-    "Arts and Humanities",
-    "Business, Management and Accounting",
-    "Decision Sciences",
-    "Economics, Econometrics and Finance",
-    "Psychology",
-    "Social Sciences"
-];
+import {serviceListRu, subjectListRu} from "../../constants";
 
 const ExpertFormPage = () => {
     const appContext = useAppContext();
@@ -122,7 +56,7 @@ const ExpertFormPage = () => {
                            title="Ваши услуги"
                            label="Выберите услуги, по вашему профилю"
                            type="select"
-                           options={serviceList}
+                           options={serviceListRu}
                            fullWidth/>
                     <Field name="subject"
                            {...register("subject", {required: true})}
@@ -131,7 +65,7 @@ const ExpertFormPage = () => {
                            title="Предметная область"
                            label="Выберите вашу предметную область"
                            type="select"
-                           options={subjectList}
+                           options={subjectListRu}
                            multiple
                            fullWidth/>
                     <Field name="promo"

@@ -1,22 +1,14 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {useHistory} from "react-router-dom";
 import {
-    Box,
     Button,
-    Chip,
-    FormControl,
-    InputLabel,
-    MenuItem,
-    Select,
     Stack,
-    styled,
-    TextField,
-    Typography
 } from "@mui/material";
-import {DesktopDatePicker, LocalizationProvider} from "@mui/lab";
-import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import BaseCard from "../../components/BaseCard";
-import SelectField from "../../components/SelectField";
+import {useAppContext} from "../../AppContext";
+import {useForm} from "react-hook-form";
+import UserService from "../../services/UserService";
+import Field from "../../components/Field";
 
 const serviceList = [
     "(Grant) Proposal editing",
@@ -85,20 +77,33 @@ const subjectList = [
     "Social Sciences"
 ];
 
-const Field = styled('div')(({theme}) => ({
-    width: "100%",
-    "& > *:last-child": {
-        marginTop: "1em"
-    }
-}));
-
 const ExpertFormPage = () => {
+    const appContext = useAppContext();
     const history = useHistory();
-    const [service, setService] = useState([]);
-    const [subject, setSubject] = useState([]);
+    const {openSnackbar} = appContext;
+    const {register, handleSubmit, formState: {errors}} = useForm({
+        mode: "onChange",
+    });
 
-    const handlerMyOrder = () => {
+    const handlerBtnHeader = () => {
         history.push('/');
+    };
+
+    const onSubmit = (data) => {
+        if (!data) return;
+        updateProfile(data);
+    };
+
+    const updateProfile = (fields) => {
+        UserService
+            .updateProfile(fields)
+            .then(() => {
+                history.push("/");
+            })
+            .catch((reason) => {
+                const message = reason.message;
+                openSnackbar(message);
+            })
     }
 
     return (
@@ -106,68 +111,65 @@ const ExpertFormPage = () => {
             title="Заполнить профиль эксперта"
             description="Расскажите о своих профессиональных достижениях и мы подберем для заказы персонально для Вас."
             btnTitle="Мои заказы"
-            btnHandler={handlerMyOrder}
+            btnHandler={handlerBtnHeader}
             isPaddingBody>
-            <Stack spacing={3}>
-                <Field>
-                    <Typography variant="h6" component="h3">
-                        Выберите услуги, по вашему профилю
-                    </Typography>
-                    <FormControl fullWidth>
-                        <InputLabel>
-                            Выберите услуги, по вашему профилю
-                        </InputLabel>
-                        <SelectField options={serviceList} value={service} onChange={setService}
-                                     label="Выберите услуги, по вашему профилю"/>
-                    </FormControl>
-                </Field>
-                <Field>
-                    <Typography variant="h6" component="h3">
-                        Предметная область
-                    </Typography>
-                    <FormControl fullWidth>
-                        <InputLabel>
-                            Выберите вашу предметную область
-                        </InputLabel>
-                        <SelectField options={subjectList} value={subject} onChange={setSubject}
-                                     label="Выберите вашу предметную область"/>
-                    </FormControl>
-                </Field>
-                <Field>
-                    <Typography variant="h6" component="h3">
-                        Мотивационное письмо
-                    </Typography>
-                    <TextField
-                        placeholder="Ваше личное заявление, которое может быть использовано для продвижения вас как эксперта"
-                        label="Ваше личное заявление"
-                        multiline
-                        fullWidth
-                        rows={5}
-                    />
-                </Field>
-                <Field>
-                    <Typography variant="h6" component="h3">
-                        О вас
-                    </Typography>
-                    <TextField
-                        placeholder="Пожалуйста, добавьте информацию о себе. Например о вашем происхождении, соотвествующем опыте работы и образовании"
-                        label="Расскажите о себе"
-                        multiline
-                        fullWidth
-                        rows={5}
-                    />
-                </Field>
-                <Field>
-                    <Typography variant="h6" component="h3">
-                        Ссылка на соц. сети
-                    </Typography>
-                    <TextField
-                        fullWidth
-                        label="Ссылка на соц. сети"
-                    />
-                </Field>
-                <Button color="primary" variant="contained" type="submit">Сохранить</Button>
-            </Stack>
+            <form onSubmit={handleSubmit(onSubmit)} noValidate>
+                <Stack spacing={3}>
+                    <Field name="service"
+                           {...register("service", {required: true})}
+                           error={!!errors?.service}
+                           helperText={errors?.service?.message}
+                           title="Ваши услуги"
+                           label="Выберите услуги, по вашему профилю"
+                           type="select"
+                           options={serviceList}
+                           fullWidth/>
+                    <Field name="subject"
+                           {...register("subject", {required: true})}
+                           error={!!errors?.subject}
+                           helperText={errors?.subject?.message}
+                           title="Предметная область"
+                           label="Выберите вашу предметную область"
+                           type="select"
+                           options={subjectList}
+                           multiple
+                           fullWidth/>
+                    <Field name="promo"
+                           {...register("promo", {required: true})}
+                           error={!!errors?.promo}
+                           helperText={errors?.promo?.message}
+                           title="Продающий текст о себе"
+                           label="Кратко опишите свои профессиональные навыки и образование"
+                           type="text"
+                           placeholder="Ваше личное заявление, которое может быть использовано для продвижения вас как эксперта"
+                           multiline
+                           rows={5}
+                           fullWidth/>
+                    <Field name="portfolio"
+                           {...register("portfolio", {required: true})}
+                           error={!!errors?.portfolio}
+                           helperText={errors?.portfolio?.message}
+                           title="Образование и профессиональные достижения"
+                           label="Расскажите о своем опыте"
+                           type="text"
+                           placeholder="Пожалуйста, добавьте информацию о себе. Например о вашем происхождении, соотвествующем опыте работы и образовании"
+                           multiline
+                           rows={5}
+                           fullWidth/>
+                    <Field name="link"
+                           {...register("link", {required: true})}
+                           error={!!errors?.link}
+                           helperText={errors?.link?.message}
+                           title="Ссылка на соц. сети"
+                           label="Ссылка на соц. сети"
+                           fullWidth/>
+                    <Button color="primary"
+                            variant="contained"
+                            type="submit">
+                        Продолжить
+                    </Button>
+                </Stack>
+            </form>
         </BaseCard>
     );
 };

@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {Link, useHistory} from "react-router-dom";
-import {Box, Card, Fab, Stack, styled} from "@mui/material";
+import {Add as AddIcon} from "@mui/icons-material";
+import {Card, Fab, Stack, styled} from "@mui/material";
 import {useAppContext} from "../../AppContext";
 import AsideCard from "../../components/AsideCard";
 import BaseCard from "../../components/BaseCard";
@@ -9,18 +10,17 @@ import {firestore} from "../../firebase";
 import Loader from "../../components/Loader";
 import EmptyState from "../../domain/EmptyState";
 import {ReactComponent as NotFoundIllustration} from "../../illustrations/not-found.svg";
-import {Add as AddIcon} from "@mui/icons-material";
+import UserService from "../../services/UserService";
 
 const DashboardWrapper = styled('div')(({theme}) => ({
     display: "flex",
     flexWrap: "wrap",
     justifyContent: "space-between",
-    alignItems: "flex-start",
     width: "calc(100% + 1em)",
     margin: "-1em 0 0 -1em",
 }));
 
-const DashboardOrders = styled(Card)(({theme}) => ({
+const DashboardOrders = styled('div')(({theme}) => ({
     margin: "1em 0 0 1em",
     flex: "1 1 calc(60% - 1em)",
 }));
@@ -39,32 +39,6 @@ const DashboardAsideItem = styled('div')(({theme}) => ({
     }
 }));
 
-const ordersTmp = [
-    {
-        id: 1,
-        status: "draft",
-        budget: "$3252",
-        deadline: "11/12/21",
-        title: "Changing the semantic element",
-        description: "It's important to realize that the style of a typography component is independent from the semantic underlying element."
-    },
-    {
-        id: 2,
-        status: "open",
-        budget: "$3252",
-        deadline: "11/12/21",
-        title: "Changing the semantic element",
-        description: "It's important to realize that the style of a typography component is independent from the semantic underlying element."
-    },
-    {
-        id: 3,
-        status: "complite",
-        budget: "$3252",
-        deadline: "11/12/21",
-        title: "Changing the semantic element",
-        description: "It's important to realize that the style of a typography component is independent from the semantic underlying element."
-    }
-]
 /**
  * Выполнять переадресацию в зависимости от роли и статуса заказа
  * Автор:
@@ -73,10 +47,9 @@ const ordersTmp = [
  */
 const DashboardPage = () => {
     const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
+    const [expertProfileCompletion, setExpertLoading] = useState(false);
     const appContext = useAppContext();
     const history = useHistory();
-
     const getNewOrderLink = () => {
         if (role === 'author') return "/order-form";
         else return "/find-order"
@@ -84,17 +57,26 @@ const DashboardPage = () => {
 
     // Properties
     const {user, userData} = appContext;
+    // Functions
+    const {openSnackbar} = appContext;
+
     const role = userData?.role?.toLowerCase();
     const handlerNewOrder = () => {
         if (role === 'author') {
             history.push('/order-form');
         } else {
-            history.push('/find-order');
+            expertProfileCompletion ?
+                history.push('/find-order') :
+                history.push('/expert-form');
         }
     }
     const handlerOrder = (orderId) => {
         history.push(`/order/${orderId}`);
     }
+
+    useEffect(() => {
+        setExpertLoading(UserService.getExpertProfileCompletion(userData));
+    }, [userData])
 
     const useItems = () => {
         const [items, setItems] = useState([])
@@ -105,7 +87,12 @@ const DashboardPage = () => {
                     const listItems = snapshot.docs
                         .filter((doc) => {
                             const data = doc.data();
-                            return ([data?.author, data?.expert].includes(user.uid))
+                            const role = data?.role?.toLowerCase();
+                            const isAuthor = (role === "author");
+                            const isExpert = (role === "expert");
+                            const isAuthorOrder = isAuthor && data?.author === user.uid;
+                            const isExpertOrder = isExpert && data?.expert === user.uid;
+                            return (isAuthorOrder || isExpertOrder)
                         })
                         .map(doc => ({
                             id: doc.id,
@@ -115,7 +102,8 @@ const DashboardPage = () => {
                     setItems(listItems)
                 }, (error) => {
                     setLoading(false);
-                    setError(error);
+                    const message = error?.message;
+                    openSnackbar(message);
                 })
             return () => unsubscribe()
         }, [])
@@ -123,11 +111,6 @@ const DashboardPage = () => {
     }
 
     const orders = useItems();
-
-    useEffect(() => {
-        console.log(orders)
-    }, [orders])
-
 
     const DashboardOrdersContent = () => {
         if (loading) {

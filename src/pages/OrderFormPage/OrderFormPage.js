@@ -80,9 +80,9 @@ const subjectList = [
 ];
 
 const OrderFormPage = () => {
-    const valueContext = useAppContext();
+    const appContext = useAppContext();
     const history = useHistory();
-    const {openSnackbar} = valueContext;
+    const {openSnackbar} = appContext;
     const {register, handleSubmit, formState: {errors}} = useForm({
         mode: "onChange",
     });

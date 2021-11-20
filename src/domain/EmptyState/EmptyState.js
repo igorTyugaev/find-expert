@@ -36,12 +36,7 @@ function EmptyState(props) {
 
     if (props.type === "page") {
         return (
-            <Box
-                style={{transform: "translate(-50%, -50%)"}}
-                position="absolute"
-                top="50%"
-                left="50%"
-                textAlign="center"
+            <Box sx={{margin: "auto", padding: "2em 4em"}} textAlign="center"
             >
                 {props.image && (
                     <Box

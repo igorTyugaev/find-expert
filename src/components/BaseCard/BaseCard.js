@@ -5,7 +5,8 @@ import PropTypes from "prop-types";
 const ListWrapper = styled(Card)(({theme}) => ({
     width: '100%',
     display: "flex",
-    flexDirection: "column"
+    flexDirection: "column",
+    height: "100%"
 }));
 
 const ListHeader = styled('div')(({theme}) => ({
@@ -37,10 +38,9 @@ const ListBody = styled('div', {
 })(({theme, isPadding}) => ({
     width: '100%',
     display: "flex",
+    flex: "1 0 auto",
     flexDirection: "column",
     padding: isPadding ? "1em" : 0,
-    minHeight: "80vh",
-    position: "relative",
 }));
 
 const BaseCard = ({children, title, description, btnTitle, btnHandler, isPaddingBody = false}) => {

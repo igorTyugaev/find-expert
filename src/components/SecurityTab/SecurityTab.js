@@ -21,7 +21,7 @@ import {
 import { Lock as LockIcon, Edit as EditIcon } from "@mui/icons-material";
 
 import constraints from "../../data/constraints";
-import AuthService from "../../services/AuthService";
+import UserService from "../../services/UserService";
 
 const initialState = {
   showingField: "",
@@ -137,7 +137,7 @@ class SecurityTab extends Component {
             performingAction: true,
           },
           () => {
-            AuthService
+            UserService
               .changePassword(password)
               .then(() => {
                 this.hideFields(() => {

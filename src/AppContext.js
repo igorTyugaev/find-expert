@@ -1,6 +1,6 @@
 import React, {Component, createContext, useContext} from 'react';
 import appearance from "./services/appearance";
-import AuthService from "./services/AuthService";
+import UserService from "./services/UserService";
 import readingTime from "reading-time";
 import {auth, firestore} from "./firebase";
 
@@ -145,7 +145,7 @@ class AppProvider extends Component {
                 performingAction: true,
             },
             () => {
-                AuthService
+                UserService
                     .deleteAccount()
                     .then(() => {
                         this.closeAllDialogs(() => {
@@ -177,7 +177,7 @@ class AppProvider extends Component {
                 performingAction: true,
             },
             () => {
-                AuthService
+                UserService
                     .signOut()
                     .then(() => {
                         this.closeAllDialogs(() => {
@@ -283,7 +283,7 @@ class AppProvider extends Component {
                                 return;
                             }
 
-                            AuthService
+                            UserService
                                 .getRoles()
                                 .then((value) => {
                                     this.setTheme(data.theme, () => {

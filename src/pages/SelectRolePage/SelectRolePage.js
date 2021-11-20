@@ -4,7 +4,7 @@ import {Box, styled, Typography} from "@mui/material";
 import RoleCard from "../../components/RoleCard";
 import StudentIllustration from "../../illustrations/student.svg";
 import TeachingIllustration from "../../illustrations/teaching.svg";
-import AuthService from "../../services/AuthService";
+import UserService from "../../services/UserService";
 import {useAppContext} from "../../AppContext";
 
 const roles = [
@@ -48,17 +48,17 @@ const SelectRoleHeader = styled('div')(({theme}) => ({
 }));
 
 const SelectRolePage = () => {
-    const valueContext = useAppContext();
+    const appContext = useAppContext();
     const history = useHistory();
 
-    const {openSnackbar} = valueContext;
+    const {openSnackbar} = appContext;
     const handleSelect = (selectedRole) => {
         console.log(selectedRole);
         updateProfileRole(selectedRole);
     }
 
     const updateProfileRole = (role) => {
-        AuthService
+        UserService
             .updateProfile({role})
             .then(() => {
                 history.push("/");

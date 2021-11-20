@@ -12,14 +12,14 @@ import {useAppContext} from "./AppContext";
 const App = () => {
     // INFO: @mui/styles is not compatible with React.StrictMode or React 18.
     // TODO: Perform a full migration to emotion
-    const valueContext = useAppContext();
+    const appContext = useAppContext();
     const {
         ready,
         performingAction,
         theme,
         user,
         userData,
-    } = valueContext;
+    } = appContext;
 
     const {
         aboutDialog,
@@ -28,9 +28,9 @@ const App = () => {
         settingsDialog,
         deleteAccountDialog,
         signOutDialog,
-    } = valueContext;
+    } = appContext;
 
-    const {snackbar} = valueContext;
+    const {snackbar} = appContext;
     const {
         openDialog,
         closeDialog,
@@ -38,7 +38,7 @@ const App = () => {
         signOut,
         openSnackbar,
         closeSnackbar
-    } = valueContext;
+    } = appContext;
 
     return (
         <StyledEngineProvider injectFirst>

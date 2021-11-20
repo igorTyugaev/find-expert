@@ -45,7 +45,7 @@ import {
 } from "@mui/icons-material";
 
 import constraints from "../../data/constraints";
-import AuthService from "../../services/AuthService";
+import UserService from "../../services/UserService";
 
 const styles = (theme) => ({
   dialogContent: {
@@ -122,7 +122,7 @@ class AccountTab extends Component {
       return <PersonIcon className={classes.personIcon} />;
     }
 
-    const nameInitials = AuthService.getNameInitials({
+    const nameInitials = UserService.getNameInitials({
       ...user,
       ...userData,
     });
@@ -151,13 +151,13 @@ class AccountTab extends Component {
         loadingAvatar: true,
       },
       () => {
-        AuthService
+        UserService
           .changeAvatar(avatar)
           .then((value) => {
             const { user, userData } = this.props;
 
             this.setState({
-              profileCompletion: AuthService.getProfileCompletion({
+              profileCompletion: UserService.getProfileCompletion({
                 ...user,
                 ...userData,
               }),
@@ -211,13 +211,13 @@ class AccountTab extends Component {
           loadingAvatar: true,
         },
         () => {
-          AuthService
+          UserService
             .removeAvatar()
             .then((value) => {
               const { user, userData } = this.props;
 
               this.setState({
-                profileCompletion: AuthService.getProfileCompletion({
+                profileCompletion: UserService.getProfileCompletion({
                   ...user,
                   ...userData,
                 }),
@@ -308,14 +308,14 @@ class AccountTab extends Component {
             performingAction: true,
           },
           () => {
-            AuthService
+            UserService
               .changeFirstName(firstName)
               .then(() => {
                 const { user, userData } = this.props;
 
                 this.setState(
                   {
-                    profileCompletion: AuthService.getProfileCompletion({
+                    profileCompletion: UserService.getProfileCompletion({
                       ...user,
                       ...userData,
                     }),
@@ -382,14 +382,14 @@ class AccountTab extends Component {
             performingAction: true,
           },
           () => {
-            AuthService
+            UserService
               .changeLastName(lastName)
               .then(() => {
                 const { user, userData } = this.props;
 
                 this.setState(
                   {
-                    profileCompletion: AuthService.getProfileCompletion({
+                    profileCompletion: UserService.getProfileCompletion({
                       ...user,
                       ...userData,
                     }),
@@ -456,14 +456,14 @@ class AccountTab extends Component {
             performingAction: true,
           },
           () => {
-            AuthService
+            UserService
               .changeUsername(username)
               .then(() => {
                 const { user, userData } = this.props;
 
                 this.setState(
                   {
-                    profileCompletion: AuthService.getProfileCompletion({
+                    profileCompletion: UserService.getProfileCompletion({
                       ...user,
                       ...userData,
                     }),
@@ -530,14 +530,14 @@ class AccountTab extends Component {
             performingAction: true,
           },
           () => {
-            AuthService
+            UserService
               .changeEmailAddress(emailAddress)
               .then(() => {
                 const { user, userData } = this.props;
 
                 this.setState(
                   {
-                    profileCompletion: AuthService.getProfileCompletion({
+                    profileCompletion: UserService.getProfileCompletion({
                       ...user,
                       ...userData,
                     }),
@@ -574,7 +574,7 @@ class AccountTab extends Component {
         performingAction: true,
       },
       () => {
-        AuthService
+        UserService
           .verifyEmailAddress()
           .then(() => {
             this.setState(
@@ -1624,11 +1624,11 @@ class AccountTab extends Component {
     const { user, userData } = this.props;
 
     this.setState({
-      profileCompletion: AuthService.getProfileCompletion({
+      profileCompletion: UserService.getProfileCompletion({
         ...user,
         ...userData,
       }),
-      securityRating: AuthService.getSecurityRating(user, userData),
+      securityRating: UserService.getSecurityRating(user, userData),
     });
   }
 

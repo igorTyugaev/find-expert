@@ -1,7 +1,7 @@
 import moment from "moment";
 import firebase, {analytics, auth, firestore, storage} from "../firebase";
 
-class AuthService {
+class UserService {
 
     static signUp = (fields) => {
         return new Promise((resolve, reject) => {
@@ -886,7 +886,7 @@ class AuthService {
 
     static isAdmin = () => {
         return new Promise((resolve, reject) => {
-            AuthService
+            UserService
                 .getRoles()
                 .then((value) => {
                     resolve(value.includes("admin"));
@@ -899,7 +899,7 @@ class AuthService {
 
     static isPremium = () => {
         return new Promise((resolve, reject) => {
-            AuthService
+            UserService
                 .getRoles()
                 .then((value) => {
                     resolve(value.includes("premium"));
@@ -1021,6 +1021,33 @@ class AuthService {
         return Math.floor(profileCompletion);
     };
 
+    static getExpertProfileCompletion = (fields) => {
+        if (!fields) {
+            return null;
+        }
+
+        fields = [
+            fields.service,
+            fields.subject,
+            fields.promo,
+            fields.portfolio,
+        ];
+
+        if (!fields) {
+            return null;
+        }
+
+        let profileCompletion = 0;
+
+        fields.forEach((field) => {
+            if (field) {
+                profileCompletion += 100 / fields.length;
+            }
+        });
+
+        return Math.floor(profileCompletion);
+    };
+
     static getSecurityRating = (user, userData) => {
         if (!user || !user.metadata) {
             return null;
@@ -1095,4 +1122,4 @@ class AuthService {
     };
 }
 
-export default AuthService;
+export default UserService;

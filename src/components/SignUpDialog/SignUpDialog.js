@@ -26,7 +26,7 @@ import {Close as CloseIcon} from "@mui/icons-material";
 import AuthProviderList from "../AuthProviderList";
 
 import constraints from "../../data/constraints";
-import AuthService from "../../services/AuthService";
+import UserService from "../../services/UserService";
 
 const styles = (theme) => ({
     closeButton: {
@@ -98,7 +98,7 @@ class SignUpDialog extends Component {
                     errors: null,
                 },
                 () => {
-                    AuthService
+                    UserService
                         .signUpWithEmailAddressAndPassword(emailAddress, password)
                         .then((value) => {
                             this.props.dialogProps.onClose();
@@ -136,7 +136,7 @@ class SignUpDialog extends Component {
                 performingAction: true,
             },
             () => {
-                AuthService
+                UserService
                     .signInWithAuthProvider(provider)
                     .then((user) => {
                         this.props.dialogProps.onClose(() => {

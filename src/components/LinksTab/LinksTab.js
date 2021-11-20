@@ -18,7 +18,7 @@ import { Link as LinkIcon, LinkOff as LinkOffIcon } from "@mui/icons-material";
 
 import authProviders from "../../data/auth-providers";
 
-import AuthService from "../../services/AuthService";
+import UserService from "../../services/UserService";
 
 class LinksTab extends Component {
   constructor(props) {
@@ -35,7 +35,7 @@ class LinksTab extends Component {
         performingAction: true,
       },
       () => {
-        AuthService
+        UserService
           .linkAuthProvider(authProvider)
           .then((value) => {
             this.props.openSnackbar(`${authProvider.name} linked`, 5);
@@ -65,7 +65,7 @@ class LinksTab extends Component {
         performingAction: true,
       },
       () => {
-        AuthService
+        UserService
           .unlinkAuthProvider(authProvider.id)
           .then((value) => {
             this.props.openSnackbar(`${authProvider.name} unlinked`, 4);
@@ -99,7 +99,7 @@ class LinksTab extends Component {
       <DialogContent>
         <List disablePadding>
           {authProviders.map((authProvider) => {
-            const authProviderData = AuthService.authProviderData(
+            const authProviderData = UserService.authProviderData(
               authProvider.id
             );
             let identifier = null;

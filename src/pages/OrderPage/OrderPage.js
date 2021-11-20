@@ -1,11 +1,12 @@
 import React from "react";
 import {useHistory, useParams} from "react-router-dom";
 import BaseCard from "../../components/BaseCard";
-import {Card, Chip, styled, Typography} from "@mui/material";
+import {Card, Chip, styled, Typography, Button} from "@mui/material";
 import DashboardListItem from "../../components/DashboardListItem";
 import AsideCard from "../../components/AsideCard";
 import LocalOfferIcon from "@mui/icons-material/LocalOffer";
 import DateRangeIcon from "@mui/icons-material/DateRange";
+import { ExpertsService } from "../../services/ExpertsService";
 
 const OrderWrapper = styled('div')(({theme}) => ({
     display: "flex",
@@ -35,6 +36,12 @@ const OrderAsideItem = styled('div')(({theme}) => ({
     }
 }));
 
+const searchAnExpert = async () => {
+        for await (let res of ExpertsService.findExpertsBySubjects(["Здоровье", "Уход за больными"])) {
+        console.log(res);
+    }
+}
+
 const OrderPage = () => {
     const history = useHistory();
     const {orderId} = useParams();
@@ -43,7 +50,7 @@ const OrderPage = () => {
     return (
         <OrderWrapper>
             <OrderContent>
-                <BaseCard title={`Заках №${orderId}`}
+                <BaseCard title={`Заказ №${orderId}`}
                           btnTitle={canGoBack ? "Назад" : "Мои заказы"}
                           btnHandler={canGoBack ? history.goBack : () => history.push("/")}
                           isPaddingBody>
@@ -60,6 +67,7 @@ const OrderPage = () => {
                     <Chip label={"212334"}/>
                     <Chip icon={<LocalOfferIcon/>} label={"budget"} variant="outlined"/>
                     <Chip icon={<DateRangeIcon/>} label={"deadline"} variant="outlined"/>
+                    <Button onClick={searchAnExpert}> "Найти эксперта" </ Button>
                 </BaseCard>
             </OrderContent>
             <OrderAside>

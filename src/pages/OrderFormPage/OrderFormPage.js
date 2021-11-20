@@ -7,6 +7,8 @@ import {
 } from "@mui/material";
 import Field from "../../components/Field";
 import {useForm} from "react-hook-form";
+import {useAppContext} from "../../AppContext";
+import OrderService from "../../services/OrderService";
 
 const serviceList = [
     "Select a service",
@@ -78,21 +80,32 @@ const subjectList = [
 ];
 
 const OrderFormPage = () => {
+    const valueContext = useAppContext();
     const history = useHistory();
+    const {openSnackbar} = valueContext;
     const {register, handleSubmit, formState: {errors}} = useForm({
         mode: "onChange",
     });
-
-    useEffect(() => {
-        console.log(errors)
-    }, [errors]);
 
     const handlerBtnHeader = () => {
         history.push('/');
     };
 
     const onSubmit = (data) => {
-        console.log(data)
+        if (!data) return;
+        console.log(data);
+        OrderService.updateOrder(data)
+            .then(() => {
+                history.push('/');
+            })
+            .catch((reason) => {
+                const code = reason.code;
+                const message = reason.message;
+                openSnackbar(message);
+            })
+            .finally(() => {
+
+            });
     };
 
 

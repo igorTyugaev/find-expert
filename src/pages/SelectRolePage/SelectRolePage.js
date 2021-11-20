@@ -4,7 +4,7 @@ import {Box, styled, Typography} from "@mui/material";
 import RoleCard from "../../components/RoleCard";
 import StudentIllustration from "../../illustrations/student.svg";
 import TeachingIllustration from "../../illustrations/teaching.svg";
-import authentication from "../../services/authentication";
+import AuthService from "../../services/AuthService";
 import {useAppContext} from "../../AppContext";
 
 const roles = [
@@ -58,7 +58,7 @@ const SelectRolePage = () => {
     }
 
     const updateProfileRole = (role) => {
-        authentication
+        AuthService
             .updateProfile({role})
             .then(() => {
                 history.push("/");

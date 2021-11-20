@@ -39,7 +39,8 @@ const ListBody = styled('div', {
     display: "flex",
     flexDirection: "column",
     padding: isPadding ? "1em" : 0,
-    minHeight: "80vh"
+    minHeight: "80vh",
+    position: "relative",
 }));
 
 const BaseCard = ({children, title, description, btnTitle, btnHandler, isPaddingBody = false}) => {

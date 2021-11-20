@@ -2,7 +2,7 @@ import React, {useEffect} from "react";
 import {useHistory} from "react-router-dom";
 
 import {auth} from "../../firebase";
-import authentication from "../../services/authentication";
+import AuthService from "../../services/AuthService";
 
 
 import {ReactComponent as CabinIllustration} from "../../illustrations/cabin.svg";

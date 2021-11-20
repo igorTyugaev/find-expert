@@ -64,7 +64,7 @@ const AppRouter = () => {
             {/*Эксперт видет список закзаов, которые соотвествуют его профилю*/}
             <FindOrderPage/>
         </Route>,
-        <Route path="/find-expert/:orderId" exact key="FindExpertPage">
+        <Route path="/find-expert/:orderId" key="FindExpertPage">
             {/*Автор видет список экспертов, которые соотвествуют его запросу на услуги*/}
             <FindExpertPage/>
         </Route>,

@@ -8,9 +8,8 @@ const Item = styled('div')(({theme}) => ({
     display: "flex",
     flexDirection: "column",
     padding: "1em",
-    "&:not(:last-child)": {
-        borderBottom: "1px solid #c4c4c4"
-    }
+    borderBottom: "1px solid #c4c4c4",
+    minHeight: "180px"
 }));
 
 const ItemHeader = styled('div')(({theme}) => ({
@@ -29,13 +28,13 @@ const ItemBody = styled('div')(({theme}) => ({
     width: '100%',
     display: "flex",
     flexDirection: "column",
-    marginTop: "0.5em"
+    margin: "0.5em 0"
 }));
 
 const ItemFooter = styled('div')(({theme}) => ({
     width: '100%',
     display: "flex",
-    marginTop: "1em"
+    marginTop: "auto"
 }));
 
 const DashboardListItem = ({id, status, budget, deadline, title, description, handlerOrder}) => {
@@ -49,7 +48,7 @@ const DashboardListItem = ({id, status, budget, deadline, title, description, ha
         <Item>
             <ItemHeader>
                 <BadgeHeader label={status}/>
-                <BadgeHeader icon={<LocalOfferIcon/>} label={budget} variant="outlined"/>
+                <BadgeHeader icon={<LocalOfferIcon/>} label={`₽${budget}`} variant="outlined"/>
                 <BadgeHeader icon={<DateRangeIcon/>} label={deadline} variant="outlined"/>
             </ItemHeader>
             <ItemBody>
@@ -61,7 +60,7 @@ const DashboardListItem = ({id, status, budget, deadline, title, description, ha
                 </Typography>
             </ItemBody>
             <ItemFooter>
-                <Button variant="outlined" onClick={handlerBtn}>
+                <Button sx={{marginTop: "auto"}} variant="outlined" onClick={handlerBtn}>
                     Подробнее
                 </Button>
             </ItemFooter>

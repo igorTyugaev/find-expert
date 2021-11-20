@@ -59,7 +59,7 @@ const LandingPage = () => {
                     <ArticleCard/>
                 </ShowCase>
             </Container>
-            <Footer/>
+            {/*<Footer/>*/}
         </div>
     );
 };

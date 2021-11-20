@@ -1,10 +1,15 @@
-import React from 'react';
-import {useHistory} from "react-router-dom";
-import {Card, Container, styled} from "@mui/material";
+import React, {useEffect, useState} from 'react';
+import {Link, useHistory} from "react-router-dom";
+import {Box, Card, Fab, Stack, styled} from "@mui/material";
 import {useAppContext} from "../../AppContext";
 import AsideCard from "../../components/AsideCard";
 import BaseCard from "../../components/BaseCard";
 import DashboardListItem from "../../components/DashboardListItem";
+import {firestore} from "../../firebase";
+import Loader from "../../components/Loader";
+import EmptyState from "../../domain/EmptyState";
+import {ReactComponent as NotFoundIllustration} from "../../illustrations/not-found.svg";
+import {Add as AddIcon} from "@mui/icons-material";
 
 const DashboardWrapper = styled('div')(({theme}) => ({
     display: "flex",
@@ -34,7 +39,7 @@ const DashboardAsideItem = styled('div')(({theme}) => ({
     }
 }));
 
-const orders = [
+const ordersTmp = [
     {
         id: 1,
         status: "draft",
@@ -67,8 +72,15 @@ const orders = [
  * - Требуеться выбрать эксперта (ChatOrder) - working
  */
 const DashboardPage = () => {
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
     const appContext = useAppContext();
     const history = useHistory();
+
+    const getNewOrderLink = () => {
+        if (role === 'author') return "/order-form";
+        else return "/find-order"
+    }
 
     // Properties
     const {user, userData} = appContext;
@@ -84,6 +96,72 @@ const DashboardPage = () => {
         history.push(`/order/${orderId}`);
     }
 
+    const useItems = () => {
+        const [items, setItems] = useState([])
+        useEffect(() => {
+            const unsubscribe = firestore
+                .collection("orders")
+                .onSnapshot(snapshot => {
+                    const listItems = snapshot.docs
+                        .filter((doc) => {
+                            const data = doc.data();
+                            return ([data?.author, data?.expert].includes(user.uid))
+                        })
+                        .map(doc => ({
+                            id: doc.id,
+                            ...doc.data(),
+                        }))
+                    setLoading(false);
+                    setItems(listItems)
+                }, (error) => {
+                    setLoading(false);
+                    setError(error);
+                })
+            return () => unsubscribe()
+        }, [])
+        return items
+    }
+
+    const orders = useItems();
+
+    useEffect(() => {
+        console.log(orders)
+    }, [orders])
+
+
+    const DashboardOrdersContent = () => {
+        if (loading) {
+            return <Loader/>;
+        }
+
+        if (!orders?.length) return <EmptyState
+            image={<NotFoundIllustration/>}
+            title="У Вас пока нет заказов"
+            description="Здесь будет отображаться список ваших заказов"
+            button={
+                <Fab variant="extended" color="primary" component={Link}
+                     to={getNewOrderLink()}>
+                    <Stack direction="row" spacing={1}>
+                        <AddIcon/>
+                        <span>Новый заказ</span>
+                    </Stack>
+                </Fab>
+            }
+        />
+
+        return orders.map(({id, status, budget, deadline, title, description}) => (
+            <DashboardListItem id={id}
+                               key={id}
+                               status={status}
+                               budget={budget}
+                               deadline={deadline}
+                               title={title}
+                               description={description}
+                               handlerOrder={handlerOrder}
+            />
+        ))
+    }
+
     return (
         <DashboardWrapper>
             <DashboardOrders>
@@ -95,17 +173,7 @@ const DashboardPage = () => {
                     btnHandler={handlerNewOrder}>
                     {/* TODO: Сделать заглушку, если список пустой */}
                     {/* TODO: Показывать заглушку для эксперта, если он не заполнил профиль*/}
-                    {orders.map(({id, status, budget, deadline, title, description}) => (
-                        <DashboardListItem id={id}
-                                           key={id}
-                                           status={status}
-                                           budget={budget}
-                                           deadline={deadline}
-                                           title={title}
-                                           description={description}
-                                           handlerOrder={handlerOrder}
-                        />
-                    ))}
+                    <DashboardOrdersContent/>
                 </BaseCard>
             </DashboardOrders>
             <DashboardAside>

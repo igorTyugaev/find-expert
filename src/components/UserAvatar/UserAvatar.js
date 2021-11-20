@@ -11,7 +11,7 @@ import {
     Person as PersonIcon,
 } from "@mui/icons-material";
 
-import authentication from "../../services/authentication";
+import AuthService from "../../services/AuthService";
 
 const styles = (theme) => ({
     nameInitials: {
@@ -38,7 +38,7 @@ class UserAvatar extends Component {
                 return <Avatar alt="Avatar" src={photoUrl}/>;
             }
 
-            const nameInitials = authentication.getNameInitials({
+            const nameInitials = AuthService.getNameInitials({
                 ...user,
             });
 
@@ -76,7 +76,7 @@ class UserAvatar extends Component {
                 );
             }
 
-            const nameInitials = authentication.getNameInitials({
+            const nameInitials = AuthService.getNameInitials({
                 ...user,
             });
 

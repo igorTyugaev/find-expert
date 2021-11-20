@@ -26,7 +26,7 @@ import {Close as CloseIcon} from "@mui/icons-material";
 import AuthProviderList from "../AuthProviderList";
 
 import constraints from "../../data/constraints";
-import authentication from "../../services/authentication";
+import AuthService from "../../services/AuthService";
 
 const styles = (theme) => ({
     closeButton: {
@@ -117,7 +117,7 @@ class SignInDialog extends Component {
                             performingAction: true,
                         },
                         () => {
-                            authentication
+                            AuthService
                                 .resetPassword(emailAddress)
                                 .then((value) => {
                                     this.props.openSnackbar(
@@ -181,7 +181,7 @@ class SignInDialog extends Component {
                     errors: null,
                 },
                 () => {
-                    authentication
+                    AuthService
                         .signIn(emailAddress, password)
                         .then((user) => {
                             this.props.dialogProps.onClose(() => {
@@ -246,7 +246,7 @@ class SignInDialog extends Component {
                 errors: null,
             },
             () => {
-                authentication
+                AuthService
                     .sendSignInLinkToEmail(emailAddress)
                     .then(() => {
                         this.props.dialogProps.onClose(() => {
@@ -288,7 +288,7 @@ class SignInDialog extends Component {
                 performingAction: true,
             },
             () => {
-                authentication
+                AuthService
                     .signInWithAuthProvider(provider)
                     .then((user) => {
                         this.props.dialogProps.onClose(() => {

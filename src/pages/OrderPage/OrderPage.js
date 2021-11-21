@@ -37,7 +37,8 @@ const OrderAsideItem = styled('div')(({theme}) => ({
 }));
 
 const searchAnExpert = async () => {
-        for await (let res of ExpertsService.findExpertsBySubjects(["Здоровье", "Уход за больными"])) {
+    // XXX: Переделать поиск эксперта. @nekochanoide
+    for await (let res of ExpertsService.findExpertsBySubjects(["Здоровье", "Уход за больными"])) {
         console.log(res);
     }
 }

@@ -1,5 +1,5 @@
-import { firebaseNames } from "../constants";
-import {analytics, auth, firestore} from "../firebase";
+import {firebaseNames} from "../constants";
+import firebase, {analytics, auth, firestore} from "../firebase";
 
 class OrderService {
     static updateOrder = (values, orderId) => {
@@ -62,7 +62,7 @@ class OrderService {
      * @param {string[]} subjects Все предметные области, которыми владеет эксперт. Массив в selectOptions.js под названием `subjectListRu`.
      * @returns {AsyncGenerator<{id: number, status: "open" | "completed", budget: number, deadline: Date, title: "Changing the semantic element", description: string}>} Доступные заказы.
      */
-    static async *getAllOrdersBySubjects(subjects) {
+    static async* getAllOrdersBySubjects(subjects) {
         // yield {
         //     id: 1,
         //     status: "draft",
@@ -130,7 +130,7 @@ class OrderService {
 
             orderDocumentReference
                 .update({
-                    responses: firestore.FieldValue.arrayUnion(uid)
+                    responses: firebase.firestore.FieldValue.arrayUnion(uid)
                 })
                 .then((value) => {
                     analytics.logEvent("add_member_to_order");

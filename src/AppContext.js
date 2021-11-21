@@ -280,6 +280,7 @@ class AppProvider extends Component {
 
                             // The user doesn’t have a data point, equivalent to not signed in.
                             if (!snapshot.exists || !data) {
+                                UserService.setAvatar(user.photoURL).then().catch().finally();
                                 return;
                             }
 

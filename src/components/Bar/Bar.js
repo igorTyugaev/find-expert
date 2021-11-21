@@ -33,7 +33,7 @@ const Bar = () => {
     };
 
     // Properties
-    const {performingAction, user, userData, roles} = appContext;
+    const {performingAction, user, userData} = appContext;
 
     // Functions
     const {openDialog} = appContext;
@@ -82,6 +82,7 @@ const Bar = () => {
                         >
                             {process.env.REACT_APP_TITLE}
                         </Link>
+                        <span>-{userData?.role}</span>
                     </Typography>
                 </Box>
 

@@ -6,7 +6,8 @@ const ListWrapper = styled(Card)(({theme}) => ({
     width: '100%',
     display: "flex",
     flexDirection: "column",
-    height: "100%"
+    flexGrow: "0",
+    height: `calc(100vh - ${theme.spacing(12)})`,
 }));
 
 const ListHeader = styled('div')(({theme}) => ({
@@ -16,12 +17,15 @@ const ListHeader = styled('div')(({theme}) => ({
     justifyContent: "space-between",
     alignItems: "center",
     padding: "1em",
+    flex: "1 0 auto",
     borderBottom: "1px solid #c4c4c4",
     minHeight: "70px",
+    height: "10%",
 
     "@media screen and (max-width: 720px)": {
         flexDirection: "column",
         alignItems: "flex-start",
+        height: "18%",
     }
 }));
 
@@ -38,13 +42,17 @@ const ListBody = styled('div', {
 })(({theme, isPadding}) => ({
     width: '100%',
     display: "flex",
-    flex: "1 0 auto",
+    justifyContent: "space-between",
     flexDirection: "column",
     padding: isPadding ? "1em" : 0,
-    minHeight: "420px",
+    height: "90%",
+
+    "@media screen and (max-width: 720px)": {
+        height: "82%",
+    }
 }));
 
-const BaseCard = ({children, title, description, btnTitle, btnHandler, isPaddingBody = false}) => {
+const ChatCard = ({children, title, description, btnTitle, btnHandler, isPaddingBody = false}) => {
     const handlerBtnHeader = () => {
         if (!btnHandler) return;
         btnHandler();
@@ -75,7 +83,7 @@ const BaseCard = ({children, title, description, btnTitle, btnHandler, isPadding
     );
 }
 
-BaseCard.propTypes = {
+ChatCard.propTypes = {
     children: PropTypes.oneOfType([
         PropTypes.arrayOf(PropTypes.node),
         PropTypes.node
@@ -89,4 +97,4 @@ BaseCard.propTypes = {
     isPaddingBody: PropTypes.bool,
 };
 
-export default BaseCard;
+export default ChatCard;

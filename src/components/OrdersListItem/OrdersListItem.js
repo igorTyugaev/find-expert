@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {Button, Chip, styled, Typography} from "@mui/material";
 import LocalOfferIcon from '@mui/icons-material/LocalOffer';
 import DateRangeIcon from '@mui/icons-material/DateRange';
+import OrderService from "../../services/OrderService";
+import { useAppContext } from "../../AppContext";
 
 const ItemInner = styled('div')(({theme}) => ({
     display: "inline-flex",
@@ -67,11 +69,23 @@ const ItemFooter = styled('div')(({theme}) => ({
     marginTop: "1em"
 }));
 
-
+/**
+ * 
+ * @param {{ order: {id: string, status: "open" | "completed", budget: string, deadline: Date, title: "Changing the semantic element", description: string, responses: string[]}}} param0 
+ * @returns 
+ */
 const OrdersListItem = ({order}) => {
 
     const handlerClick = () => {
         console.log("Choose order id", order?.id);
+    }
+
+    let appContext = useAppContext();
+    let [userData, setUserData] = useState(appContext.userData);
+    let e = async () => {
+        await OrderService.addMemberToOrder(order.id);
+        userData.responses.push(order.id);
+        setUserData(userData);
     }
 
     return (
@@ -97,9 +111,11 @@ const OrdersListItem = ({order}) => {
                 </ItemFooter>
             </ItemContentCol>
             <ItemActionsCol>
-                <Button variant="contained" color="primary">
-                    Откликнуться
-                </Button>
+                {
+                    userData.responses.includes(order.id)
+                        ? <BadgeAction icon={<LocalOfferIcon />} label={"Ждем ответ автора"} variant="outlined" />
+                        : < Button variant="contained" color="primary" onClick={e}>Откликнуться</Button>
+                }
                 <BadgeAction icon={<LocalOfferIcon/>} label={order?.budget} variant="outlined"/>
                 <BadgeAction icon={<DateRangeIcon/>} label={order?.deadline} variant="outlined"/>
             </ItemActionsCol>

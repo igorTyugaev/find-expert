@@ -60,7 +60,7 @@ class OrderService {
     /**
      * Поиск заказов по предметным областям.
      * @param {string[]} subjects Все предметные области, которыми владеет эксперт. Массив в selectOptions.js под названием `subjectListRu`.
-     * @returns {AsyncGenerator<{id: number, status: "open" | "completed", budget: number, deadline: Date, title: "Changing the semantic element", description: string}>} Доступные заказы.
+     * @returns {AsyncGenerator<{id: string, status: "open" | "completed", budget: string, deadline: Date, title: "Changing the semantic element", description: string, responses: string[]}>} Доступные заказы.
      */
     static async* getAllOrdersBySubjects(subjects) {
         // yield {
@@ -89,16 +89,16 @@ class OrderService {
         // }
         let response = await firestore.collection(firebaseNames.collections.orders).get();
         let docs = response.docs;
-        let i = 1;
         for (let doc of docs) {
             if (doc.data().subjects.every(x => subjects.includes(x))) {
                 yield {
-                    id: i++,
+                    id: doc.id,
                     status: doc.data().status,
                     budget: doc.data().budget,
                     deadline: doc.data().deadline,
                     title: "Changing the semantic element",
-                    description: doc.data().description
+                    description: doc.data().description,
+                    responses: doc.data().responses
                 }
             }
         }
@@ -125,12 +125,12 @@ class OrderService {
                 return;
             }
 
-            const collectionReference = firestore.collection("orders");
-            const orderDocumentReference = collectionReference.doc(orderId);
+            const collectionReference = firestore.collection(firebaseNames.collections.users);
+            const orderDocumentReference = collectionReference.doc(uid);
 
             orderDocumentReference
                 .update({
-                    responses: firebase.firestore.FieldValue.arrayUnion(uid)
+                    responses: firebase.firestore.FieldValue.arrayUnion(orderId)
                 })
                 .then((value) => {
                     analytics.logEvent("add_member_to_order");

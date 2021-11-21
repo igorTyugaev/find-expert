@@ -563,6 +563,41 @@ class UserService {
         });
     };
 
+    static setAvatar = (photoURL) => {
+        return new Promise((resolve, reject) => {
+            const currentUser = auth.currentUser;
+
+            if (!currentUser) {
+                reject(new Error("No current user"));
+
+                return;
+            }
+
+            const uid = currentUser.uid;
+
+            if (!uid) {
+                reject(new Error("No UID"));
+
+                return;
+            }
+
+            const userDocumentReference = firestore.collection("users").doc(uid);
+
+            userDocumentReference
+                .update({
+                    avatar: photoURL,
+                })
+                .then((value) => {
+                    analytics.logEvent("change_photoURL");
+
+                    resolve(value);
+                })
+                .catch((reason) => {
+                    reject(reason);
+                });
+        });
+    };
+
     static removeAvatar = () => {
         return new Promise((resolve, reject) => {
             const currentUser = auth.currentUser;
@@ -602,6 +637,47 @@ class UserService {
                         .catch((reason) => {
                             reject(reason);
                         });
+                })
+                .catch((reason) => {
+                    reject(reason);
+                });
+        });
+    };
+
+    static changeFullName = (fullName) => {
+        return new Promise((resolve, reject) => {
+            if (!fullName) {
+                reject(new Error("No first name"));
+
+                return;
+            }
+
+            const currentUser = auth.currentUser;
+
+            if (!currentUser) {
+                reject(new Error("No current user"));
+
+                return;
+            }
+
+            const uid = currentUser.uid;
+
+            if (!uid) {
+                reject(new Error("No UID"));
+
+                return;
+            }
+
+            const userDocumentReference = firestore.collection("users").doc(uid);
+
+            userDocumentReference
+                .update({
+                    fullName: fullName,
+                })
+                .then((value) => {
+                    analytics.logEvent("change_full_name");
+
+                    resolve(value);
                 })
                 .catch((reason) => {
                     reject(reason);

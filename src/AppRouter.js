@@ -13,6 +13,7 @@ import FindOrderPage from "./pages/FindOrderPage";
 import FindExpertPage from "./pages/FindExpertPage";
 import OrderPage from "./pages/OrderPage";
 import ExpertFormPage from "./pages/ExpertFormPage";
+import ChatPage from "./pages/ChatPage";
 
 const AppWrapper = styled('div')(({theme}) => ({
     display: "flex",
@@ -73,6 +74,9 @@ const AppRouter = () => {
         </Route>,
         <Route path="/user/:userId" key="UserPage">
             {user ? <UserPage/> : <Redirect to="/"/>}
+        </Route>,
+        <Route path="/chat/:id" key="ChatPage">
+            {user ? <ChatPage/> : <Redirect to="/"/>}
         </Route>
     ]);
 
@@ -93,7 +97,7 @@ const AppRouter = () => {
             <AppWrapper>
                 <AppHeader/>
                 <AppBody>
-                    <Container>
+                    <Container sx={{height: "100%", flex: "1 1 100%"}}>
                         <AllRoutes/>
                     </Container>
                 </AppBody>

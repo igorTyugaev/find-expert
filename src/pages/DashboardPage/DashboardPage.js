@@ -87,12 +87,11 @@ const DashboardPage = () => {
                     const listItems = snapshot.docs
                         .filter((doc) => {
                             const data = doc.data();
-                            const role = data?.role?.toLowerCase();
                             const isAuthor = (role === "author");
                             const isExpert = (role === "expert");
                             const isAuthorOrder = isAuthor && data?.author === user.uid;
                             const isExpertOrder = isExpert && data?.expert === user.uid;
-                            return (isAuthorOrder || isExpertOrder)
+                            return (isAuthorOrder || isExpertOrder);
                         })
                         .map(doc => ({
                             id: doc.id,

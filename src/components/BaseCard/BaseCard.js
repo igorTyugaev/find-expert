@@ -18,6 +18,7 @@ const ListHeader = styled('div')(({theme}) => ({
     padding: "1em",
     borderBottom: "1px solid #c4c4c4",
     minHeight: "70px",
+    flex: "0 0 auto",
 
     "@media screen and (max-width: 720px)": {
         flexDirection: "column",

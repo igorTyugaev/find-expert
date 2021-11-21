@@ -1,5 +1,6 @@
 import moment from "moment";
 import firebase, {analytics, auth, firestore, storage} from "../firebase";
+import {firebaseNames} from "../constants";
 
 class UserService {
 
@@ -1103,10 +1104,10 @@ class UserService {
         }
 
         fields = [
-            fields.service,
-            fields.subject,
-            fields.promo,
-            fields.portfolio,
+            fields.expertServices,
+            fields.expertSubjects,
+            fields.expertPromo,
+            fields.expertPortfolio,
         ];
 
         if (!fields) {
@@ -1190,6 +1191,43 @@ class UserService {
                 .then((res) => {
                     analytics.logEvent("update_profile");
                     resolve(res);
+                })
+                .catch((reason) => {
+                    reject(reason);
+                });
+        });
+    };
+
+    static addOrderIdToUser = (orderId) => {
+        return new Promise((resolve, reject) => {
+            if (!orderId) {
+                reject(new Error("No order id"));
+                return;
+            }
+
+            const currentUser = auth.currentUser;
+
+            if (!currentUser) {
+                reject(new Error("No current user"));
+                return;
+            }
+
+            const uid = currentUser.uid;
+
+            if (!uid) {
+                reject(new Error("No UID"));
+                return;
+            }
+
+            const userDocumentReference = firestore.collection("users").doc(uid);
+
+            userDocumentReference
+                .update({
+                    responses: firebase.firestore.FieldValue.arrayUnion(orderId)
+                })
+                .then((value) => {
+                    analytics.logEvent("add_order_id_to_user");
+                    resolve(value);
                 })
                 .catch((reason) => {
                     reject(reason);

@@ -30,6 +30,7 @@ const SelectField = forwardRef(({options, value, onChange, label, multiple = fal
     const handleChange = (event) => {
         const value = event.target.value;
         const resultArray = typeof value === 'string' ? value.split(',') : value;
+        if ([...resultArray].length > 10) return;
         if (isSafe) {
             setInnerValue(resultArray)
         } else {

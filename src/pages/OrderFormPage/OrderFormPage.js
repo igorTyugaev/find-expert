@@ -31,7 +31,6 @@ const OrderFormPage = () => {
                 history.push('/');
             })
             .catch((reason) => {
-                const code = reason.code;
                 const message = reason.message;
                 openSnackbar(message);
             })
@@ -51,19 +50,20 @@ const OrderFormPage = () => {
             isPaddingBody>
             <form onSubmit={handleSubmit(onSubmit)} noValidate>
                 <Stack spacing={3}>
-                    <Field name="service"
-                           {...register("service", {required: true})}
-                           error={!!errors?.service}
-                           helperText={errors?.service?.message}
+                    <Field name="services"
+                           {...register("services", {required: true})}
+                           error={!!errors?.services}
+                           helperText={errors?.services?.message}
                            title="Услуга"
                            label="Выберите услугу"
                            type="select"
                            options={serviceListRu}
+                           multiple
                            fullWidth/>
-                    <Field name="subject"
-                           {...register("subject", {required: true})}
-                           error={!!errors?.subject}
-                           helperText={errors?.subject?.message}
+                    <Field name="subjects"
+                           {...register("subjects", {required: true})}
+                           error={!!errors?.subjects}
+                           helperText={errors?.subjects?.message}
                            title="Предметная область"
                            label="Выберите вашу предметную область"
                            type="select"

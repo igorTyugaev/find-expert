@@ -1,9 +1,12 @@
-import React, { useState } from 'react';
+import React from 'react';
+import {useHistory} from "react-router-dom";
 import {Button, Chip, styled, Typography} from "@mui/material";
 import LocalOfferIcon from '@mui/icons-material/LocalOffer';
 import DateRangeIcon from '@mui/icons-material/DateRange';
-import OrderService from "../../services/OrderService";
-import { useAppContext } from "../../AppContext";
+import {useAppContext} from "../../AppContext";
+import ChatService from "../../services/ChatService";
+import UserService from "../../services/UserService";
+
 
 const ItemInner = styled('div')(({theme}) => ({
     display: "inline-flex",
@@ -12,9 +15,7 @@ const ItemInner = styled('div')(({theme}) => ({
     width: "calc(100% + 1em)",
     margin: "-1em 0 0 -1em",
     padding: "1em",
-    "&:not(:last-child)": {
-        borderBottom: "1px solid #c4c4c4"
-    }
+    borderBottom: "1px solid #c4c4c4",
 }));
 
 const ItemContentCol = styled('div')(({theme}) => ({
@@ -70,22 +71,59 @@ const ItemFooter = styled('div')(({theme}) => ({
 }));
 
 /**
- * 
- * @param {{ order: {id: string, status: "open" | "completed", budget: string, deadline: Date, title: "Changing the semantic element", description: string, responses: string[]}}} param0 
- * @returns 
+ *
+ * @param {{
+ * order: {
+ *  id: string,
+ *  status: "open" | "completed",
+ *  budget: string,
+ *  deadline: Date,
+ *  title: "Changing the semantic element",
+ *  description: string, responses: string[]
+ * }}}
+ * param0
+ * @returns
  */
 const OrdersListItem = ({order}) => {
+    const appContext = useAppContext();
+    const history = useHistory();
+    // Properties
+    const {user, userData} = appContext;
+    const existChat = userData?.responses?.includes(order?.orderId);
+    // Functions
+    const {openSnackbar} = appContext;
 
     const handlerClick = () => {
-        console.log("Choose order id", order?.id);
+        console.log("Choose order id", order?.orderId);
     }
 
-    let appContext = useAppContext();
-    let [userData, setUserData] = useState(appContext.userData);
-    let e = async () => {
-        await OrderService.addMemberToOrder(order.id);
-        userData.responses.push(order.id);
-        setUserData(userData);
+    const handlerCreateChanel = () => {
+        ChatService.createChannel(order, userData)
+            .then((chatId) => {
+                console.log(chatId);
+                if (!chatId) return;
+                history.push(`/chat/${chatId}`);
+            });
+    }
+
+    const addOrderToProfile = () => {
+        UserService.addOrderIdToUser(order?.orderId)
+            .then(() => {
+                handlerCreateChanel();
+            })
+            .catch((error) => {
+                const message = error?.message;
+                openSnackbar(message);
+            })
+    }
+
+    const handlerRespond = () => {
+        if (existChat) {
+            const orderId = order?.orderId;
+            if (!orderId) return;
+            history.push(`/chat/${orderId + user.uid}`);
+        } else
+            addOrderToProfile();
     }
 
     return (
@@ -111,11 +149,9 @@ const OrdersListItem = ({order}) => {
                 </ItemFooter>
             </ItemContentCol>
             <ItemActionsCol>
-                {
-                    userData.responses.includes(order.id)
-                        ? <BadgeAction icon={<LocalOfferIcon />} label={"Ждем ответ автора"} variant="outlined" />
-                        : < Button variant="contained" color="primary" onClick={e}>Откликнуться</Button>
-                }
+                <Button variant="contained" color="primary" onClick={handlerRespond}>
+                    {existChat ? "Перейти в чат" : "Откликнуться"}
+                </Button>
                 <BadgeAction icon={<LocalOfferIcon/>} label={order?.budget} variant="outlined"/>
                 <BadgeAction icon={<DateRangeIcon/>} label={order?.deadline} variant="outlined"/>
             </ItemActionsCol>

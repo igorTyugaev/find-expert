@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {useHistory, useParams} from "react-router-dom";
+import {useHistory} from "react-router-dom";
 import ScrollableFeed from "react-scrollable-feed";
 import {IconButton, styled, TextField} from "@mui/material";
 import SendIcon from '@mui/icons-material/Send';
@@ -7,6 +7,7 @@ import firebase, {firestore} from "../../firebase";
 import Messages from "./Messages";
 import ChatCard from "../ChatCard";
 import ChatService from "../../services/ChatService";
+import OrderService from "../../services/OrderService";
 
 const DialogWrapper = styled('div')(({theme}) => ({
     display: "flex",
@@ -38,18 +39,14 @@ const MessageBtnSubmit = styled(IconButton)(({theme}) => ({
     borderRadius: "0.24em"
 }));
 
-const Dialog = (props) => {
-    const params = useParams();
+const Dialog = ({orderId, user, userData, openSnackbar}) => {
     const history = useHistory();
     const canGoBack = history.action !== 'POP';
 
-    const [allMessages, setAllMessages] = useState([]);
     const [channelName, setChannelName] = useState("");
     const [actionStatus, setActionStatus] = useState("");
     const [userNewMsg, setUserNewMsg] = useState("");
     const [channelId, setChannelId] = useState();
-
-    const {user, userData, openSnackbar} = props;
 
     const sendMsg = (e) => {
         e.preventDefault();
@@ -58,7 +55,7 @@ const Dialog = (props) => {
             return;
         }
 
-        if (userNewMsg && params.id) {
+        if (userNewMsg && orderId) {
             if (userData) {
                 const displayName = userData?.fullName;
                 const imgUrl = userData.avatar;
@@ -76,7 +73,7 @@ const Dialog = (props) => {
 
 
                 firestore.collection("channels")
-                    .doc(params.id)
+                    .doc(orderId)
                     .collection("messages")
                     .add(obj)
                     .then((res) => {
@@ -87,7 +84,7 @@ const Dialog = (props) => {
                     });
 
                 firestore.collection("channels")
-                    .doc(params.id)
+                    .doc(orderId)
                     .update({
                         text: userNewMsg,
                         avatar: imgUrl ? imgUrl : null,
@@ -130,25 +127,32 @@ const Dialog = (props) => {
     useEffect(() => {
         ChatService.getChannelAsExpert(132)
             .then((data) => {
-                console.log(data);
-                data.channelName && setChannelName(data.channelName);
-                data.status && setActionStatus(data.status);
-                data.channelId && setChannelId(data.channelId);
+                if (!data) return;
+                data.channelName && setChannelName(data?.channelName);
+                data.status && setActionStatus(data?.status);
+                data.channelId && setChannelId(data?.channelId);
             })
     }, [])
 
-    useEffect(() => {
-        if (channelId) {
-            ChatService.getMessages(channelId)
-                .then((onMessage) => {
-                    onMessage.onSnapshot((snapshot) => {
-                        setAllMessages(
-                            snapshot.docs.map((doc) => ({id: doc.id, data: doc.data()}))
-                        );
-                    });
-                });
-        }
-    }, [channelId]);
+    const useItems = () => {
+        const [allMessages, setAllMessages] = useState([]);
+
+        useEffect(() => {
+            if (!channelId) return;
+            const unsubscribe = ChatService
+                .getMessages(channelId)
+                .onSnapshot((snapshot) => {
+                    const items = snapshot.docs.map((doc) => ({id: doc.id, data: doc.data()}));
+                    setAllMessages(items);
+                }, (error) => {
+                    const message = error?.message;
+                    openSnackbar(message);
+                })
+            return () => unsubscribe();
+        }, [channelId])
+        return allMessages;
+    }
+    const allMessages = useItems();
 
     return (
         <ChatCard

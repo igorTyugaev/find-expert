@@ -75,7 +75,10 @@ const DashboardPage = () => {
     }
 
     useEffect(() => {
-        setExpertLoading(UserService.getExpertProfileCompletion(userData));
+        console.log(userData);
+        const expertProfileCompletion = UserService.getExpertProfileCompletion(userData);
+        console.log(expertProfileCompletion);
+        setExpertLoading(expertProfileCompletion);
     }, [userData])
 
     const useItems = () => {

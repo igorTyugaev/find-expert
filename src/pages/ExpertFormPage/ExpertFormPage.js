@@ -49,29 +49,30 @@ const ExpertFormPage = () => {
             isPaddingBody>
             <form onSubmit={handleSubmit(onSubmit)} noValidate>
                 <Stack spacing={3}>
-                    <Field name="service"
-                           {...register("service", {required: true})}
-                           error={!!errors?.service}
-                           helperText={errors?.service?.message}
+                    <Field name="expertServices"
+                           {...register("expertServices", {required: true})}
+                           error={!!errors?.expertServices}
+                           helperText={errors?.expertServices?.message}
                            title="Ваши услуги"
                            label="Выберите услуги, по вашему профилю"
                            type="select"
                            options={serviceListRu}
+                           multiple
                            fullWidth/>
-                    <Field name="subject"
-                           {...register("subject", {required: true})}
-                           error={!!errors?.subject}
-                           helperText={errors?.subject?.message}
+                    <Field name="expertSubjects"
+                           {...register("expertSubjects", {required: true})}
+                           error={!!errors?.expertSubjects}
+                           helperText={errors?.expertSubjects?.message}
                            title="Предметная область"
                            label="Выберите вашу предметную область"
                            type="select"
                            options={subjectListRu}
                            multiple
                            fullWidth/>
-                    <Field name="promo"
-                           {...register("promo", {required: true})}
-                           error={!!errors?.promo}
-                           helperText={errors?.promo?.message}
+                    <Field name="expertPromo"
+                           {...register("expertPromo", {required: true})}
+                           error={!!errors?.expertPromo}
+                           helperText={errors?.expertPromo?.message}
                            title="Продающий текст о себе"
                            label="Кратко опишите свои профессиональные навыки и образование"
                            type="text"
@@ -79,10 +80,10 @@ const ExpertFormPage = () => {
                            multiline
                            rows={5}
                            fullWidth/>
-                    <Field name="portfolio"
-                           {...register("portfolio", {required: true})}
-                           error={!!errors?.portfolio}
-                           helperText={errors?.portfolio?.message}
+                    <Field name="expertPortfolio"
+                           {...register("expertPortfolio", {required: true})}
+                           error={!!errors?.expertPortfolio}
+                           helperText={errors?.expertPortfolio?.message}
                            title="Образование и профессиональные достижения"
                            label="Расскажите о своем опыте"
                            type="text"
@@ -90,10 +91,10 @@ const ExpertFormPage = () => {
                            multiline
                            rows={5}
                            fullWidth/>
-                    <Field name="link"
-                           {...register("link", {required: true})}
-                           error={!!errors?.link}
-                           helperText={errors?.link?.message}
+                    <Field name="expertLink"
+                           {...register("expertLink", {required: true})}
+                           error={!!errors?.expertLink}
+                           helperText={errors?.expertLink?.message}
                            title="Ссылка на соц. сети"
                            label="Ссылка на соц. сети"
                            fullWidth/>

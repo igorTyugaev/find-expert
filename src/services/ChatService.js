@@ -80,7 +80,14 @@ class ChatService {
     static createChannel = (order, userData) => {
         return new Promise((resolve, reject) => {
             if (!order) {
-                reject(new Error("No values"));
+                reject(new Error("No order"));
+                return;
+            }
+
+            const orderId = order?.orderId;
+
+            if (!orderId) {
+                reject(new Error("No order id"));
                 return;
             }
 
@@ -99,11 +106,11 @@ class ChatService {
             }
 
             const collectionReference = firestore.collection("channels");
-
-            collectionReference
-                .add({
-                    orderId: order.id,
-                    channelName: order.name ? order.name : "Dialog",
+            const chatId = orderId + uid;
+            collectionReference.doc(chatId)
+                .set({
+                    orderId,
+                    channelName: `Обсуждение заказа ${order?.orderId}`,
                     members: [uid, order.author],
                     avatar: currentUser.photoURL,
                     userName: userData && userData.fullName ? userData.fullName : null,
@@ -111,7 +118,7 @@ class ChatService {
                 })
                 .then((res) => {
                     analytics.logEvent("add_channel");
-                    resolve(res.id);
+                    resolve(chatId);
                 })
                 .catch((reason) => {
                     reject(reason);
@@ -121,19 +128,12 @@ class ChatService {
     };
 
     static getMessages = (channelId) => {
-        return new Promise((resolve, reject) => {
-            if (!channelId) {
-                reject(new Error("No channel id"));
-                return;
-            }
-
-            const collectionReference = firestore.collection("channels");
-            const onMessage = collectionReference
-                .doc(channelId)
-                .collection("messages")
-                .orderBy("timestamp", "asc")
-            resolve(onMessage);
-        });
+        const collectionReference = firestore.collection("channels");
+        const onMessage = collectionReference
+            .doc(channelId)
+            .collection("messages")
+            .orderBy("timestamp", "asc")
+        return onMessage;
     }
 
     static getChannelAsAuthor = (orderId, expertId) => {

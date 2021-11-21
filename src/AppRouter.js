@@ -75,7 +75,7 @@ const AppRouter = () => {
         <Route path="/user/:userId" key="UserPage">
             {user ? <UserPage/> : <Redirect to="/"/>}
         </Route>,
-        <Route path="/chat/:id" key="ChatPage">
+        <Route path="/chat/:orderId" key="ChatPage">
             {user ? <ChatPage/> : <Redirect to="/"/>}
         </Route>
     ]);
@@ -97,7 +97,7 @@ const AppRouter = () => {
             <AppWrapper>
                 <AppHeader/>
                 <AppBody>
-                    <Container sx={{height: "100%", flex: "1 1 100%"}}>
+                    <Container sx={{paddingBottom: "2em"}}>
                         <AllRoutes/>
                     </Container>
                 </AppBody>

@@ -50,6 +50,25 @@ const OrderFormPage = () => {
             isPaddingBody>
             <form onSubmit={handleSubmit(onSubmit)} noValidate>
                 <Stack spacing={3}>
+                    <Field name="title"
+                           {...register("title", {required: true})}
+                           error={!!errors?.title}
+                           helperText={errors?.title?.message}
+                           title="Название заказа"
+                           label="Название заказа"
+                           subtitle="Коротко опишите, что нужно сделать"
+                           fullWidth/>
+                    <Field name="description"
+                           {...register("description", {required: true})}
+                           error={!!errors?.description}
+                           helperText={errors?.description?.message}
+                           title="Опишите свой заказ"
+                           label="Опишите свой заказ"
+                           type="text"
+                           placeholder="Пожалуйста, опишите как можно подробнее ваш заказ."
+                           multiline
+                           rows={5}
+                           fullWidth/>
                     <Field name="services"
                            {...register("services", {required: true})}
                            error={!!errors?.services}
@@ -69,17 +88,6 @@ const OrderFormPage = () => {
                            type="select"
                            options={subjectListRu}
                            multiple
-                           fullWidth/>
-                    <Field name="description"
-                           {...register("description", {required: true})}
-                           error={!!errors?.description}
-                           helperText={errors?.description?.message}
-                           title="Опишите свой заказ"
-                           label="Опишите свой заказ"
-                           type="text"
-                           placeholder="Пожалуйста, опишите как можно подробнее ваш заказ."
-                           multiline
-                           rows={5}
                            fullWidth/>
                     <Field name="deadline"
                            {...register("deadline", {required: true})}

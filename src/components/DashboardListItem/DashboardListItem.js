@@ -1,7 +1,9 @@
 import React from 'react';
-import {Button, Chip, styled, Typography} from "@mui/material";
+import {Button, Chip, Link, styled, Typography} from "@mui/material";
 import LocalOfferIcon from '@mui/icons-material/LocalOffer';
 import DateRangeIcon from '@mui/icons-material/DateRange';
+import EditIcon from '@mui/icons-material/Edit';
+import {NavLink} from "react-router-dom";
 
 const Item = styled('div')(({theme}) => ({
     width: '100%',
@@ -37,11 +39,11 @@ const ItemFooter = styled('div')(({theme}) => ({
     marginTop: "auto"
 }));
 
-const DashboardListItem = ({id, status, budget, deadline, title, description, handlerOrder}) => {
+const DashboardListItem = ({orderId, status, budget, deadline, title, description, handlerOrder}) => {
     const handlerBtn = () => {
-        console.log("Choose order id", id);
+        console.log("Choose order orderId", orderId);
         if (!handlerOrder) return;
-        handlerOrder(id);
+        handlerOrder(orderId);
     }
 
     return (
@@ -50,10 +52,25 @@ const DashboardListItem = ({id, status, budget, deadline, title, description, ha
                 <BadgeHeader label={status}/>
                 <BadgeHeader icon={<LocalOfferIcon/>} label={`₽${budget}`} variant="outlined"/>
                 <BadgeHeader icon={<DateRangeIcon/>} label={deadline} variant="outlined"/>
+                <BadgeHeader
+                    label="Редактировать"
+                    onClick={() => {
+                        console.log()
+                    }}
+                    icon={<EditIcon/>}
+                    variant="outlined"
+                />
             </ItemHeader>
             <ItemBody>
                 <Typography variant="h6" component="h3">
-                    {title}
+                    <Link
+                        color="inherit"
+                        component={NavLink}
+                        to={`/order/${orderId}`}
+                        underline="none"
+                    >
+                        {title || "Без заголовка"}
+                    </Link>
                 </Typography>
                 <Typography sx={{marginTop: "0.2em"}} variant="p" component="p">
                     {description}
@@ -61,7 +78,7 @@ const DashboardListItem = ({id, status, budget, deadline, title, description, ha
             </ItemBody>
             <ItemFooter>
                 <Button sx={{marginTop: "auto"}} variant="outlined" onClick={handlerBtn}>
-                    Подробнее
+                    Перейти к заказу
                 </Button>
             </ItemFooter>
         </Item>

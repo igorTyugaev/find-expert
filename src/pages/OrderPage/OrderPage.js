@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import {useHistory, useParams} from "react-router-dom";
 import BaseCard from "../../components/BaseCard";
 import {Card, Chip, styled, Typography, Button} from "@mui/material";
@@ -6,7 +6,11 @@ import DashboardListItem from "../../components/DashboardListItem";
 import AsideCard from "../../components/AsideCard";
 import LocalOfferIcon from "@mui/icons-material/LocalOffer";
 import DateRangeIcon from "@mui/icons-material/DateRange";
-import { ExpertsService } from "../../services/ExpertsService";
+import {ExpertsService} from "../../services/ExpertsService";
+import {useAppContext} from "../../AppContext";
+import OrderService from "../../services/OrderService";
+import Loader from "../../components/Loader";
+import FindExpertPage from "../FindExpertPage";
 
 const OrderWrapper = styled('div')(({theme}) => ({
     display: "flex",
@@ -44,9 +48,41 @@ const searchAnExpert = async () => {
 }
 
 const OrderPage = () => {
+    const [order, setOrder] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const appContext = useAppContext();
     const history = useHistory();
+    // Properties
+    const {user, userData} = appContext;
+    // Functions
+    const {openSnackbar} = appContext;
+
+    const role = userData?.role?.toLowerCase();
     const {orderId} = useParams();
     const canGoBack = history.action !== 'POP';
+
+    useEffect(() => {
+        if (!orderId) return;
+        OrderService.getOrder(orderId)
+            .then((order) => {
+                setOrder(order);
+            })
+            .catch((error) => {
+                const message = error?.message;
+                openSnackbar(message);
+            })
+            .finally(() => {
+                setLoading(false);
+            })
+    }, [orderId])
+
+    if (loading) {
+        return <Loader/>;
+    }
+
+    if (order?.status === "open") {
+        return <FindExpertPage/>
+    }
 
     return (
         <OrderWrapper>

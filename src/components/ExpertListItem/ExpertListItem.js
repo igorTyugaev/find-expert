@@ -1,6 +1,7 @@
 import React from 'react';
 import {Avatar, Button, Chip, Rating, styled, Typography} from "@mui/material";
 import LocalOfferIcon from '@mui/icons-material/LocalOffer';
+import {useHistory} from "react-router-dom";
 
 const ItemInner = styled('div')(({theme}) => ({
     display: "inline-flex",
@@ -9,9 +10,7 @@ const ItemInner = styled('div')(({theme}) => ({
     width: "calc(100% + 1em)",
     margin: "-1em 0 0 -1em",
     padding: "1em",
-    "&:not(:last-child)": {
-        borderBottom: "1px solid #c4c4c4"
-    }
+    borderBottom: "1px solid #c4c4c4",
 }));
 
 const ItemContentCol = styled('div')(({theme}) => ({
@@ -67,10 +66,18 @@ const ExpertAvatar = styled(Avatar)(({theme}) => ({
     margin: "auto",
 }));
 
-const ExpertListItem = ({expert}) => {
+const ExpertListItem = ({expert, orderId}) => {
+    const history = useHistory();
+    const expertId = expert?.expertId;
+    const handlerProfile = () => {
+        if (!expertId) return;
+        history.push(`/user/${expertId}`)
+    }
 
-    const handlerClick = () => {
-        console.log("Choose order id", expert?.id);
+    const handlerDiscussion = () => {
+        if (!expertId) return;
+        if (!orderId) return;
+        history.push(`/chat/${orderId + expertId}`)
     }
 
     return (
@@ -81,25 +88,25 @@ const ExpertListItem = ({expert}) => {
             <ItemContentCol>
                 <Rating name="read-only" value={4} readOnly/>
                 <Typography variant="h6" component="h3">
-                    {expert?.title}
+                    {expert?.fullName || "Не указано"}
                 </Typography>
-                <ChipGroup sx={{marginTop: "0.2em"}}>
+                <ChipGroup sx={{marginTop: "0.01em"}}>
                     <ChipItem label="Small" size="small"/>
                     <ChipItem label="Small" size="small"/>
                     <ChipItem label="Small" size="small"/>
                 </ChipGroup>
-                <Typography sx={{margin: "0.3em 0"}} variant="p" component="p">
-                    {expert?.description}
+                <Typography sx={{margin: "0.5em 0"}} variant="p" component="p">
+                    {`${expert?.expertPromo?.substr(0, 280)}...`}
                 </Typography>
-                <Button sx={{marginTop: "auto"}} variant="outlined" onClick={handlerClick}>
+                <Button sx={{marginTop: "auto"}} variant="outlined" onClick={handlerProfile}>
                     Смотреть профиль
                 </Button>
             </ItemContentCol>
             <ItemActionsCol>
-                <Button variant="contained" color="primary">
-                    Выбрать
+                <Button variant="contained" color="primary" onClick={handlerDiscussion}>
+                    К обсуждению
                 </Button>
-                <BadgeAction icon={<LocalOfferIcon/>} label={expert?.budget} variant="outlined"/>
+                <BadgeAction icon={<LocalOfferIcon/>} label={expert?.budget || "$1912"} variant="outlined"/>
             </ItemActionsCol>
         </ItemInner>
     );

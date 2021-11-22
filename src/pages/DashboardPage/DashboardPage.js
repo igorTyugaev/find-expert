@@ -50,17 +50,17 @@ const DashboardPage = () => {
     const [expertProfileCompletion, setExpertLoading] = useState(false);
     const appContext = useAppContext();
     const history = useHistory();
+    // Properties
+    const {user, userData} = appContext;
+    // Functions
+    const {openSnackbar} = appContext;
+    const role = userData?.role?.toLowerCase();
+
     const getNewOrderLink = () => {
         if (role === 'author') return "/order-form";
         else return "/find-order"
     }
 
-    // Properties
-    const {user, userData} = appContext;
-    // Functions
-    const {openSnackbar} = appContext;
-
-    const role = userData?.role?.toLowerCase();
     const handlerNewOrder = () => {
         if (role === 'author') {
             history.push('/order-form');
@@ -97,7 +97,7 @@ const DashboardPage = () => {
                             return (isAuthorOrder || isExpertOrder);
                         })
                         .map(doc => ({
-                            id: doc.id,
+                            orderId: doc.id,
                             ...doc.data(),
                         }))
                     setLoading(false);
@@ -111,7 +111,6 @@ const DashboardPage = () => {
         }, [])
         return items
     }
-
     const orders = useItems();
 
     const DashboardOrdersContent = () => {
@@ -134,9 +133,9 @@ const DashboardPage = () => {
             }
         />
 
-        return orders.map(({id, status, budget, deadline, title, description}) => (
-            <DashboardListItem id={id}
-                               key={id}
+        return orders.map(({orderId, status, budget, deadline, title, description}) => (
+            <DashboardListItem orderId={orderId}
+                               key={orderId}
                                status={status}
                                budget={budget}
                                deadline={deadline}

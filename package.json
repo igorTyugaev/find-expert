@@ -2,6 +2,7 @@
   "name": "find-expert",
   "version": "0.0.1",
   "private": true,
+  "homepage": "https://igortyugaev.github.io/find-expert/",
   "dependencies": {
     "@emotion/react": "^11.6.0",
     "@emotion/styled": "^11.6.0",
@@ -13,6 +14,7 @@
     "camelcase": "^6.2.1",
     "date-fns": "^2.25.0",
     "firebase": "^8.3.1",
+    "gh-pages": "^3.2.3",
     "mdi-material-ui": "^7.1.0",
     "moment": "^2.29.1",
     "prop-types": "15.7.2",
@@ -35,7 +37,9 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "analyze": "source-map-explorer 'build/static/js/*.js'"
+    "analyze": "source-map-explorer 'build/static/js/*.js'",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": "react-app"

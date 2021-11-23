@@ -80,6 +80,8 @@ const ExpertListItem = ({expert, orderId}) => {
         history.push(`/chat/${orderId + expertId}`)
     }
 
+    const expertSubjects = expert?.expertSubjects;
+
     return (
         <ItemInner>
             <ItemAvatarCol>
@@ -91,9 +93,8 @@ const ExpertListItem = ({expert, orderId}) => {
                     {expert?.fullName || "Не указано"}
                 </Typography>
                 <ChipGroup sx={{marginTop: "0.01em"}}>
-                    <ChipItem label="Small" size="small"/>
-                    <ChipItem label="Small" size="small"/>
-                    <ChipItem label="Small" size="small"/>
+                    {expertSubjects && expertSubjects.map((label, index) => (index < 5) &&
+                        <ChipItem label={label} size="small"/>)}
                 </ChipGroup>
                 <Typography sx={{margin: "0.5em 0"}} variant="p" component="p">
                     {`${expert?.expertPromo?.substr(0, 280)}...`}

@@ -5,7 +5,6 @@ import UserPage from "./pages/UserPage";
 import NotFoundPage from "./domain/NotFoundPage";
 import {useAppContext} from "./AppContext";
 import Bar from "./components/Bar";
-import SelectRolePage from "./pages/SelectRolePage";
 import LandingPage from "./pages/LandingPage";
 import DashboardPage from "./pages/DashboardPage";
 import OrderFormPage from "./pages/OrderFormPage";
@@ -14,6 +13,8 @@ import FindExpertPage from "./pages/FindExpertPage";
 import OrderPage from "./pages/OrderPage";
 import ExpertFormPage from "./pages/ExpertFormPage";
 import ChatPage from "./pages/ChatPage";
+import UserFormPage from "./pages/UserFormPage";
+import SelectRolePage from "./pages/SelectRolePage";
 
 const AppWrapper = styled('div')(({theme}) => ({
     display: "flex",
@@ -49,6 +50,10 @@ const AppRouter = () => {
         <Route path="/" exact key="DashboardPage">
             <DashboardPage/>
         </Route>,
+        <Route path="/user-form" exact key="UserFormPage">
+            {/*Выбор типа учетной записи пользователя*/}
+            <UserFormPage/>
+        </Route>,
         <Route path="/select-role" exact key="SelectRolePage">
             {/*Выбор типа учетной записи пользователя*/}
             <SelectRolePage/>
@@ -83,7 +88,7 @@ const AppRouter = () => {
     const AllRoutes = () => (
         <Switch>
             {user ?
-                role ? getPrivateRoutes() : <SelectRolePage/> :
+                role ? getPrivateRoutes() : <UserFormPage/> :
                 getPublicRoutes()
             }
             <Route>

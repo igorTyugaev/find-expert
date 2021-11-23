@@ -3,35 +3,7 @@ import {useHistory, useParams} from "react-router-dom";
 import BaseCard from "../../components/BaseCard";
 import ExpertListItem from "../../components/ExpertListItem";
 import {useAppContext} from "../../AppContext";
-import OrderService from "../../services/OrderService";
 import {ExpertsService} from "../../services/ExpertsService";
-
-const experts = [
-    {
-        id: 1,
-        status: "draft",
-        budget: "$3252",
-        deadline: "11/12/21",
-        title: "Changing the semantic element",
-        description: "It's important to realize that the style of a typography component is independent from the semantic underlying element."
-    },
-    {
-        id: 2,
-        status: "open",
-        budget: "$3252",
-        deadline: "11/12/21",
-        title: "Changing the semantic element",
-        description: "It's important to realize that the style of a typography component is independent from the semantic underlying element."
-    },
-    {
-        id: 3,
-        status: "complite",
-        budget: "$3252",
-        deadline: "11/12/21",
-        title: "Changing the semantic element",
-        description: "It's important to realize that the style of a typography component is independent from the semantic underlying element."
-    }
-]
 
 const FindExpertPage = () => {
     const appContext = useAppContext();

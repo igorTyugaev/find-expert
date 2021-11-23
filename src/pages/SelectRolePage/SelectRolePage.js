@@ -1,11 +1,14 @@
 import React from 'react';
 import {useHistory} from "react-router-dom";
-import {Box, styled, Typography} from "@mui/material";
+import {Box, Stack, styled, Typography} from "@mui/material";
 import RoleCard from "../../components/RoleCard";
 import StudentIllustration from "../../illustrations/student.svg";
 import TeachingIllustration from "../../illustrations/teaching.svg";
 import UserService from "../../services/UserService";
 import {useAppContext} from "../../AppContext";
+import Field from "../../components/Field";
+import BaseCard from "../../components/BaseCard";
+import ExpertListItem from "../../components/ExpertListItem";
 
 const roles = [
     {

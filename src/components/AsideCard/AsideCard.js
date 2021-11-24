@@ -16,13 +16,15 @@ const CardHeader = styled('div')(({theme}) => ({
     borderBottom: "1px solid #c4c4c4",
     minHeight: "70px"
 }));
-const CardBody = styled('div')(({theme}) => ({
+const CardBody = styled('div', {
+    shouldForwardProp: (prop) => prop !== "isPadding"
+})(({theme, isPadding}) => ({
     width: '100%',
     display: "flex",
     flexDirection: "column",
-    padding: "0 1em 0.5em",
+    padding: isPadding ? "0 1em 0.5em" : 0,
 }));
-const AsideCard = ({children, title}) => {
+const AsideCard = ({children, title, isPadding = true}) => {
     return (
         <CardWrapper>
             <CardHeader>
@@ -30,7 +32,7 @@ const AsideCard = ({children, title}) => {
                     {title || "AsideCard"}
                 </Typography>
             </CardHeader>
-            <CardBody>
+            <CardBody isPadding={isPadding}>
                 {children}
             </CardBody>
         </CardWrapper>

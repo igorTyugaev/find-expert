@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {Link, useHistory} from "react-router-dom";
 import {Add as AddIcon} from "@mui/icons-material";
-import {Card, Fab, Stack, styled} from "@mui/material";
+import {Box, Card, Fab, Stack, styled, Typography} from "@mui/material";
 import {useAppContext} from "../../AppContext";
 import AsideCard from "../../components/AsideCard";
 import BaseCard from "../../components/BaseCard";
@@ -11,6 +11,11 @@ import Loader from "../../components/Loader";
 import EmptyState from "../../domain/EmptyState";
 import {ReactComponent as NotFoundIllustration} from "../../illustrations/not-found.svg";
 import UserService from "../../services/UserService";
+import AlignItemsList from "../../components/AlignItemsList";
+import JournalCard from "../../components/JournalCard/JournalCard";
+import ArticleCard from "../../components/ArticleCard/ArticleCard";
+import AdBlock from "../../components/AdBlock";
+import DenseTable from "../../components/DenseTable";
 
 const DashboardWrapper = styled('div')(({theme}) => ({
     display: "flex",
@@ -162,39 +167,18 @@ const DashboardPage = () => {
             </DashboardOrders>
             <DashboardAside>
                 <DashboardAsideItem>
-                    <AsideCard title="Ваша статистика">
-                        <ol>
-                            <li>Lorem ipsum dolor sit amet</li>
-                            <li>Lorem ipsum dolor sit amet</li>
-                            <li>Lorem ipsum dolor sit amet</li>
-                            <li>Lorem ipsum dolor sit amet</li>
-                        </ol>
+                    <AsideCard title="Ваша статистика" isPadding={false}>
+                        <DenseTable small/>
                     </AsideCard>
                 </DashboardAsideItem>
                 <DashboardAsideItem>
-                    <AsideCard title="Популярные темы в этом мес.">
-                        <p>
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aspernatur at corporis
-                            dignissimos
-                            dolorum
-                            eius facilis iure labore minima molestiae mollitia quaerat quam quia, quo quos,
-                            recusandae
-                            saepe
-                            voluptas, voluptatem. Cumque.
-                        </p>
+                    <AsideCard title="Популярные темы в этом мес." isPadding={false}>
+                        <DenseTable/>
                     </AsideCard>
                 </DashboardAsideItem>
                 <DashboardAsideItem>
-                    <AsideCard title="Лучшие по вашей области">
-                        <p>
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aspernatur at corporis
-                            dignissimos
-                            dolorum
-                            eius facilis iure labore minima molestiae mollitia quaerat quam quia, quo quos,
-                            recusandae
-                            saepe
-                            voluptas, voluptatem. Cumque.
-                        </p>
+                    <AsideCard title="Лучшие по вашей области" isPadding={false}>
+                        <AlignItemsList/>
                     </AsideCard>
                 </DashboardAsideItem>
             </DashboardAside>

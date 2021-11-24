@@ -15,6 +15,8 @@ import ExpertFormPage from "./pages/ExpertFormPage";
 import ChatPage from "./pages/ChatPage";
 import UserFormPage from "./pages/UserFormPage";
 import SelectRolePage from "./pages/SelectRolePage";
+import ArticlesDashboardPage from "./pages/ArticlesDashboardPage";
+import ArticleEditorPage from "./pages/ArticleEditorPage";
 
 const AppWrapper = styled('div')(({theme}) => ({
     display: "flex",
@@ -39,6 +41,7 @@ const AppRouter = () => {
     // Properties
     const {user, userData} = appContext;
     const role = userData?.role?.toLowerCase();
+    const fullName = userData?.fullName?.toLowerCase();
 
     const getPublicRoutes = () => ([
         <Route path="/" exact key="LandingPage">
@@ -49,6 +52,14 @@ const AppRouter = () => {
     const getPrivateRoutes = () => ([
         <Route path="/" exact key="DashboardPage">
             <DashboardPage/>
+        </Route>,
+        <Route path="/articles" exact key="ArticlesDashboardPage">
+            {/*Выбор типа учетной записи пользователя*/}
+            <ArticlesDashboardPage user={user} userId={user.uid}/>
+        </Route>,
+        <Route path="/editor/:fileId" exact key="ArticleEditorPage">
+            {/*Выбор типа учетной записи пользователя*/}
+            <ArticleEditorPage user={user} userId={user.uid}/>
         </Route>,
         <Route path="/user-form" exact key="UserFormPage">
             {/*Выбор типа учетной записи пользователя*/}
@@ -88,7 +99,7 @@ const AppRouter = () => {
     const AllRoutes = () => (
         <Switch>
             {user ?
-                role ? getPrivateRoutes() : <UserFormPage/> :
+                fullName ? (role ? getPrivateRoutes() : <SelectRolePage/>) : <UserFormPage/> :
                 getPublicRoutes()
             }
             <Route>

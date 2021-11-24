@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {Link as RouterLink} from "react-router-dom";
+import {Link as RouterLink, useHistory} from "react-router-dom";
 
 import {
     AppBar,
@@ -12,13 +12,14 @@ import {
     Divider,
     Menu,
     MenuItem,
-    Link,
+    Link, Stack,
 } from "@mui/material";
 
 import UserAvatar from "../UserAvatar";
 import {useAppContext} from "../../AppContext";
 
 const Bar = () => {
+    const history = useHistory();
     const [anchorEl, setAnchorEl] = useState(null);
 
     const appContext = useAppContext();
@@ -88,6 +89,16 @@ const Bar = () => {
 
                 {user && (
                     <>
+                        <Stack direction="row" spacing={3} sx={{marginRight: "1em"}}>
+                            <Button sx={{color: "white"}} variant="text"
+                                    onClick={() => history.push("/")}>
+                                Дашборд
+                            </Button>
+                            <Button sx={{color: "white"}} variant="text"
+                                    onClick={() => history.push("/articles")}>
+                                Мои статьи
+                            </Button>
+                        </Stack>
                         <IconButton
                             color="inherit"
                             disabled={performingAction}

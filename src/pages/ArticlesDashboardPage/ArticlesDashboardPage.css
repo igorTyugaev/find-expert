@@ -1,0 +1,23 @@
+@media (max-width: 768px) {
+    .new-file-form button {
+        margin-left: 2%;
+        width: 38%;
+    }
+}
+
+.files-list {
+    list-style: none;
+    padding: 0;
+}
+
+.file {
+    width: 100%;
+    display: flex;
+    padding: 1rem;
+    border-bottom: 1px solid #eeeeee;
+}
+
+.file .link {
+    color: #181a1b;
+    text-decoration: none;
+}

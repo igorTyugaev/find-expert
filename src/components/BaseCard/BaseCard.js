@@ -45,7 +45,7 @@ const ListBody = styled('div', {
     minHeight: "420px",
 }));
 
-const BaseCard = ({children, title, description, btnTitle, btnHandler, isPaddingBody = false}) => {
+const BaseCard = ({children, title, description, btnTitle, btnHandler, disabled, isPaddingBody = false}) => {
     const handlerBtnHeader = () => {
         if (!btnHandler) return;
         btnHandler();
@@ -64,7 +64,7 @@ const BaseCard = ({children, title, description, btnTitle, btnHandler, isPadding
                 </Box>
                 {
                     btnTitle &&
-                    <BtnHeader variant="outlined" onClick={handlerBtnHeader}>
+                    <BtnHeader variant="outlined" disabled={disabled} onClick={handlerBtnHeader}>
                         {btnTitle}
                     </BtnHeader>
                 }

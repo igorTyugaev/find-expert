@@ -17,6 +17,8 @@ import UserFormPage from "./pages/UserFormPage";
 import SelectRolePage from "./pages/SelectRolePage";
 import ArticlesDashboardPage from "./pages/ArticlesDashboardPage";
 import ArticleEditorPage from "./pages/ArticleEditorPage";
+import ArticlesPage from "./pages/ArticlesPage";
+import ArticlePage from "./pages/ArticlePage";
 
 const AppWrapper = styled('div')(({theme}) => ({
     display: "flex",
@@ -53,11 +55,10 @@ const AppRouter = () => {
         <Route path="/" exact key="DashboardPage">
             <DashboardPage/>
         </Route>,
-        <Route path="/articles" exact key="ArticlesDashboardPage">
-            {/*Выбор типа учетной записи пользователя*/}
+        <Route path="/my-articles" exact key="ArticlesDashboardPage">
             <ArticlesDashboardPage user={user} userId={user.uid}/>
         </Route>,
-        <Route path="/editor/:fileId" exact key="ArticleEditorPage">
+        <Route path="/editor/:articleId" exact key="ArticleEditorPage">
             {/*Выбор типа учетной записи пользователя*/}
             <ArticleEditorPage user={user} userId={user.uid}/>
         </Route>,
@@ -102,6 +103,12 @@ const AppRouter = () => {
                 fullName ? (role ? getPrivateRoutes() : <SelectRolePage/>) : <UserFormPage/> :
                 getPublicRoutes()
             }
+            <Route path="/articles" exact key="ArticlesPage">
+                <ArticlesPage/>
+            </Route>
+            <Route path="/article/:articleId" exact key="ArticlePage">
+                <ArticlePage/>
+            </Route>
             <Route>
                 <NotFoundPage/>
             </Route>

@@ -1,16 +1,13 @@
 import React, {useState, useEffect} from "react";
 import {Link, useHistory} from "react-router-dom";
-import useSWR, {mutate} from "swr";
 import "./ArticlesDashboardPage.css";
 import Loader from "../../components/Loader";
 import {useAppContext} from "../../AppContext";
 import {firestore} from "../../firebase";
 import {
     Avatar,
-    Button, Divider,
+    Button,
     IconButton,
-    List,
-    ListItem,
     ListItemAvatar, ListItemButton,
     ListItemText,
     Stack,
@@ -19,44 +16,22 @@ import {
 import BaseCard from "../../components/BaseCard";
 import DeleteIcon from '@mui/icons-material/Delete';
 import ArticleIcon from '@mui/icons-material/Article';
-
-const getUserFiles = async (userId) => {
-    const doc = await firestore.collection("articles").doc(userId).get();
-
-    if (doc.exists) {
-        console.log("User found in database");
-        const snapshot = await firestore
-            .collection("articles")
-            .doc(doc.id)
-            .collection("files")
-            .get();
-
-        let userFiles = [];
-        snapshot.forEach((file) => {
-            let {name, content} = file.data();
-            userFiles.push({id: file.id, name: name, content: content});
-        });
-        return userFiles;
-    } else {
-        console.log("User not found in database, creating new entry...");
-        firestore.collection("articles").doc(userId).set({});
-        return [];
-    }
-};
+import ArticlesService from "../../services/articlesService";
 
 const createFile = async (userId, fileName) => {
-    let res = await firestore.collection("articles").doc(userId).collection("files").add({
-        name: fileName,
-        content: "",
-    });
+    let res = await firestore
+        .collection("articles")
+        .add({
+            name: fileName,
+            content: "",
+            author: userId
+        });
     return res;
 };
 
-const deleteFile = async (userId, fileId) => {
+const deleteFile = async (fileId) => {
     let res = await firestore
         .collection("articles")
-        .doc(userId)
-        .collection("files")
         .doc(fileId)
         .delete();
     return res;
@@ -71,7 +46,6 @@ const ArticlesDashboardPage = () => {
     const {openSnackbar} = appContext;
     const userId = user?.uid;
     const [nameValue, setNameValue] = useState("");
-    const {data, error} = useSWR(userId, getUserFiles);
 
     useEffect(() => {
         if (!user) {
@@ -79,8 +53,31 @@ const ArticlesDashboardPage = () => {
         }
     }, [user]);
 
-    if (error) return <p>Ошибка загрузки данных!</p>;
-    else if (!data) return <Loader/>;
+    const useItems = () => {
+        const [articles, setArticles] = useState([]);
+
+        useEffect(() => {
+            const unsubscribe = ArticlesService
+                .getArticles()
+                .where("author", "==", userId)
+                .onSnapshot((snapshot) => {
+                    const items = snapshot.docs
+                        .map(doc => ({
+                            articleId: doc.id,
+                            ...doc.data(),
+                        }));
+                    setArticles(items);
+                }, (error) => {
+                    const message = error?.message;
+                    openSnackbar(message);
+                })
+            return () => unsubscribe();
+        }, [])
+        return articles;
+    }
+    const articles = useItems();
+
+    if (!articles) return <Loader/>;
     else {
         return (
             <BaseCard title="Ваши статьи"
@@ -91,7 +88,6 @@ const ArticlesDashboardPage = () => {
                     if (nameValue) {
                         setNameValue("");
                         createFile(userId, nameValue);
-                        mutate(userId);
                     }
                 }}
                       className=" new-file-form"
@@ -112,10 +108,10 @@ const ArticlesDashboardPage = () => {
                 </form>
 
                 <Stack spacing={1} sx={{marginTop: "1em"}}>
-                    {data.map((file) => (
+                    {articles.map((file) => (
                         <ListItemButton sx={{border: "1px solid #c4c4c4", borderRadius: "0.25em"}} component={Link}
-                                        to={`/editor/${file.id}`}
-                                        key={file.id}>
+                                        to={`/editor/${file.articleId}`}
+                                        key={file.articleId}>
 
                             <ListItemAvatar>
                                 <Avatar>
@@ -127,7 +123,7 @@ const ArticlesDashboardPage = () => {
                                         onClick={(e) => {
                                             e.preventDefault();
                                             e.stopPropagation();
-                                            deleteFile(userId, file.id).then(() => mutate(userId));
+                                            deleteFile(file.articleId)
                                         }}>
                                 <DeleteIcon/>
                             </IconButton>

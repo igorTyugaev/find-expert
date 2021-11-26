@@ -12,7 +12,7 @@ import {
     Divider,
     Menu,
     MenuItem,
-    Link, Stack,
+    Link, Stack, Hidden,
 } from "@mui/material";
 
 import UserAvatar from "../UserAvatar";
@@ -95,7 +95,7 @@ const Bar = () => {
                                 Дашборд
                             </Button>
                             <Button sx={{color: "white"}} variant="text"
-                                    onClick={() => history.push("/articles")}>
+                                    onClick={() => history.push("/my-articles")}>
                                 Мои статьи
                             </Button>
                         </Stack>
@@ -165,14 +165,22 @@ const Bar = () => {
                 )}
 
                 {!user && (
-                    <ButtonGroup
-                        color="inherit"
-                        disabled={performingAction}
-                        variant="outlined"
-                    >
-                        <Button onClick={onSignUpClick}>Sign up</Button>
-                        <Button onClick={onSignInClick}>Sign in</Button>
-                    </ButtonGroup>
+                    <Stack direction="row" spacing={3} sx={{marginRight: "1em"}}>
+                        <Hidden smDown>
+                            <Button sx={{color: "white"}} variant="text"
+                                    onClick={() => history.push("/articles")}>
+                                Все статьи
+                            </Button>
+                        </Hidden>
+                        <ButtonGroup
+                            color="inherit"
+                            disabled={performingAction}
+                            variant="outlined"
+                        >
+                            <Button onClick={onSignUpClick}>Регистрация</Button>
+                            <Button onClick={onSignInClick}>Вход</Button>
+                        </ButtonGroup>
+                    </Stack>
                 )}
             </Toolbar>
         </AppBar>

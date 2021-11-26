@@ -9,16 +9,15 @@ import {useAppContext} from "../../AppContext";
 import Loader from "../../components/Loader";
 import {Button, IconButton} from "@mui/material";
 
-const getFile = async (userId, fileId) => {
+const getFile = async (articleId) => {
     const doc = await firestore
         .collection("articles")
-        .doc(userId)
-        .collection("files")
-        .doc(fileId)
+        .doc(articleId)
         .get();
 
     return doc.data();
 };
+
 
 const ArticleEditorPage = () => {
     const appContext = useAppContext();
@@ -28,7 +27,10 @@ const ArticleEditorPage = () => {
     // Functions
     const {openSnackbar} = appContext;
     const userId = user?.uid;
-    const {fileId} = useParams();
+    const {articleId} = useParams();
+
+    const {data: file, error} = useSWR([articleId], getFile);
+    const [value, setValue] = useState(null);
 
     useEffect(() => {
         if (!user) {
@@ -36,21 +38,12 @@ const ArticleEditorPage = () => {
         }
     }, [user]);
 
-    const {data: file, error} = useSWR([userId, fileId], getFile);
-    const [value, setValue] = useState(null);
-
     useEffect(() => {
         if (file !== undefined && value === null) {
             console.log("Set initial content");
             setValue(file.content);
         }
     }, [file, value]);
-
-    const onUnload = (event) => {
-        event.preventDefault();
-        event.returnValue = "У вас есть несохраненные изменения!";
-        return "У вас есть несохраненные изменения!";
-    };
 
     useEffect(() => {
         if (file && !(file.content === value)) {
@@ -62,11 +55,20 @@ const ArticleEditorPage = () => {
         return () => window.removeEventListener("beforeunload", onUnload);
     });
 
+    const onUnload = (event) => {
+        event.preventDefault();
+        event.returnValue = "У вас есть несохраненные изменения!";
+        return "У вас есть несохраненные изменения!";
+    };
+
     const saveChanges = () => {
-        firestore.collection("articles").doc(userId).collection("files").doc(fileId).update({
-            content: value,
-        });
-        mutate([userId, fileId]).then(r => openSnackbar("🎉 Ваши изменения были сохранены!"));
+        firestore.collection("articles")
+            .doc(articleId)
+            .update({
+                content: value,
+            });
+        mutate([articleId])
+            .then(r => openSnackbar("🎉 Ваши изменения были сохранены!"));
     };
 
     const uploadImage = async (file) => {
@@ -94,11 +96,12 @@ const ArticleEditorPage = () => {
         return (
             <div>
                 <header className="editor-header">
-                    <IconButton sx={{marginRight: "0.5em"}} onClick={() => history.push("/articles")}>
+                    <IconButton sx={{marginRight: "0.5em"}} onClick={() => history.push("/my-articles")}>
                         <ArrowBackIcon/>
                     </IconButton>
                     <h3>{file.name}</h3>
                     <Button
+                        variant="outlined"
                         disabled={file.content === value}
                         onClick={saveChanges}
                         className="save-button"

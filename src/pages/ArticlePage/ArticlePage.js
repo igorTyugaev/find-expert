@@ -19,21 +19,14 @@ const getFile = async (articleId) => {
 const ArticlePage = () => {
     const appContext = useAppContext();
     const history = useHistory();
-    // Properties
-    const {user, userData} = appContext;
     // Functions
     const {openSnackbar} = appContext;
-    const userId = user?.uid;
+
     const {articleId} = useParams();
 
     const {data: file, error} = useSWR([articleId], getFile);
     const [value, setValue] = useState(null);
 
-    useEffect(() => {
-        if (!user) {
-            history.push("/")
-        }
-    }, [user]);
 
     useEffect(() => {
         if (file !== undefined && value === null) {

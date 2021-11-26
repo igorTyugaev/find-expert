@@ -2,7 +2,6 @@ import React, {useEffect, useState} from "react";
 import {Link, useHistory} from "react-router-dom";
 import Loader from "../../components/Loader";
 import {useAppContext} from "../../AppContext";
-import {firestore} from "../../firebase";
 import {
     Avatar,
     ListItemAvatar, ListItemButton,
@@ -27,23 +26,24 @@ const ArticlesPage = () => {
             const unsubscribe = ArticlesService
                 .getArticles()
                 .onSnapshot((snapshot) => {
-                    const items = snapshot.docs
-                        .map(doc => ({
-                            articleId: doc.id,
-                            ...doc.data(),
-                        }));
-                    setArticles(items);
-                }, (error) => {
-                    const message = error?.message;
-                    openSnackbar(message);
-                })
+                        const items = snapshot.docs
+                            .map(doc => ({
+                                articleId: doc.id,
+                                ...doc.data(),
+                            }));
+                        setArticles(items);
+                    },
+                    (error) => {
+                        const message = error?.message;
+                        openSnackbar(message);
+                    })
             return () => unsubscribe();
         }, [])
         return articles;
     }
     const articles = useItems();
 
-    if (!articles) return <Loader/>;
+    if (!articles?.length) return <Loader/>;
     else {
         return (
             <BaseCard title="Все статьи"

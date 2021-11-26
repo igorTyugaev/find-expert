@@ -1,8 +1,16 @@
 import React, {useEffect, useState} from "react";
 import {useHistory, useParams} from "react-router-dom";
 import BaseCard from "../../components/BaseCard";
-import {Card, Chip, styled, Typography, Button} from "@mui/material";
-import DashboardListItem from "../../components/DashboardListItem";
+import {
+    Card,
+    Typography,
+    styled,
+    ListItem,
+    ListItemText,
+    List,
+    ListItemIcon,
+    Divider
+} from "@mui/material";
 import AsideCard from "../../components/AsideCard";
 import LocalOfferIcon from "@mui/icons-material/LocalOffer";
 import DateRangeIcon from "@mui/icons-material/DateRange";
@@ -11,6 +19,8 @@ import {useAppContext} from "../../AppContext";
 import OrderService from "../../services/OrderService";
 import Loader from "../../components/Loader";
 import FindExpertPage from "../FindExpertPage";
+import ArticleIcon from '@mui/icons-material/Article';
+import AlignItemsList from "../../components/AlignItemsList";
 
 const OrderWrapper = styled('div')(({theme}) => ({
     display: "flex",
@@ -92,30 +102,38 @@ const OrderPage = () => {
                           btnHandler={canGoBack ? history.goBack : () => history.push("/")}
                           isPaddingBody>
                     <Typography variant="h6" component="h3">
-                        Название заказа
+                        {order?.title || "Название заказа"}
                     </Typography>
                     <Typography sx={{marginTop: "0.2em"}} variant="p" component="p">
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consequatur expedita in necessitatibus
-                        officia
-                        officiis, quis sit ut? Aut blanditiis, delectus dolor eligendi eveniet ex laborum omnis optio
-                        quaerat
-                        repudiandae sunt!
+                        {order?.description || "Описание заказа"}
                     </Typography>
-                    <Chip label={"212334"}/>
-                    <Chip icon={<LocalOfferIcon/>} label={"budget"} variant="outlined"/>
-                    <Chip icon={<DateRangeIcon/>} label={"deadline"} variant="outlined"/>
-                    <Button onClick={searchAnExpert}> "Найти эксперта" </ Button>
                 </BaseCard>
             </OrderContent>
             <OrderAside>
                 <OrderAsideItem>
-                    <AsideCard title="Информация об авторе">
-                        <ol>
-                            <li>Lorem ipsum dolor sit amet</li>
-                            <li>Lorem ipsum dolor sit amet</li>
-                            <li>Lorem ipsum dolor sit amet</li>
-                            <li>Lorem ipsum dolor sit amet</li>
-                        </ol>
+                    <AsideCard title="Информация о заказе" isPadding={false}>
+                        <List>
+                            <ListItem>
+                                <ListItemIcon>
+                                    <LocalOfferIcon/>
+                                </ListItemIcon>
+                                <ListItemText primary={`₽${order?.budget}`}/>
+                            </ListItem>
+                            <Divider variant="middle" component="li"/>
+                            <ListItem>
+                                <ListItemIcon>
+                                    <DateRangeIcon/>
+                                </ListItemIcon>
+                                <ListItemText primary={`${order?.deadline}`}/>
+                            </ListItem>
+                            <Divider variant="middle" component="li"/>
+                            <ListItem>
+                                <ListItemIcon>
+                                    <ArticleIcon/>
+                                </ListItemIcon>
+                                <ListItemText primary={`${order?.status}`}/>
+                            </ListItem>
+                        </List>
                     </AsideCard>
                 </OrderAsideItem>
                 <OrderAsideItem>
@@ -132,16 +150,8 @@ const OrderPage = () => {
                     </AsideCard>
                 </OrderAsideItem>
                 <OrderAsideItem>
-                    <AsideCard title="Лучшие по вашей области">
-                        <p>
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aspernatur at corporis
-                            dignissimos
-                            dolorum
-                            eius facilis iure labore minima molestiae mollitia quaerat quam quia, quo quos,
-                            recusandae
-                            saepe
-                            voluptas, voluptatem. Cumque.
-                        </p>
+                    <AsideCard title="Лучшие по вашей области" isPadding={false}>
+                        <AlignItemsList/>
                     </AsideCard>
                 </OrderAsideItem>
             </OrderAside>

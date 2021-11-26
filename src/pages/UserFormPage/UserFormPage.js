@@ -1,54 +1,11 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {useHistory} from "react-router-dom";
-import {Box, Button, Stack, styled, Typography} from "@mui/material";
-import RoleCard from "../../components/RoleCard";
-import StudentIllustration from "../../illustrations/student.svg";
-import TeachingIllustration from "../../illustrations/teaching.svg";
+import {Button, Stack} from "@mui/material";
 import UserService from "../../services/UserService";
 import {useAppContext} from "../../AppContext";
 import Field from "../../components/Field";
 import BaseCard from "../../components/BaseCard";
 import {useForm} from "react-hook-form";
-
-const roles = [
-    {
-        img: StudentIllustration,
-        title: "Автор",
-        label: "author",
-        txtBtn: "Войти как автор",
-        description:
-            "Выберете профиль студента, если вы хотите найти опытного наставника,\n" +
-            "который научит Вас тому, чего Вы желаете, а так же покажет как работать с \n" +
-            "настоящей задачей и живым заказчиком. ",
-    },
-
-    {
-        img: TeachingIllustration,
-        title: "Эксперт",
-        label: "expert",
-        txtBtn: "Войти как эксперт",
-        description:
-            "Выберете профиль Наставника, если вы хотите найти желающих получать\n" +
-            "знания студентов, а также интересные заказы, которыми Вы сможете пополнять\n" +
-            "своё портфолио.",
-    },
-]
-
-const SelectRoleInner = styled('div')(({theme}) => ({
-    display: "inline-flex",
-    flexWrap: "wrap",
-    justifyContent: "center",
-    width: "calc(100% + 1em)",
-    margin: "-1em 0 0 -1em"
-}));
-
-const SelectRoleItem = styled('div')(({theme}) => ({
-    margin: "1em 0 0 1em"
-}));
-
-const SelectRoleHeader = styled('div')(({theme}) => ({
-    margin: "1em 0 0 1em"
-}));
 
 const UserFormPage = () => {
     const appContext = useAppContext();
@@ -58,10 +15,6 @@ const UserFormPage = () => {
     const {register, handleSubmit, formState: {errors}} = useForm({
         mode: "onChange",
     });
-
-    const handleSelect = (selectedRole) => {
-        updateProfile(selectedRole);
-    }
 
     const onSubmit = (data) => {
         if (!data) return;

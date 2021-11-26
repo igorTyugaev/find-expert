@@ -4,6 +4,7 @@ import BaseCard from "../../components/BaseCard";
 import ExpertListItem from "../../components/ExpertListItem";
 import {useAppContext} from "../../AppContext";
 import {ExpertsService} from "../../services/ExpertsService";
+import OrderService from "../../services/OrderService";
 
 const FindExpertPage = () => {
     const appContext = useAppContext();
@@ -42,6 +43,19 @@ const FindExpertPage = () => {
     }
     const experts = useItems();
 
+
+    const handlerSelect = (expertId) => {
+        OrderService
+            .updateOrder({expert: expertId, status: "busy"}, orderId)
+            .then(() => {
+                history.push('/');
+            })
+            .catch((reason) => {
+                const message = reason.message;
+                openSnackbar(message);
+            });
+    }
+
     return (
         <BaseCard
             title="Эксперты, соответствующие вашему заказу"
@@ -49,7 +63,8 @@ const FindExpertPage = () => {
             btnTitle="Активные заказы"
             btnHandler={handlerMyOrder}>
             {experts.map((expert) => (
-                <ExpertListItem expert={expert} orderId={orderId} key={expert.id}/>
+                <ExpertListItem expert={expert} orderId={orderId}
+                                key={expert.expertId} handlerSelect={handlerSelect}/>
             ))}
         </BaseCard>
     );

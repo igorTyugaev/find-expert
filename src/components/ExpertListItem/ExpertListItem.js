@@ -2,6 +2,7 @@ import React from 'react';
 import {Avatar, Button, Chip, Rating, styled, Typography} from "@mui/material";
 import LocalOfferIcon from '@mui/icons-material/LocalOffer';
 import {useHistory} from "react-router-dom";
+import OrderService from "../../services/OrderService";
 
 const ItemInner = styled('div')(({theme}) => ({
     display: "inline-flex",
@@ -66,7 +67,7 @@ const ExpertAvatar = styled(Avatar)(({theme}) => ({
     margin: "auto",
 }));
 
-const ExpertListItem = ({expert, orderId}) => {
+const ExpertListItem = ({expert, orderId, handlerSelect}) => {
     const history = useHistory();
     const expertId = expert?.expertId;
     const handlerProfile = () => {
@@ -78,6 +79,11 @@ const ExpertListItem = ({expert, orderId}) => {
         if (!expertId) return;
         if (!orderId) return;
         history.push(`/chat/${orderId + expertId}`)
+    }
+
+    const onSelect = () => {
+        if (!handlerSelect) return;
+        handlerSelect(expertId);
     }
 
     const expertSubjects = expert?.expertSubjects;
@@ -104,10 +110,13 @@ const ExpertListItem = ({expert, orderId}) => {
                 </Button>
             </ItemContentCol>
             <ItemActionsCol>
-                <Button variant="contained" color="primary" onClick={handlerDiscussion}>
+                <Button variant="contained" color="primary" onClick={onSelect}>
+                    Выбрать
+                </Button>
+                <Button sx={{marginTop: "0.5em"}} variant="outlined" color="primary" onClick={handlerDiscussion}>
                     К обсуждению
                 </Button>
-                <BadgeAction icon={<LocalOfferIcon/>} label={expert?.budget || "$1912"} variant="outlined"/>
+                <BadgeAction icon={<LocalOfferIcon/>} label={expert?.budget || "₽1912"} variant="outlined"/>
             </ItemActionsCol>
         </ItemInner>
     );

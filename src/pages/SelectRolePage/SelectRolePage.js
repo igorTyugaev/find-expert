@@ -1,14 +1,11 @@
 import React from 'react';
 import {useHistory} from "react-router-dom";
-import {Box, Stack, styled, Typography} from "@mui/material";
+import {Box, styled, Typography} from "@mui/material";
 import RoleCard from "../../components/RoleCard";
 import StudentIllustration from "../../illustrations/student.svg";
 import TeachingIllustration from "../../illustrations/teaching.svg";
 import UserService from "../../services/UserService";
 import {useAppContext} from "../../AppContext";
-import Field from "../../components/Field";
-import BaseCard from "../../components/BaseCard";
-import ExpertListItem from "../../components/ExpertListItem";
 
 const roles = [
     {
@@ -17,9 +14,8 @@ const roles = [
         label: "author",
         txtBtn: "Войти как автор",
         description:
-            "Выберете профиль студента, если вы хотите найти опытного наставника,\n" +
-            "который научит Вас тому, чего Вы желаете, а так же покажет как работать с \n" +
-            "настоящей задачей и живым заказчиком. ",
+            "Выберете профиль Автора, если вы хотите найти опытного эксперта,\n" +
+            "который поможет Вам решить вашу проблему",
     },
 
     {
@@ -28,9 +24,8 @@ const roles = [
         label: "expert",
         txtBtn: "Войти как эксперт",
         description:
-            "Выберете профиль Наставника, если вы хотите найти желающих получать\n" +
-            "знания студентов, а также интересные заказы, которыми Вы сможете пополнять\n" +
-            "своё портфолио.",
+            "Выберете профиль Эксперт, если вы готовы выполнять заказы\n" +
+            "ывапывапвыплот"
     },
 ]
 

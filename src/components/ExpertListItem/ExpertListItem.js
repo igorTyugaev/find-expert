@@ -67,7 +67,7 @@ const ExpertAvatar = styled(Avatar)(({theme}) => ({
     margin: "auto",
 }));
 
-const ExpertListItem = ({expert, orderId, handlerSelect}) => {
+const ExpertListItem = ({expert, orderId, handlerSelect, hideBar}) => {
     const history = useHistory();
     const expertId = expert?.expertId;
     const handlerProfile = () => {
@@ -109,15 +109,17 @@ const ExpertListItem = ({expert, orderId, handlerSelect}) => {
                     Смотреть профиль
                 </Button>
             </ItemContentCol>
-            <ItemActionsCol>
-                <Button variant="contained" color="primary" onClick={onSelect}>
-                    Выбрать
-                </Button>
-                <Button sx={{marginTop: "0.5em"}} variant="outlined" color="primary" onClick={handlerDiscussion}>
-                    К обсуждению
-                </Button>
-                <BadgeAction icon={<LocalOfferIcon/>} label={expert?.budget || "₽1912"} variant="outlined"/>
-            </ItemActionsCol>
+            {!hideBar && (
+                <ItemActionsCol>
+                    <Button variant="contained" color="primary" onClick={onSelect}>
+                        Выбрать
+                    </Button>
+                    <Button sx={{marginTop: "0.5em"}} variant="outlined" color="primary" onClick={handlerDiscussion}>
+                        К обсуждению
+                    </Button>
+                    <BadgeAction icon={<LocalOfferIcon/>} label={expert?.budget || "₽1912"} variant="outlined"/>
+                </ItemActionsCol>
+            )}
         </ItemInner>
     );
 };

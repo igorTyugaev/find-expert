@@ -47,7 +47,7 @@ const DashboardAsideItem = styled('div')(({theme}) => ({
 /**
  * Выполнять переадресацию в зависимости от роли и статуса заказа
  * Автор:
- * - Требуеться выбрать эксперта (FindExpertPage) - missing
+ * - Требуеться выбрать эксперта (AllExpertPage) - missing
  * - Требуеться выбрать эксперта (ChatOrder) - working
  */
 const DashboardPage = () => {

@@ -14,11 +14,11 @@ const AuthorCardAvatar = styled(Avatar)(({theme}) => ({
     marginBottom: theme.spacing(2),
 }));
 
-const AuthorCard = () => {
+const AuthorCard = ({img, title}) => {
     return (
         <AuthorCardContainer>
-            <AuthorCardAvatar alt="Remy Sharp" src="https://mui.com/static/images/avatar/1.jpg"/>
-            <Typography variant="button" component="h3">Анджей Сапковский</Typography>
+            <AuthorCardAvatar alt={title} src={img}/>
+            <Typography variant="button" component="h3">{title}</Typography>
             <Rating name="read-only" value={4} readOnly/>
         </AuthorCardContainer>
     );

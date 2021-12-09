@@ -7,4 +7,10 @@ export class ExpertsService {
             .where("responses", "array-contains", orderId)
         return onUsers;
     };
+
+    static getAllExperts = () => {
+        const collectionReference = firestore.collection("users");
+        const onUsers = collectionReference
+        return onUsers;
+    };
 }

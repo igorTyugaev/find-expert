@@ -9,7 +9,6 @@ import LandingPage from "./pages/LandingPage";
 import DashboardPage from "./pages/DashboardPage";
 import OrderFormPage from "./pages/OrderFormPage";
 import FindOrderPage from "./pages/FindOrderPage";
-import FindExpertPage from "./pages/FindExpertPage";
 import OrderPage from "./pages/OrderPage";
 import ExpertFormPage from "./pages/ExpertFormPage";
 import ChatPage from "./pages/ChatPage";
@@ -19,6 +18,8 @@ import ArticlesDashboardPage from "./pages/ArticlesDashboardPage";
 import ArticleEditorPage from "./pages/ArticleEditorPage";
 import ArticlesPage from "./pages/ArticlesPage";
 import ArticlePage from "./pages/ArticlePage";
+import FindExpertPage from "./pages/FindExpertPage";
+import AllExpertPage from "./pages/AllExpertPage";
 
 const AppWrapper = styled('div')(({theme}) => ({
     display: "flex",
@@ -48,7 +49,7 @@ const AppRouter = () => {
     const getPublicRoutes = () => ([
         <Route path="/" exact key="LandingPage">
             <LandingPage/>
-        </Route>
+        </Route>,
     ]);
 
     const getPrivateRoutes = () => ([
@@ -82,15 +83,12 @@ const AppRouter = () => {
             {/*Эксперт видет список закзаов, которые соотвествуют его профилю*/}
             <FindOrderPage/>
         </Route>,
-        <Route path="/find-expert/:orderId" key="FindExpertPage">
+        <Route path="/find-expert/:orderId" key="AllExpertPage">
             {/*Автор видет список экспертов, которые соотвествуют его запросу на услуги*/}
             <FindExpertPage/>
         </Route>,
         <Route path="/order/:orderId" key="OrderPage">
             {user ? <OrderPage/> : <Redirect to="/"/>}
-        </Route>,
-        <Route path="/user/:userId" key="UserPage">
-            {user ? <UserPage/> : <Redirect to="/"/>}
         </Route>,
         <Route path="/chat/:orderId" key="ChatPage">
             {user ? <ChatPage/> : <Redirect to="/"/>}
@@ -108,7 +106,13 @@ const AppRouter = () => {
             </Route>
             <Route path="/article/:articleId" exact key="ArticlePage">
                 <ArticlePage/>
-            </Route>
+            </Route>,
+            <Route path="/experts" exact key="AllExpertPage">
+                <AllExpertPage/>
+            </Route>,
+            <Route path="/user/:userId" key="UserPage">
+                <UserPage/>
+            </Route>,
             <Route>
                 <NotFoundPage/>
             </Route>

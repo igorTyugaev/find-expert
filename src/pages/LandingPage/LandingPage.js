@@ -1,22 +1,51 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {Container, Paper} from "@mui/material";
 import CarouselPlacement from "../../components/CarouselPlacement/CarouselPlacement";
 import ShowCase from "../../components/ShowCase/ShowCase";
-import Footer from "../../components/Footer/Footer";
 import AuthorCard from "../../components/AuthorCard/AuthorCard";
 import ArticleCard from "../../components/ArticleCard/ArticleCard";
 import JournalCard from "../../components/JournalCard/JournalCard";
+import ServiceCard from "../../components/ServiceCard";
+import {authorsPopular, cardsService} from "../../constants";
+import NewsService from "../../services/NewsService";
+import NewsCard from "../../components/NewsCard";
+import ShowNews from "../../components/ShowNews";
 
 const LandingPage = () => {
+    const [news, setNews] = useState([]);
+
+    const fetchNews = () => {
+        NewsService.getNews({limit: 4})
+            .then((res) => {
+                setNews(res);
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+    }
+
+    useEffect(() => {
+        fetchNews()
+    }, [])
+
     return (
         <div>
             <Container>
                 <CarouselPlacement/>
-                <ShowCase title="Поупулярные авторы" moreBtnText="Все авторы">
-                    <AuthorCard/>
-                    <AuthorCard/>
-                    <AuthorCard/>
-                    <AuthorCard/>
+                <ShowCase title="Наши услуги">
+                    {cardsService.map(({img, title, description}) => (
+                        <ServiceCard key={title} img={img} title={title} description={description}/>
+                    ))}
+                </ShowCase>
+                <ShowNews title="Новости" moreBtnText="Все статьи">
+                    {news && news.map(({img, title, description}) => (
+                        <NewsCard key={title} img={img} title={title} description={description}/>
+                    ))}
+                </ShowNews>
+                <ShowCase title="Поупулярные авторы" moreBtnLink="/experts" moreBtnText="Все авторы">
+                    {authorsPopular.map(({img, title, description}) => (
+                        <AuthorCard key={title} img={img} title={title} description={description}/>
+                    ))}
                 </ShowCase>
                 <ShowCase title="Поупулярные статьи" moreBtnText="Все статьи">
                     <ArticleCard/>
@@ -29,34 +58,11 @@ const LandingPage = () => {
                     <ArticleCard/>
                     <ArticleCard/>
                 </ShowCase>
-            </Container>
-            <Paper elevation={0} sx={{padding: "1em 0 4em", marginTop: 6}}>
-                <Container>
-                    <ShowCase title="Поупулярные журналы" moreBtnText="Все журналы">
-                        <JournalCard/>
-                        <JournalCard/>
-                        <JournalCard/>
-                        <JournalCard/>
-                    </ShowCase>
-                </Container>
-            </Paper>
-            <Container>
-                <ShowCase title="Поупулярные авторы" moreBtnText="Все авторы">
-                    <AuthorCard/>
-                    <AuthorCard/>
-                    <AuthorCard/>
-                    <AuthorCard/>
-                </ShowCase>
-                <ShowCase title="Поупулярные статьи" moreBtnText="Все статьи">
-                    <ArticleCard/>
-                    <ArticleCard/>
-                    <ArticleCard/>
-                    <ArticleCard/>
-
-                    <ArticleCard/>
-                    <ArticleCard/>
-                    <ArticleCard/>
-                    <ArticleCard/>
+                <ShowCase title="Поупулярные журналы" moreBtnText="Все журналы">
+                    <JournalCard/>
+                    <JournalCard/>
+                    <JournalCard/>
+                    <JournalCard/>
                 </ShowCase>
             </Container>
             {/*<Footer/>*/}

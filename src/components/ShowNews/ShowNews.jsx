@@ -21,13 +21,12 @@ const ShowCaseTitle = styled(Typography)(({theme}) => ({
 }));
 
 const ShowCaseBody = styled(Box)(({theme}) => ({
-    display: 'grid',
-    width: '100%',
-    gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))',
-    gap: theme.spacing(2),
+    display: "flex",
+    flexDirection: "column",
+    gap: theme.spacing(4)
 }));
 
-const ShowCase = ({children, title = "", moreBtnLink = "", moreBtnText = ""}) => {
+const ShowNews = ({children, title = "", moreBtnLink = "", moreBtnText = ""}) => {
     return (
         <ShowCaseContainer>
             <ShowCaseHeader>
@@ -44,4 +43,4 @@ const ShowCase = ({children, title = "", moreBtnLink = "", moreBtnText = ""}) =>
     );
 };
 
-export default ShowCase;
+export default ShowNews;

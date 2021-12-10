@@ -73,7 +73,7 @@ class SignInDialog extends Component {
                     variant="contained"
                     onClick={() => this.sendSignInLinkToEmail()}
                 >
-                    Send sign-in link
+                    Отправить ссылку для входа
                 </Button>
             );
         }
@@ -85,7 +85,7 @@ class SignInDialog extends Component {
                 variant="contained"
                 onClick={() => this.signIn()}
             >
-                Sign in
+                Войти
             </Button>
         );
     };
@@ -121,7 +121,7 @@ class SignInDialog extends Component {
                                 .resetPassword(emailAddress)
                                 .then((value) => {
                                     this.props.openSnackbar(
-                                        `Sent password reset e-mail to ${emailAddress}`
+                                        `Письмо для сброса пароля отправлено на адрес ${emailAddress}`
                                     );
                                 })
                                 .catch((reason) => {
@@ -189,7 +189,7 @@ class SignInDialog extends Component {
                                 const emailAddress = user.email;
 
                                 this.props.openSnackbar(
-                                    `Signed in as ${displayName || emailAddress}`
+                                    `Вы вошли как ${displayName || emailAddress}`
                                 );
                             });
                         })
@@ -250,7 +250,7 @@ class SignInDialog extends Component {
                     .sendSignInLinkToEmail(emailAddress)
                     .then(() => {
                         this.props.dialogProps.onClose(() => {
-                            this.props.openSnackbar(`Sent sign-in e-mail to ${emailAddress}`);
+                            this.props.openSnackbar(`Письмо для входа отправлено на адрес ${emailAddress}`);
                         });
                     })
                     .catch((reason) => {
@@ -296,7 +296,7 @@ class SignInDialog extends Component {
                             const emailAddress = user.email;
 
                             this.props.openSnackbar(
-                                `Signed in as ${displayName || emailAddress}`
+                                `Вы вошли как ${displayName || emailAddress}`
                             );
                         });
                     })
@@ -392,9 +392,9 @@ class SignInDialog extends Component {
                     onExited: this.handleExited
                 }}>
                 <DialogTitle>
-                    <Typography variant="span">Sign in to your account</Typography>
+                    <Typography variant="span">Войдите в свой аккаунт</Typography>
 
-                    <Tooltip title="Close">
+                    <Tooltip title="Закрыть">
                         <IconButton
                             className={classes.closeButton}
                             disabled={performingAction}
@@ -406,116 +406,52 @@ class SignInDialog extends Component {
                 </DialogTitle>
 
                 <DialogContent>
-                    <Hidden smDown>
-                        <Grid container direction="row">
-                            <Grid item xs={4}>
-                                <AuthProviderList
-                                    performingAction={performingAction}
-                                    onAuthProviderClick={this.signInWithAuthProvider}
-                                />
-                            </Grid>
-
-                            <Grid item xs={1}>
-                                <Divider className={classes.divider} orientation="vertical"/>
-                            </Grid>
-
-                            <Grid item xs={7}>
-                                <Grid container direction="column" spacing={2}>
-                                    <Grid item xs>
-                                        <TextField
-                                            autoComplete="email"
-                                            disabled={performingAction}
-                                            error={!!(errors && errors.emailAddress)}
-                                            fullWidth
-                                            helperText={
-                                                errors && errors.emailAddress
-                                                    ? errors.emailAddress[0]
-                                                    : ""
-                                            }
-                                            label="E-mail address"
-                                            placeholder="john@doe.com"
-                                            required
-                                            type="email"
-                                            value={emailAddress}
-                                            variant="outlined"
-                                            InputLabelProps={{required: false}}
-                                            onChange={this.handleEmailAddressChange}
-                                        />
-                                    </Grid>
-
-                                    <Grid item xs>
-                                        <TextField
-                                            autoComplete="current-password"
-                                            disabled={performingAction}
-                                            error={!!(errors && errors.password)}
-                                            fullWidth
-                                            helperText={
-                                                errors && errors.password ? errors.password[0] : ""
-                                            }
-                                            label="Password"
-                                            placeholder="&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;"
-                                            required
-                                            type="password"
-                                            value={password}
-                                            variant="outlined"
-                                            InputLabelProps={{required: false}}
-                                            onChange={this.handlePasswordChange}
-                                        />
-                                    </Grid>
-                                </Grid>
-                            </Grid>
+                    <Grid container direction="column" spacing={2}>
+                        <Grid item xs>
+                            <TextField
+                                autoComplete="email"
+                                disabled={performingAction}
+                                error={!!(errors && errors.emailAddress)}
+                                fullWidth
+                                helperText={
+                                    errors && errors.emailAddress ? errors.emailAddress[0] : ""
+                                }
+                                label="E-mail адрес"
+                                placeholder="simple@mail.com"
+                                required
+                                type="email"
+                                value={emailAddress}
+                                variant="outlined"
+                                InputLabelProps={{required: false}}
+                                onChange={this.handleEmailAddressChange}
+                            />
                         </Grid>
-                    </Hidden>
 
-                    <Hidden smUp>
-                        <AuthProviderList
-                            gutterBottom
-                            performingAction={performingAction}
-                            onAuthProviderClick={this.signInWithAuthProvider}
-                        />
-
-                        <Grid container direction="column" spacing={2}>
-                            <Grid item xs>
-                                <TextField
-                                    autoComplete="email"
-                                    disabled={performingAction}
-                                    error={!!(errors && errors.emailAddress)}
-                                    fullWidth
-                                    helperText={
-                                        errors && errors.emailAddress ? errors.emailAddress[0] : ""
-                                    }
-                                    label="E-mail address"
-                                    placeholder="john@doe.com"
-                                    required
-                                    type="email"
-                                    value={emailAddress}
-                                    variant="outlined"
-                                    InputLabelProps={{required: false}}
-                                    onChange={this.handleEmailAddressChange}
-                                />
-                            </Grid>
-
-                            <Grid item xs>
-                                <TextField
-                                    autoComplete="current-password"
-                                    disabled={performingAction}
-                                    error={!!(errors && errors.password)}
-                                    fullWidth
-                                    helperText={
-                                        errors && errors.password ? errors.password[0] : ""
-                                    }
-                                    label="Password"
-                                    placeholder="&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;"
-                                    required
-                                    type="password"
-                                    value={password}
-                                    variant="outlined"
-                                    InputLabelProps={{required: false}}
-                                    onChange={this.handlePasswordChange}
-                                />
-                            </Grid>
+                        <Grid item xs>
+                            <TextField
+                                autoComplete="current-password"
+                                disabled={performingAction}
+                                error={!!(errors && errors.password)}
+                                fullWidth
+                                helperText={
+                                    errors && errors.password ? errors.password[0] : ""
+                                }
+                                label="Пароль"
+                                placeholder="&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;"
+                                required
+                                type="password"
+                                value={password}
+                                variant="outlined"
+                                InputLabelProps={{required: false}}
+                                onChange={this.handlePasswordChange}
+                            />
                         </Grid>
-                    </Hidden>
+                    </Grid>
+                    <AuthProviderList
+                        gutterTop
+                        performingAction={performingAction}
+                        onAuthProviderClick={this.signInWithAuthProvider}
+                    />
                 </DialogContent>
 
                 <DialogActions>
@@ -525,7 +461,7 @@ class SignInDialog extends Component {
                         variant="outlined"
                         onClick={this.resetPassword}
                     >
-                        Reset password
+                        Сбросить пароль
                     </Button>
 
                     {this.getSignInButton()}

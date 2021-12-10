@@ -181,7 +181,7 @@ class AppProvider extends Component {
                     .signOut()
                     .then(() => {
                         this.closeAllDialogs(() => {
-                            this.openSnackbar("Signed out");
+                            this.openSnackbar("Вышли");
                         });
                     })
                     .catch((reason) => {

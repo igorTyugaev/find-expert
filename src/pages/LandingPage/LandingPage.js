@@ -10,10 +10,10 @@ import {authorsPopular, cardsService} from "../../constants";
 import NewsService from "../../services/NewsService";
 import NewsCard from "../../components/NewsCard";
 import ShowNews from "../../components/ShowNews";
+import ArticlesService from "../../services/articlesService";
 
 const LandingPage = () => {
     const [news, setNews] = useState([]);
-
     const fetchNews = () => {
         NewsService.getNews({limit: 4})
             .then((res) => {
@@ -23,6 +23,31 @@ const LandingPage = () => {
                 console.log(err)
             })
     }
+    const useItems = () => {
+        const [articles, setArticles] = useState([]);
+
+        useEffect(() => {
+            const unsubscribe = ArticlesService
+                .getArticles()
+                .limit(6)
+                .onSnapshot((snapshot) => {
+                        const items = snapshot.docs
+                            .map(doc => ({
+                                articleId: doc.id,
+                                ...doc.data(),
+                            }));
+                        setArticles(items);
+                    },
+                    (error) => {
+                        const message = error?.message;
+                        console.log(message)
+                    })
+            return () => unsubscribe();
+        }, [])
+        return articles;
+    }
+    const articles = useItems();
+    console.log(articles)
 
     useEffect(() => {
         fetchNews()
@@ -47,16 +72,10 @@ const LandingPage = () => {
                         <AuthorCard key={title} img={img} title={title} description={description}/>
                     ))}
                 </ShowCase>
-                <ShowCase title="Поупулярные статьи" moreBtnText="Все статьи">
-                    <ArticleCard/>
-                    <ArticleCard/>
-                    <ArticleCard/>
-                    <ArticleCard/>
-
-                    <ArticleCard/>
-                    <ArticleCard/>
-                    <ArticleCard/>
-                    <ArticleCard/>
+                <ShowCase title="Популярные статьи" moreBtnText="Все статьи">
+                    {articles && articles.map(({articleId, name, content}) => (
+                        <ArticleCard key={articleId} articleId={articleId} name={name} content={content}/>
+                    ))}
                 </ShowCase>
                 <ShowCase title="Поупулярные журналы" moreBtnText="Все журналы">
                     <JournalCard/>

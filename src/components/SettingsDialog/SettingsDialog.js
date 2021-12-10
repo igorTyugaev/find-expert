@@ -121,7 +121,7 @@ class SettingsDialog extends Component {
         <DialogTitle>
           <Typography variant="span">Settings</Typography>
 
-          <Tooltip title="Close">
+          <Tooltip title="Закрыть">
             <IconButton
               className={classes.closeButton}
               onClick={dialogProps.onClose}

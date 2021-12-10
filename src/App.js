@@ -127,15 +127,15 @@ const App = () => {
                                         },
 
                                         props: {
-                                            title: "Sign out?",
+                                            title: "Уже уходите",
                                             contentText:
-                                                "While signed out you are unable to manage your profile and conduct other activities that require you to be signed in.",
+                                                "После выхода из системы вы не можете управлять своим профилем и выполнять другие действия, требующие входа в систему.",
                                             dismissiveAction: (
                                                 <Button
                                                     color="primary"
                                                     onClick={() => closeDialog("signOutDialog")}
                                                 >
-                                                    Cancel
+                                                    Отмена
                                                 </Button>
                                             ),
                                             confirmingAction: (
@@ -145,7 +145,7 @@ const App = () => {
                                                     variant="contained"
                                                     onClick={signOut}
                                                 >
-                                                    Sign Out
+                                                    Выйти
                                                 </Button>
                                             ),
                                         },

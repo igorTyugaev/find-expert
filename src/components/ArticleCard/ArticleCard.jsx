@@ -1,7 +1,14 @@
 import * as React from 'react';
+import {useHistory} from "react-router-dom";
 import {Rating, Typography, Button, Card, CardContent, CardMedia, CardActions} from "@mui/material";
 
-const ArticleCard = () => {
+const ArticleCard = ({articleId, name, content}) => {
+    const history = useHistory();
+
+    function stripMarkdown(text) {
+        return String(text).replace(/__|\*|\#|(?:\[([^\]]*)\]\([^)]*\))/gm, '$1');
+    }
+
     return (
         <Card>
             <CardMedia
@@ -12,16 +19,17 @@ const ArticleCard = () => {
             />
             <CardContent>
                 <Typography gutterBottom variant="h5" component="div">
-                    Lizard
+                    {name?.toLowerCase()}
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
-                    Lizards are a widespread group of squamate reptiles, with over 6,000
-                    species, ranging across all continents except Antarctica
+                    {stripMarkdown(content?.slice(0, 90) || "")}...
                 </Typography>
             </CardContent>
-            <CardActions sx={{justifyContent: "space-between"}}>
+            <CardActions sx={{justifyContent: "space-between", marginTop: "auto", alignSelf: "flex-end"}}>
                 <Rating name="read-only" value={4} readOnly/>
-                <Button variant="outlined" size="small">Подробнее</Button>
+                <Button variant="outlined" size="small" onClick={() => {
+                    history.push(`/article/${articleId}`)
+                }}>Подробнее</Button>
             </CardActions>
         </Card>
     );

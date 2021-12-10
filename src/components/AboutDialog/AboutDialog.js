@@ -42,7 +42,7 @@ function AboutDialog(props) {
                     About {process.env.REACT_APP_TITLE}
                 </Typography>
 
-                <Tooltip title="Close">
+                <Tooltip title="Закрыть">
                     <IconButton
                         className={classes.closeButton}
                         onClick={dialogProps.onClose}

@@ -70,6 +70,7 @@ const ExpertAvatar = styled(Avatar)(({theme}) => ({
 const ExpertListItem = ({expert, orderId, handlerSelect, hideBar}) => {
     const history = useHistory();
     const expertId = expert?.expertId;
+
     const handlerProfile = () => {
         if (!expertId) return;
         history.push(`/user/${expertId}`)

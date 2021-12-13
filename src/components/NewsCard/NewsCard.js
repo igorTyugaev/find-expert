@@ -25,14 +25,25 @@ const CardBox = styled(CardContent)(({theme}) => ({
     flex: "1 1 auto"
 }));
 
-const NewsCard = ({img, title, description}) => {
+const NewsCard = ({img, title, description, isSmall}) => {
+    if (isSmall) return (
+        <CardBox>
+            <Typography component="h3" variant="h5">
+                {title}
+            </Typography>
+            <Typography variant="subtitle1" color="text.secondary" component="p">
+                {`${description?.slice(0, 360)}...`}
+            </Typography>
+        </CardBox>
+    )
+
     return (
         <CardWrapper>
-            <CardImg
+            {!isSmall && <CardImg
                 component="img"
                 image={img}
                 alt={title}
-            />
+            />}
             <CardBox>
                 <Typography component="h3" variant="h5">
                     {title}

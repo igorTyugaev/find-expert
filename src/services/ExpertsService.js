@@ -9,7 +9,8 @@ export class ExpertsService {
     };
 
     static getAllExperts = () => {
-        const collectionReference = firestore.collection("users");
+        const collectionReference = firestore.collection("users")
+            .where("role", "==", "expert");
         const onUsers = collectionReference
         return onUsers;
     };

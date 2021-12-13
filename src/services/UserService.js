@@ -1,6 +1,5 @@
 import moment from "moment";
 import firebase, {analytics, auth, firestore, storage} from "../firebase";
-import {firebaseNames} from "../constants";
 
 class UserService {
 

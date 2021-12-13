@@ -16,6 +16,12 @@ import JournalCard from "../../components/JournalCard/JournalCard";
 import ArticleCard from "../../components/ArticleCard/ArticleCard";
 import AdBlock from "../../components/AdBlock";
 import DenseTable from "../../components/DenseTable";
+import MyProfileTable from "../../components/MyProfileTable";
+import NewsCard from "../../components/NewsCard";
+import ShowNews from "../../components/ShowNews";
+import NewsService from "../../services/NewsService";
+import CarouselPlacement from "../../components/CarouselPlacement/CarouselPlacement";
+import CarouselNews from "../../components/CarouselNews";
 
 const DashboardWrapper = styled('div')(({theme}) => ({
     display: "flex",
@@ -167,13 +173,14 @@ const DashboardPage = () => {
             </DashboardOrders>
             <DashboardAside>
                 <DashboardAsideItem>
-                    <AsideCard title="Ваша статистика" isPadding={false}>
-                        <DenseTable small/>
+                    <AsideCard title="Мой профиль" isPadding={false}>
+                        <MyProfileTable/>
                     </AsideCard>
                 </DashboardAsideItem>
                 <DashboardAsideItem>
-                    <AsideCard title="Популярные темы в этом мес." isPadding={false}>
-                        <DenseTable/>
+                    <AsideCard title="Новости науки">
+                        {/*<DenseTable/>*/}
+                        <CarouselNews/>
                     </AsideCard>
                 </DashboardAsideItem>
                 <DashboardAsideItem>

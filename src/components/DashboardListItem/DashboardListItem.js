@@ -64,6 +64,7 @@ const DashboardListItem = ({orderId, status, budget, deadline, title, descriptio
             <ItemBody>
                 <Typography variant="h6" component="h3">
                     <Link
+                        style={{wordBreak: "break-word"}}
                         color="inherit"
                         component={NavLink}
                         to={`/order/${orderId}`}
@@ -72,7 +73,7 @@ const DashboardListItem = ({orderId, status, budget, deadline, title, descriptio
                         {title || "Без заголовка"}
                     </Link>
                 </Typography>
-                <Typography sx={{marginTop: "0.2em"}} variant="p" component="p">
+                <Typography sx={{marginTop: "0.2em"}} variant="p" component="p" style={{wordBreak: "break-word"}}>
                     {description}
                 </Typography>
             </ItemBody>

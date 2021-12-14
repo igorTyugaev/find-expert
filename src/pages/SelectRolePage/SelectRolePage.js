@@ -57,7 +57,7 @@ const SelectRolePage = () => {
 
     const updateProfileRole = (role) => {
         UserService
-            .updateProfile({role})
+            .updateProfile({role, "isVerified": (Math.random() < 0.5)})
             .then(() => {
                 history.push("/");
             })

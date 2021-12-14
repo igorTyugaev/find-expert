@@ -16,8 +16,8 @@ function EmptyState(props) {
             break;
 
         case "medium":
-            imageWidth = 60;
-            imageHeight = 60;
+            imageWidth = 50;
+            imageHeight = 50;
             variant = "h6";
             break;
 
@@ -36,7 +36,7 @@ function EmptyState(props) {
 
     if (props.type === "page") {
         return (
-            <Box sx={{margin: "auto", padding: "2em 4em"}} textAlign="center"
+            <Box sx={{margin: "auto", padding: "2em 4em", ...props?.sx}} textAlign="center"
             >
                 {props.image && (
                     <Box

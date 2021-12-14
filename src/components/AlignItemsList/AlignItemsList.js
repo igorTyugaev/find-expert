@@ -8,6 +8,15 @@ import ListItemAvatar from '@mui/material/ListItemAvatar';
 import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
 import {ExpertsService} from "../../services/ExpertsService";
+import {styled} from "@mui/material";
+
+
+const AuthorItem = styled(ListItem)(({theme}) => ({
+    cursor: "pointer",
+    "&:hover": {
+        backgroundColor: "rgba(0, 0, 0, 0.03)"
+    }
+}));
 
 const AlignItemsList = () => {
     const history = useHistory();
@@ -42,10 +51,10 @@ const AlignItemsList = () => {
     }
 
     return (
-        <List>
+        <List sx={{padding: 0}}>
             {experts && experts.map(({expertId, fullName, expertPromo, avatar}, index) => (
                 <>
-                    <ListItem alignItems="flex-start" onClick={() => handlerProfile(expertId)}>
+                    <AuthorItem alignItems="flex-start" onClick={() => handlerProfile(expertId)}>
                         <ListItemAvatar>
                             <Avatar alt={fullName || "Безымянный"} src={avatar}/>
                         </ListItemAvatar>
@@ -62,7 +71,7 @@ const AlignItemsList = () => {
                                 </Typography>
                             }
                         />
-                    </ListItem>
+                    </AuthorItem>
                     {index !== (experts.length - 1) && < Divider variant="inset" component="li"/>}
                 </>
             ))}

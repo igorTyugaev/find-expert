@@ -9,7 +9,7 @@ import {
     ListItemText,
     List,
     ListItemIcon,
-    Divider
+    Divider, Chip, Box, Stack
 } from "@mui/material";
 import AsideCard from "../../components/AsideCard";
 import LocalOfferIcon from "@mui/icons-material/LocalOffer";
@@ -50,12 +50,17 @@ const OrderAsideItem = styled('div')(({theme}) => ({
     }
 }));
 
-const searchAnExpert = async () => {
-    // XXX: Переделать поиск эксперта. @nekochanoide
-    for await (let res of ExpertsService.findExpertsBySubjects(["Здоровье", "Уход за больными"])) {
-        console.log(res);
-    }
-}
+const ChipGroup = styled('div')(({theme}) => ({
+    display: "inline-flex",
+    flexWrap: "wrap",
+    width: "calc(100% + .6em)",
+    margin: "-.6em 0 0 -.6em"
+}));
+
+const ChipItem = styled(Chip)(({theme}) => ({
+    margin: ".6em 0 0 .6em",
+    padding: ".5em"
+}));
 
 const OrderPage = () => {
     const [order, setOrder] = useState(null);
@@ -90,10 +95,6 @@ const OrderPage = () => {
         return <Loader/>;
     }
 
-    if (order?.status === "open") {
-        return <FindExpertPage/>
-    }
-
     return (
         <OrderWrapper>
             <OrderContent>
@@ -101,12 +102,34 @@ const OrderPage = () => {
                           btnTitle={canGoBack ? "Назад" : "Мои заказы"}
                           btnHandler={canGoBack ? history.goBack : () => history.push("/")}
                           isPaddingBody>
-                    <Typography variant="h6" component="h3">
-                        {order?.title || "Название заказа"}
-                    </Typography>
-                    <Typography sx={{marginTop: "0.2em"}} variant="p" component="p">
-                        {order?.description || "Описание заказа"}
-                    </Typography>
+                    <Stack gap={2}>
+                        <Typography sx={{fontWeight: "bold"}} variant="h5" component="h3"
+                                    style={{wordBreak: "break-word"}}>
+                            {order?.title || "Название заказа"}
+                        </Typography>
+                        <Typography variant="p" component="p" style={{wordBreak: "break-word"}}>
+                            {order?.description || "Нет данных 😞"}
+                        </Typography>
+                        <Box>
+                            <Typography variant="h6" component="h4">
+                                Предметная область:
+                            </Typography>
+                            <ChipGroup sx={{marginTop: "0.01em"}}>
+                                {order?.subjects && order?.subjects.map((label, index) => (index < 5) &&
+                                    <ChipItem label={label} size="small"/>)}
+                            </ChipGroup>
+                        </Box>
+
+                        <Box>
+                            <Typography variant="h6" component="h4">
+                                Услуги:
+                            </Typography>
+                            <ChipGroup sx={{marginTop: "0.01em"}}>
+                                {order?.services && order?.services.map((label, index) => (index < 5) &&
+                                    <ChipItem label={label} size="small"/>)}
+                            </ChipGroup>
+                        </Box>
+                    </Stack>
                 </BaseCard>
             </OrderContent>
             <OrderAside>
@@ -137,20 +160,17 @@ const OrderPage = () => {
                     </AsideCard>
                 </OrderAsideItem>
                 <OrderAsideItem>
-                    <AsideCard title="Рекламный баннер">
-                        <p>
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aspernatur at corporis
-                            dignissimos
-                            dolorum
-                            eius facilis iure labore minima molestiae mollitia quaerat quam quia, quo quos,
-                            recusandae
-                            saepe
-                            voluptas, voluptatem. Cumque.
-                        </p>
+                    <AsideCard title="Анонсы и реклама" isPadding={false}>
+                        <a style={{display: "block", objectFit: "contain", width: "100%"}}
+                           href="https://minobrnauki.gov.ru/press-center/news/?ELEMENT_ID=44939" target="_blank">
+                            <img style={{display: "block", objectFit: "contain", width: "100%"}}
+                                 src="https://minobrnauki.gov.ru/upload/iblock/d58/hxpdwcci9yv2z86i7nnqtrjz06ui6vnu.png"
+                                 alt=""/>
+                        </a>
                     </AsideCard>
                 </OrderAsideItem>
                 <OrderAsideItem>
-                    <AsideCard title="Лучшие по вашей области" isPadding={false}>
+                    <AsideCard title="Лучшие эксперты" isPadding={false}>
                         <AlignItemsList/>
                     </AsideCard>
                 </OrderAsideItem>

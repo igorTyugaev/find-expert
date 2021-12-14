@@ -39,7 +39,7 @@ function AboutDialog(props) {
         <Dialog fullWidth maxWidth="xs" {...dialogProps}>
             <DialogTitle>
                 <Typography variant="span">
-                    About {process.env.REACT_APP_TITLE}
+                    {process.env.REACT_APP_TITLE}
                 </Typography>
 
                 <Tooltip title="Закрыть">

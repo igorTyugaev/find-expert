@@ -6,7 +6,8 @@ const ListWrapper = styled(Card)(({theme}) => ({
     width: '100%',
     display: "flex",
     flexDirection: "column",
-    height: "100%"
+    height: "100%",
+    minHeight: "86vh"
 }));
 
 const ListHeader = styled('div')(({theme}) => ({

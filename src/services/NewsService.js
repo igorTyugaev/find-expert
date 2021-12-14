@@ -6,7 +6,6 @@ class NewsService {
             const param = this.baseUrl + `?include=image&fields=headline,announce,published_at&limit=${limit}&topic_type=article`;
             fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(param)}`)
                 .then((response) => {
-                    console.log(response)
                     return response.json();
                 })
                 .then(({contents}) => {

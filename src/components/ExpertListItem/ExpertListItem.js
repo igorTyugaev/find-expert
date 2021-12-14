@@ -2,7 +2,6 @@ import React from 'react';
 import {Avatar, Button, Chip, Rating, styled, Typography} from "@mui/material";
 import LocalOfferIcon from '@mui/icons-material/LocalOffer';
 import {useHistory} from "react-router-dom";
-import OrderService from "../../services/OrderService";
 
 const ItemInner = styled('div')(({theme}) => ({
     display: "inline-flex",
@@ -92,7 +91,7 @@ const ExpertListItem = ({expert, orderId, handlerSelect, hideBar}) => {
     return (
         <ItemInner>
             <ItemAvatarCol>
-                <ExpertAvatar alt="Remy Sharp" src="https://mui.com/static/images/avatar/1.jpg"/>
+                <ExpertAvatar alt={expert?.fullName || "Не указано"} src={expert?.avatar}/>
             </ItemAvatarCol>
             <ItemContentCol>
                 <Rating name="read-only" value={4} readOnly/>

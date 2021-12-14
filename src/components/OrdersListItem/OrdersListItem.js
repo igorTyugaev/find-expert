@@ -94,13 +94,14 @@ const OrdersListItem = ({order}) => {
     const {openSnackbar} = appContext;
 
     const handlerClick = () => {
-        console.log("Choose order id", order?.orderId);
+        const orderId = order?.orderId;
+        if (!orderId) return;
+        history.push(`/order/${orderId}`);
     }
 
     const handlerCreateChanel = () => {
         ChatService.createChannel(order, userData)
             .then((chatId) => {
-                console.log(chatId);
                 if (!chatId) return;
                 history.push(`/chat/${chatId}`);
             });
@@ -130,9 +131,9 @@ const OrdersListItem = ({order}) => {
         <ItemInner>
             <ItemContentCol>
                 <ItemHeader>
-                    <BadgeHeader label="Small" size="small"/>
-                    <BadgeHeader label="Small" size="small"/>
-                    <BadgeHeader label="Small" size="small"/>
+                    {order?.services?.map((item) => (
+                        <BadgeHeader label={item} size="small"/>
+                    ))}
                 </ItemHeader>
                 <ItemBody>
                     <Typography variant="h6" component="h3">

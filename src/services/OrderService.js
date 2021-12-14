@@ -83,6 +83,7 @@ class OrderService {
         const collectionReference = firestore.collection("orders");
         const onOrders = collectionReference
             .where("subjects", "array-contains-any", subjects)
+            .where("status", "==", "open")
         return onOrders;
     };
 }

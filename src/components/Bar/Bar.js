@@ -76,14 +76,13 @@ const Bar = () => {
                 <Box display="flex" flexGrow={1}>
                     <Typography color="inherit" variant="h6">
                         <Link
-                            color="inherit"
+                            color={userData?.role === "author" ? "white" : "inherit"}
                             component={RouterLink}
                             to="/"
                             underline="none"
                         >
                             {process.env.REACT_APP_TITLE}
                         </Link>
-                        <span>-{userData?.role}</span>
                     </Typography>
                 </Box>
 

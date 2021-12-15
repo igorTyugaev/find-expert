@@ -47,8 +47,8 @@ const AppRouter = () => {
     const fullName = userData?.fullName?.toLowerCase();
 
     const getPublicRoutes = () => ([
-        <Route path="/" exact key="LandingPage">
-            <LandingPage/>
+        <Route path="/" exact key="Promo">
+            <Redirect to="/promo"/>
         </Route>,
     ]);
 
@@ -101,9 +101,12 @@ const AppRouter = () => {
                 fullName ? (role ? getPrivateRoutes() : <SelectRolePage/>) : <UserFormPage/> :
                 getPublicRoutes()
             }
+            <Route path="/promo" exact key="LandingPage">
+                <LandingPage/>
+            </Route>,
             <Route path="/articles" exact key="ArticlesPage">
                 <ArticlesPage/>
-            </Route>
+            </Route>,
             <Route path="/article/:articleId" exact key="ArticlePage">
                 <ArticlePage/>
             </Route>,

@@ -78,7 +78,7 @@ const Bar = () => {
                         <Link
                             color={userData?.role === "author" ? "white" : "inherit"}
                             component={RouterLink}
-                            to="/"
+                            to="/promo"
                             underline="none"
                         >
                             {process.env.REACT_APP_TITLE}
@@ -91,7 +91,7 @@ const Bar = () => {
                         <Stack direction="row" spacing={3} sx={{marginRight: "1em"}}>
                             <Button sx={{color: "white"}} variant="text"
                                     onClick={() => history.push("/")}>
-                                Дашборд
+                                Мои заказы
                             </Button>
                             <Button sx={{color: "white"}} variant="text"
                                     onClick={() => history.push("/my-articles")}>

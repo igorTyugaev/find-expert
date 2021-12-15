@@ -1,16 +1,19 @@
 import React, {useEffect, useState} from 'react';
-import {Container, Paper} from "@mui/material";
 import CarouselPlacement from "../../components/CarouselPlacement/CarouselPlacement";
 import ShowCase from "../../components/ShowCase/ShowCase";
 import AuthorCard from "../../components/AuthorCard/AuthorCard";
 import ArticleCard from "../../components/ArticleCard/ArticleCard";
 import JournalCard from "../../components/JournalCard/JournalCard";
 import ServiceCard from "../../components/ServiceCard";
-import {authorsPopular, cardsService} from "../../constants";
+import {authorsPopular, cardsHowItWorks, cardsService} from "../../constants";
 import NewsService from "../../services/NewsService";
 import NewsCard from "../../components/NewsCard";
 import ShowNews from "../../components/ShowNews";
 import ArticlesService from "../../services/articlesService";
+import HowItWorksCard from "../../components/HowItWorksCard";
+import {Stack} from "@mui/material";
+import Typography from "@mui/material/Typography";
+import Footer from "../../components/Footer/Footer";
 
 const LandingPage = () => {
     const [news, setNews] = useState([]);
@@ -55,35 +58,32 @@ const LandingPage = () => {
 
     return (
         <div>
-            <Container>
-                <CarouselPlacement/>
-                <ShowCase title="Наши услуги">
-                    {cardsService.map(({img, title, description}) => (
-                        <ServiceCard key={title} img={img} title={title} description={description}/>
-                    ))}
-                </ShowCase>
-                <ShowNews title="Новости" moreBtnText="Все статьи">
-                    {news && news.map(({img, title, description}) => (
-                        <NewsCard key={title} img={img} title={title} description={description}/>
-                    ))}
-                </ShowNews>
-                <ShowCase title="Поупулярные авторы" moreBtnLink="/experts" moreBtnText="Все авторы">
-                    {authorsPopular.map(({img, title, description}) => (
-                        <AuthorCard key={title} img={img} title={title} description={description}/>
-                    ))}
-                </ShowCase>
-                <ShowCase title="Популярные статьи" moreBtnText="Все статьи">
-                    {articles && articles.map(({articleId, name, content}) => (
-                        <ArticleCard key={articleId} articleId={articleId} name={name} content={content}/>
-                    ))}
-                </ShowCase>
-                <ShowCase title="Поупулярные журналы" moreBtnText="Все журналы">
-                    <JournalCard/>
-                    <JournalCard/>
-                    <JournalCard/>
-                    <JournalCard/>
-                </ShowCase>
-            </Container>
+            <CarouselPlacement/>
+            <ShowCase title="Наши услуги">
+                {cardsService.map(({img, title, description}) => (
+                    <ServiceCard key={title} img={img} title={title} description={description}/>
+                ))}
+            </ShowCase>
+            <ShowNews title="Новости">
+                {news && news.map(({img, title, description}) => (
+                    <NewsCard key={title} img={img} title={title} description={description}/>
+                ))}
+            </ShowNews>
+            <ShowCase title="Поупулярные авторы" moreBtnLink="/experts" moreBtnText="Все авторы">
+                {authorsPopular.map(({img, title, description}) => (
+                    <AuthorCard key={title} img={img} title={title} description={description}/>
+                ))}
+            </ShowCase>
+            <ShowNews title="Как это работает?">
+                {cardsHowItWorks.map(({img, title, description}) => (
+                    <HowItWorksCard key={title} img={img} title={title} description={description}/>
+                ))}
+            </ShowNews>
+            <ShowCase title="Популярные статьи" moreBtnLink="/articles" moreBtnText="Все статьи">
+                {articles && articles.map(({articleId, name, content}) => (
+                    <ArticleCard key={articleId} articleId={articleId} name={name} content={content}/>
+                ))}
+            </ShowCase>
             {/*<Footer/>*/}
         </div>
     );

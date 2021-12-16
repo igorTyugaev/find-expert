@@ -16,12 +16,13 @@ const MyProfileTable = ({small = false, isHeader = false}) => {
     const appContext = useAppContext();
     const {user, userData} = appContext;
     const {email} = user;
-    const {fullName} = userData
+    const {fullName, role} = userData;
 
     const rows = [
         createData('Имя:', fullName),
         createData('Почта:', email),
         createData('Ваш рейтинг', 5, "rating"),
+        createData('Ваш статус', role),
         createData('На платформе с', moment(user.metadata.lastSignInTime).format("llll")),
     ];
 

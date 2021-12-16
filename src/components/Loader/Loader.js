@@ -2,11 +2,12 @@ import React from "react";
 import {CircularProgress, styled} from "@mui/material";
 
 const CircularProgressWrapper = styled('div')(({theme}) => ({
-    position: "absolute",
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
-    textAlign: "center",
+    width: "100%",
+    display: "flex",
+    flexDirection: "center",
+    justifyContent: "center",
+    padding: "2em",
+    minHeight: "86px"
 }));
 
 const Loader = () => {

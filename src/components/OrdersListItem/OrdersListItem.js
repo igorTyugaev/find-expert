@@ -131,8 +131,8 @@ const OrdersListItem = ({order}) => {
         <ItemInner>
             <ItemContentCol>
                 <ItemHeader>
-                    {order?.services?.map((item) => (
-                        <BadgeHeader label={item} size="small"/>
+                    {order?.services?.map((item, index) => (
+                        <BadgeHeader key={index} label={item} size="small"/>
                     ))}
                 </ItemHeader>
                 <ItemBody>

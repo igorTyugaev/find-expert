@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {Fragment, useEffect, useState} from 'react';
 import {useHistory} from "react-router-dom";
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
@@ -53,7 +53,7 @@ const AlignItemsList = () => {
     return (
         <List sx={{padding: 0}}>
             {experts && experts.map(({expertId, fullName, expertPromo, avatar}, index) => (
-                <>
+                <Fragment key={expertId}>
                     <AuthorItem alignItems="flex-start" onClick={() => handlerProfile(expertId)}>
                         <ListItemAvatar>
                             <Avatar alt={fullName || "Безымянный"} src={avatar}/>
@@ -73,7 +73,7 @@ const AlignItemsList = () => {
                         />
                     </AuthorItem>
                     {index !== (experts.length - 1) && < Divider variant="inset" component="li"/>}
-                </>
+                </Fragment>
             ))}
         </List>
     );

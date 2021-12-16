@@ -1,6 +1,5 @@
 import React from "react";
 import PropTypes from "prop-types";
-
 import {
     Dialog,
     DialogTitle,
@@ -10,23 +9,17 @@ import {
     IconButton,
     List,
     ListItem,
-    ListItemText,
+    ListItemText, styled,
 } from "@mui/material";
-
-import makeStyles from '@mui/styles/makeStyles';
-
 import {Close as CloseIcon} from "@mui/icons-material";
 
-const useStyles = makeStyles((theme) => ({
-    closeButton: {
-        position: "absolute",
-        right: theme.spacing(1),
-        top: theme.spacing(1),
-    },
+const CloseBtn = styled(IconButton)(({theme}) => ({
+    position: "absolute",
+    right: theme.spacing(1),
+    top: theme.spacing(1),
 }));
 
 function AboutDialog(props) {
-    const classes = useStyles();
     const dialogProps = props.dialogProps;
     const user = props.user;
     const version = process.env.REACT_APP_VERSION;
@@ -43,12 +36,10 @@ function AboutDialog(props) {
                 </Typography>
 
                 <Tooltip title="Закрыть">
-                    <IconButton
-                        className={classes.closeButton}
-                        onClick={dialogProps.onClose}
-                        size="large">
+                    <CloseBtn onClick={dialogProps.onClose}
+                              size="large">
                         <CloseIcon/>
-                    </IconButton>
+                    </CloseBtn>
                 </Tooltip>
             </DialogTitle>
 

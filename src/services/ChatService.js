@@ -1,4 +1,5 @@
 import {analytics, auth, firestore} from "../firebase";
+import UserService from "./UserService";
 
 class ChatService {
     static addChannelOrder = (order, userData) => {
@@ -172,13 +173,8 @@ class ChatService {
         });
     };
 
-    static getChannelAsExpert = (orderId) => {
+    static getChannelAsExpert = () => {
         return new Promise((resolve, reject) => {
-            if (!orderId) {
-                reject(new Error("No order id"));
-                return;
-            }
-
             const currentUser = auth.currentUser;
 
             if (!currentUser) {
@@ -205,6 +201,26 @@ class ChatService {
                             ...doc.data(),
                         }))
                     resolve(listItems[0]);
+                }, (error) => {
+                    reject(error)
+                })
+        });
+    };
+
+    static getChannelById = (chatId) => {
+        return new Promise((resolve, reject) => {
+            if (!chatId) {
+                reject(new Error("No chat id"));
+                return;
+            }
+
+            const collectionReference = firestore.collection("channels");
+
+            collectionReference
+                .doc(chatId)
+                .onSnapshot((snapshot) => {
+                    const data = snapshot.data();
+                    resolve(data);
                 }, (error) => {
                     reject(error)
                 })

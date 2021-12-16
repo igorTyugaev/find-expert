@@ -2,6 +2,7 @@ import React, {forwardRef} from 'react';
 import {FormControl, TextField} from "@mui/material";
 import SelectField from "../SelectField";
 import DateField from "../DateField";
+import RatingField from "../RatingField";
 
 const InputByType = forwardRef(({...props},
                                 ref
@@ -26,6 +27,8 @@ const InputByType = forwardRef(({...props},
                              ref={ref}
                 />
             </FormControl>
+        case 'rating':
+            return <RatingField label={label} value={value} onChange={onChange} {...propsInput}/>
         case 'date':
             return <DateField ref={ref} label={label} value={value}
                               onChange={onChange} fullWidth={fullWidth}

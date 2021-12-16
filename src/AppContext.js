@@ -17,6 +17,10 @@ const initialState = {
         open: false,
     },
 
+    reviewDialog: {
+        open: false,
+    },
+
     signUpDialog: {
         open: false,
     },
@@ -112,6 +116,10 @@ class AppProvider extends Component {
         this.setState(
             {
                 aboutDialog: {
+                    open: false,
+                },
+
+                reviewDialog: {
                     open: false,
                 },
 

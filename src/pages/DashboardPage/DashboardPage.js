@@ -73,12 +73,6 @@ const DashboardPage = () => {
                     history.push('/expert-form');
             }
         }
-        const handlerOrder = ({orderId, status}) => {
-            if (status === "open")
-                history.push(`/find-expert/${orderId}`);
-            else
-                history.push(`/order/${orderId}`);
-        }
 
         useEffect(() => {
             const expertProfileCompletion = UserService.getExpertProfileCompletion(userData);
@@ -138,15 +132,15 @@ const DashboardPage = () => {
                 }
             />
 
-            return orders.map(({orderId, status, budget, deadline, title, description}) => (
+            return orders.map(({orderId, status, budget, deadline, title, description, expert}) => (
                     <DashboardListItem orderId={orderId}
                                        key={orderId}
                                        status={status}
                                        budget={budget}
                                        deadline={deadline}
                                        title={title}
+                                       expert={expert}
                                        description={description}
-                                       handlerOrder={() => handlerOrder({orderId, status})}
                     />
                 )
             )

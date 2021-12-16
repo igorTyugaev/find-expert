@@ -90,7 +90,7 @@ const AppRouter = () => {
         <Route path="/order/:orderId" key="OrderPage">
             {user ? <OrderPage/> : <Redirect to="/"/>}
         </Route>,
-        <Route path="/chat/:orderId" key="ChatPage">
+        <Route path="/chat/:chatId" key="ChatPage">
             {user ? <ChatPage/> : <Redirect to="/"/>}
         </Route>
     ]);

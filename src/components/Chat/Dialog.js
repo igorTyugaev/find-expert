@@ -39,14 +39,13 @@ const MessageBtnSubmit = styled(IconButton)(({theme}) => ({
     borderRadius: "0.24em"
 }));
 
-const Dialog = ({orderId, user, userData, openSnackbar}) => {
+const Dialog = ({chatId, user, userData, openSnackbar}) => {
     const history = useHistory();
     const canGoBack = history.action !== 'POP';
 
     const [channelName, setChannelName] = useState("");
     const [actionStatus, setActionStatus] = useState("");
     const [userNewMsg, setUserNewMsg] = useState("");
-    const [channelId, setChannelId] = useState();
 
     const sendMsg = (e) => {
         e.preventDefault();
@@ -55,7 +54,7 @@ const Dialog = ({orderId, user, userData, openSnackbar}) => {
             return;
         }
 
-        if (userNewMsg && orderId) {
+        if (userNewMsg && chatId) {
             if (userData) {
                 const displayName = userData?.fullName;
                 const imgUrl = userData.avatar;
@@ -73,7 +72,7 @@ const Dialog = ({orderId, user, userData, openSnackbar}) => {
 
 
                 firestore.collection("channels")
-                    .doc(orderId)
+                    .doc(chatId)
                     .collection("messages")
                     .add(obj)
                     .then((res) => {
@@ -84,7 +83,7 @@ const Dialog = ({orderId, user, userData, openSnackbar}) => {
                     });
 
                 firestore.collection("channels")
-                    .doc(orderId)
+                    .doc(chatId)
                     .update({
                         text: userNewMsg,
                         avatar: imgUrl ? imgUrl : null,
@@ -125,12 +124,15 @@ const Dialog = ({orderId, user, userData, openSnackbar}) => {
     };
 
     useEffect(() => {
-        ChatService.getChannelAsExpert(132)
+        ChatService.getChannelById(chatId)
             .then((data) => {
+                console.log(data)
                 if (!data) return;
                 data.channelName && setChannelName(data?.channelName);
                 data.status && setActionStatus(data?.status);
-                data.channelId && setChannelId(data?.channelId);
+            })
+            .catch((err) => {
+                console.log(err?.message)
             })
     }, [])
 
@@ -138,18 +140,19 @@ const Dialog = ({orderId, user, userData, openSnackbar}) => {
         const [allMessages, setAllMessages] = useState([]);
 
         useEffect(() => {
-            if (!channelId) return;
+            if (!chatId) return;
             const unsubscribe = ChatService
-                .getMessages(channelId)
+                .getMessages(chatId)
                 .onSnapshot((snapshot) => {
                     const items = snapshot.docs.map((doc) => ({id: doc.id, data: doc.data()}));
+                    console.log(items)
                     setAllMessages(items);
                 }, (error) => {
                     const message = error?.message;
                     openSnackbar(message);
                 })
             return () => unsubscribe();
-        }, [channelId])
+        }, [chatId])
         return allMessages;
     }
     const allMessages = useItems();

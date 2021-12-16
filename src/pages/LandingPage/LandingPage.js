@@ -3,7 +3,6 @@ import CarouselPlacement from "../../components/CarouselPlacement/CarouselPlacem
 import ShowCase from "../../components/ShowCase/ShowCase";
 import AuthorCard from "../../components/AuthorCard/AuthorCard";
 import ArticleCard from "../../components/ArticleCard/ArticleCard";
-import JournalCard from "../../components/JournalCard/JournalCard";
 import ServiceCard from "../../components/ServiceCard";
 import {authorsPopular, cardsHowItWorks, cardsService} from "../../constants";
 import NewsService from "../../services/NewsService";
@@ -11,9 +10,6 @@ import NewsCard from "../../components/NewsCard";
 import ShowNews from "../../components/ShowNews";
 import ArticlesService from "../../services/articlesService";
 import HowItWorksCard from "../../components/HowItWorksCard";
-import {Stack} from "@mui/material";
-import Typography from "@mui/material/Typography";
-import Footer from "../../components/Footer/Footer";
 
 const LandingPage = () => {
     const [news, setNews] = useState([]);

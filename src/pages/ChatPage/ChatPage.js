@@ -5,7 +5,7 @@ import {useParams} from "react-router-dom";
 
 const ChatPage = () => {
     const appContext = useAppContext();
-    const {orderId} = useParams();
+    const {chatId} = useParams();
     // Properties
     const {user, userData, theme} = appContext;
     // Functions
@@ -13,7 +13,7 @@ const ChatPage = () => {
 
     return (
         <div>
-            <Dialog orderId={orderId} theme={theme} user={user} userData={userData} openSnackbar={openSnackbar}/>
+            <Dialog chatId={chatId} theme={theme} user={user} userData={userData} openSnackbar={openSnackbar}/>
         </div>
     );
 };

@@ -1197,6 +1197,51 @@ class UserService {
         });
     };
 
+    static updateReviewsProfile = (fields, targetUser, user) => {
+        return new Promise((resolve, reject) => {
+            if (!fields) {
+                reject(new Error("No fields"));
+                return;
+            }
+
+            if (!targetUser) {
+                reject(new Error("No target user"));
+                return;
+            }
+
+            const currentUser = auth.currentUser;
+
+            if (!currentUser) {
+                reject(new Error("No current user"));
+                return;
+            }
+
+            const uid = currentUser.uid;
+
+            if (!uid) {
+                reject(new Error("No UID"));
+                return;
+            }
+
+            const userDocumentReference = firestore.collection("users")
+                .doc(targetUser).collection("reviews").doc();
+
+            userDocumentReference
+                .set({
+                    ...fields,
+                    "expert": targetUser,
+                    "author": uid,
+                    "authorName": user?.fullName,
+                })
+                .then((res) => {
+                    resolve(res);
+                })
+                .catch((reason) => {
+                    reject(reason);
+                });
+        });
+    };
+
     static addOrderIdToUser = (orderId) => {
         return new Promise((resolve, reject) => {
             if (!orderId) {

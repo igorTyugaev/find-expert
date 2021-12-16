@@ -32,12 +32,12 @@ const Content = styled(CardContent)(({theme}) => ({
 const HowItWorksCard = ({img, title, description}) => {
     return (
         <CardWrapper>
-            <CardImg
+            {img && <CardImg
                 component="img"
                 height="140"
                 image={img}
                 alt="green iguana"
-            />
+            />}
             <Content>
                 <Typography gutterBottom variant="h5" component="div">
                     {title}

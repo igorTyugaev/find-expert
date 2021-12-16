@@ -4,6 +4,7 @@ import LocalOfferIcon from '@mui/icons-material/LocalOffer';
 import DateRangeIcon from '@mui/icons-material/DateRange';
 import EditIcon from '@mui/icons-material/Edit';
 import {NavLink} from "react-router-dom";
+import ButtonAction from "./ButtonAction";
 
 const Item = styled('div')(({theme}) => ({
     width: '100%',
@@ -39,12 +40,7 @@ const ItemFooter = styled('div')(({theme}) => ({
     marginTop: "auto"
 }));
 
-const DashboardListItem = ({orderId, status, budget, deadline, title, description, handlerOrder}) => {
-    const handlerBtn = () => {
-        console.log("Choose order orderId", orderId);
-        if (!handlerOrder) return;
-        handlerOrder(orderId);
-    }
+const DashboardListItem = ({orderId, status, budget, deadline, title, description, expert}) => {
 
     return (
         <Item>
@@ -78,9 +74,7 @@ const DashboardListItem = ({orderId, status, budget, deadline, title, descriptio
                 </Typography>
             </ItemBody>
             <ItemFooter>
-                <Button sx={{marginTop: "auto"}} variant="outlined" onClick={handlerBtn}>
-                    Перейти к заказу
-                </Button>
+                {status && <ButtonAction orderId={orderId} status={status} expert={expert}/>}
             </ItemFooter>
         </Item>
     );

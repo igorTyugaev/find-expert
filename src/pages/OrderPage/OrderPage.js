@@ -116,7 +116,7 @@ const OrderPage = () => {
                             </Typography>
                             <ChipGroup sx={{marginTop: "0.01em"}}>
                                 {order?.subjects && order?.subjects.map((label, index) => (index < 5) &&
-                                    <ChipItem label={label} size="small"/>)}
+                                    <ChipItem key={index} label={label} size="small"/>)}
                             </ChipGroup>
                         </Box>
 
@@ -126,7 +126,7 @@ const OrderPage = () => {
                             </Typography>
                             <ChipGroup sx={{marginTop: "0.01em"}}>
                                 {order?.services && order?.services.map((label, index) => (index < 5) &&
-                                    <ChipItem label={label} size="small"/>)}
+                                    <ChipItem key={index} label={label} size="small"/>)}
                             </ChipGroup>
                         </Box>
                     </Stack>

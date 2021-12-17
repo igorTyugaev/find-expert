@@ -4,11 +4,11 @@ export const authorsPopular = [
         title: "Мария Иванова",
     },
     {
-        img: "https://pureportal.spbu.ru/files-asset/33814635/IMG_5029_1_.jpg/",
+        img: "https://www.spbgasu.ru/upload-files/vuz_v_licah/%D0%91%D0%B0%D1%80%D0%B0%D0%BD%D0%BE%D0%B2%D0%B0_%D0%A2%D0%B0%D1%82%D1%8C%D1%8F%D0%BD%D0%B0_%D0%98%D0%B3%D0%BE%D1%80%D0%B5%D0%B2%D0%BD%D0%B0.jpg",
         title: "Татьяна Евгеньевна",
     },
     {
-        img: "https://lh3.googleusercontent.com/proxy/dpI-y_AQ6t8XCLQKkDdPVG25ufSNdalktZPnKIJfOL5DeaZ5benxntlWAVltOfEz6Hnr-FNm0nrd3vO0k9dKlsmLwPkywyx3-utsShgxrAm0jTnTcsQPm75A4pGb",
+        img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTfyNThp6RZxzM2a_pUIpWLj8-ejQhCMaKX5Q&usqp=CAU",
         title: "Михаил Иванович",
     },
     {
@@ -20,43 +20,43 @@ export const authorsPopular = [
 export const cardsService = [
     {
         img: "https://www.peerwith.com/img/redesign/icons/language_editing.svg",
-        title: "Language editing",
-        description: "Language experts will ensure your work is written in proper scientific English, free of typos and grammatical mistakes."
+        title: "Языковое редактирование",
+        description: "Эксперты позаботятся о том, чтобы ваша работа была написана на правильном научном языке, без опечаток и грамматических ошибок."
     },
     {
         img: "https://www.peerwith.com/img/redesign/icons/manuscript_writing_support.svg",
-        title: "Manuscript writing support",
-        description: "Select an expert to mentor you through the manuscript writing process."
+        title: "Помощь в написании рукописей",
+        description: "Выберите эксперта, который будет наставлять вас в процессе написания рукописи."
     },
     {
         img: "https://www.peerwith.com/img/redesign/icons/journal_guidance.svg",
-        title: "Journal guidance",
-        description: "Connect with publication consultants who can help you get published in the right journals."
+        title: "Помощь при публикации в журнал",
+        description: "Связывайтесь с консультантами по публикациям, которые помогут вам опубликоваться в нужных журналах."
     },
     {
         img: "https://www.peerwith.com/img/redesign/icons/translate.svg",
-        title: "Translation services",
-        description: "Find a translator with the right background, skills and expertise for your work."
+        title: "Услуги перевода",
+        description: "Найдите переводчика с соответствующим опытом, навыками и знаниями для вашей работы."
     },
     {
         img: "https://www.peerwith.com/img/redesign/icons/peer_review.svg",
-        title: "Manuscript review",
-        description: "Allow experts to review your manuscript and advise on whether it is ready for publication."
+        title: "Рецензирование рукописей",
+        description: "Предоставьте экспертам возможность просмотреть вашу рукопись и дать заключение о том, готова ли она к публикации."
     },
     {
         img: "https://www.peerwith.com/img/redesign/icons/stats.svg",
-        title: "Statistical and data analysis",
-        description: "Collaborate with an expert with strong mathematical or statistical background to enable your data and statistical analysis"
+        title: "Статистика и анализ данных",
+        description: "Найдите эксперта с сильным математическим (статистическим) образованием, чтобы выполнить хорошую аналитику данных"
     },
     {
         img: "https://www.peerwith.com/img/redesign/icons/rightsandpermissions.svg",
-        title: "Rights and permissions",
-        description: "Ask legal experts about rights, permissions & copyright."
+        title: "Юридическая консультация",
+        description: "Задайте вопросы экспертам в области авторского права"
     },
     {
         img: "https://www.peerwith.com/img/redesign/icons/literature_search.svg",
-        title: "Literature search",
-        description: "Connect with experts with access to the right databases to do your literature search or analysis."
+        title: "Поиск литературы",
+        description: "Свяжитесь с экспертами, имеющими доступ к нужным базам данных, для поиска или анализа вашей литературы."
     },
 ];
 
@@ -70,16 +70,16 @@ export const cardsHowItWorks = [
     {
         img: "https://www.peerwith.com/img/redesign/icons/post_request.svg",
         title: "Разместите запрос",
-        description: "Разместите свой запрос на обслуживание. Убедитесь, что вы обращаетесь к нужным специалистам, добавляя как можно больше деталей. Это также поможет экспертам предоставить точные, адаптированные котировки."
+        description: "Разместите свой запрос на обслуживание. Убедитесь, что вы обращаетесь к нужным специалистам, добавляя как можно больше деталей. Это также поможет экспертам подстроиться под вашу работу."
     },
     {
         img: "https://www.peerwith.com/img/redesign/icons/select_expert.svg",
         title: "Выберите эксперта",
-        description: "Читайте профили экспертов, обменивайтесь идеями и делитесь документами. Это гарантирует, что вы выберете правильного эксперта для вашего запроса. Вы приняли свое решение; принять предложение и перечислить согласованную плату. Теперь вы подключены к выбранному вами эксперту."
+        description: "Читайте профили экспертов, обменивайтесь идеями. Это гарантирует, что вы выберете правильного эксперта для вашего запроса."
     },
     {
         img: "https://www.peerwith.com/img/redesign/icons/agree_on_fee.svg",
         title: "Сотрудничать",
-        description: "Обменивайтесь идеями и делитесь файлами через наше приложение. Поскольку вы находитесь в прямом контакте с выбранным вами экспертом, вы можете контролировать направление и качество вашего запроса по мере его выполнения. Подтвердите, что ваш запрос выполнен, и Peerwith переводит гонорар эксперту. И будьте уверены, вся транзакция проходит в безопасной рыночной среде."
+        description: "Обменивайтесь идеями и делитесь файлами через наше приложение. Поскольку вы находитесь в прямом контакте с выбранным вами экспертом, вы можете контролировать направление и качество вашего запроса по мере его выполнения. Подтвердите, что ваш запрос выполнен, и наш переводит уйдет эксперту."
     },
 ];

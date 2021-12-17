@@ -60,8 +60,8 @@ const Bar = () => {
             to: "/select-role",
         },
         {
-            name: "Настройки",
-            onClick: onSettingsClick,
+            name: "Все статьи",
+            to: "/articles",
         },
         {
             name: "Выйти",

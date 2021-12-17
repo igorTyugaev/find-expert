@@ -24,13 +24,21 @@ const CardBody = styled('div', {
     flexDirection: "column",
     padding: isPadding ? "0 1em 0.5em" : 0,
 }));
+
+const Title = styled(Typography)(({theme}) => ({
+    wordBreak: "normal",
+    "@media screen and (max-width: 540px)": {
+        fontSize: "16px",
+    }
+}));
+
 const AsideCard = ({children, title, isPadding = true}) => {
     return (
         <CardWrapper>
             <CardHeader>
-                <Typography variant="h6" component="h3">
+                <Title variant="h6" component="h3">
                     {title || "AsideCard"}
-                </Typography>
+                </Title>
             </CardHeader>
             <CardBody isPadding={isPadding}>
                 {children}

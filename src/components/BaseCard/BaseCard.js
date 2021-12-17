@@ -46,6 +46,20 @@ const ListBody = styled('div', {
     minHeight: "420px",
 }));
 
+const Title = styled(Typography)(({theme}) => ({
+    wordBreak: "normal",
+    "@media screen and (max-width: 540px)": {
+        fontSize: "16px",
+    }
+}));
+
+const Description = styled(Typography)(({theme}) => ({
+    wordBreak: "normal",
+    "@media screen and (max-width: 540px)": {
+        fontSize: "14px",
+    }
+}));
+
 const BaseCard = ({children, title, description, btnTitle, btnHandler, disabled, isPaddingBody = false}) => {
     const handlerBtnHeader = () => {
         if (!btnHandler) return;
@@ -56,12 +70,12 @@ const BaseCard = ({children, title, description, btnTitle, btnHandler, disabled,
         <ListWrapper>
             <ListHeader>
                 <Box>
-                    <Typography variant="h6" component="h3">
+                    <Title variant="h6" component="h3">
                         {title}
-                    </Typography>
-                    {description && <Typography color="gray" variant="body1" component="span">
+                    </Title>
+                    {description && <Description color="gray" variant="body1" component="span">
                         {description}
-                    </Typography>}
+                    </Description>}
                 </Box>
                 {
                     btnTitle &&

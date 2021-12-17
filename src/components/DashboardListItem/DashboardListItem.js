@@ -40,6 +40,18 @@ const ItemFooter = styled('div')(({theme}) => ({
     marginTop: "auto"
 }));
 
+const Title = styled(Typography)(({theme}) => ({
+    "@media screen and (max-width: 540px)": {
+        fontSize: "16px",
+    }
+}));
+
+const Description = styled(Typography)(({theme}) => ({
+    "@media screen and (max-width: 540px)": {
+        fontSize: "14px",
+    }
+}));
+
 const DashboardListItem = ({orderId, status, budget, deadline, title, description, expert}) => {
 
     return (
@@ -58,7 +70,7 @@ const DashboardListItem = ({orderId, status, budget, deadline, title, descriptio
                 />
             </ItemHeader>
             <ItemBody>
-                <Typography variant="h6" component="h3">
+                <Title variant="h6" component="h3">
                     <Link
                         style={{wordBreak: "break-word"}}
                         color="inherit"
@@ -68,10 +80,10 @@ const DashboardListItem = ({orderId, status, budget, deadline, title, descriptio
                     >
                         {title || "Без заголовка"}
                     </Link>
-                </Typography>
-                <Typography sx={{marginTop: "0.2em"}} variant="p" component="p" style={{wordBreak: "break-word"}}>
+                </Title>
+                <Description sx={{marginTop: "0.2em"}} variant="p" component="p" style={{wordBreak: "break-word"}}>
                     {description}
-                </Typography>
+                </Description>
             </ItemBody>
             <ItemFooter>
                 {status && <ButtonAction orderId={orderId} status={status} expert={expert}/>}

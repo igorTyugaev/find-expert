@@ -63,6 +63,16 @@ const Bar = () => {
             name: "Все статьи",
             to: "/articles",
         },
+
+        {
+            name: "Мои заказы",
+            to: "/",
+        },
+
+        {
+            name: "Мои статьи",
+            to: "/my-articles",
+        },
         {
             name: "Выйти",
             divide: true,
@@ -88,7 +98,8 @@ const Bar = () => {
 
                 {user && (
                     <>
-                        <Stack direction="row" spacing={3} sx={{marginRight: "1em"}}>
+                        <Stack direction="row" spacing={3}
+                               sx={{marginRight: "1em", "@media screen and (max-width: 450px)": {display: "none"}}}>
                             <Button sx={{color: "white"}} variant="text"
                                     onClick={() => history.push("/")}>
                                 Мои заказы

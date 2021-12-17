@@ -29,6 +29,20 @@ const Content = styled(CardContent)(({theme}) => ({
     flex: "5 1 auto",
 }));
 
+const Title = styled(Typography)(({theme}) => ({
+    wordBreak: "normal",
+    "@media screen and (max-width: 540px)": {
+        fontSize: "16px",
+    }
+}));
+
+const Description = styled(Typography)(({theme}) => ({
+    wordBreak: "normal",
+    "@media screen and (max-width: 540px)": {
+        fontSize: "14px",
+    }
+}));
+
 const HowItWorksCard = ({img, title, description}) => {
     return (
         <CardWrapper>
@@ -39,12 +53,12 @@ const HowItWorksCard = ({img, title, description}) => {
                 alt="green iguana"
             />}
             <Content>
-                <Typography gutterBottom variant="h5" component="div">
+                <Title gutterBottom variant="h5" component="div">
                     {title}
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
+                </Title>
+                <Description variant="body2" color="text.secondary">
                     {description}
-                </Typography>
+                </Description>
             </Content>
         </CardWrapper>
     );

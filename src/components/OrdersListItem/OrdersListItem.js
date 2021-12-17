@@ -70,6 +70,20 @@ const ItemFooter = styled('div')(({theme}) => ({
     marginTop: "1em"
 }));
 
+const Title = styled(Typography)(({theme}) => ({
+    wordBreak: "normal",
+    "@media screen and (max-width: 540px)": {
+        fontSize: "16px",
+    }
+}));
+
+const Description = styled(Typography)(({theme}) => ({
+    wordBreak: "normal",
+    "@media screen and (max-width: 540px)": {
+        fontSize: "14px",
+    }
+}));
+
 /**
  *
  * @param {{
@@ -136,12 +150,12 @@ const OrdersListItem = ({order}) => {
                     ))}
                 </ItemHeader>
                 <ItemBody>
-                    <Typography variant="h6" component="h3">
+                    <Title variant="h6" component="h3">
                         {order?.title}
-                    </Typography>
-                    <Typography sx={{marginTop: "0.2em"}} variant="p" component="p">
+                    </Title>
+                    <Description sx={{marginTop: "0.2em"}} variant="p" component="p">
                         {order?.description}
-                    </Typography>
+                    </Description>
                 </ItemBody>
                 <ItemFooter>
                     <Button variant="outlined" onClick={handlerClick}>

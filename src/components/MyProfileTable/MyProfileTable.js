@@ -23,7 +23,7 @@ const MyProfileTable = ({small = false, isHeader = false}) => {
         createData('Почта:', email),
         createData('Ваш рейтинг', 5, "rating"),
         createData('Ваш статус', role),
-        createData('На платформе с', moment(user.metadata.lastSignInTime).format("llll")),
+        createData('На платформе', moment(user.metadata.lastSignInTime).format("llll")),
     ];
 
     return (
@@ -36,7 +36,10 @@ const MyProfileTable = ({small = false, isHeader = false}) => {
                             sx={{'&:last-child td, &:last-child th': {border: 0}}}
                         >
                             <TableCell component="th" scope="row">
-                                <Typography variant="span" sx={{fontWeight: "bold"}}>{row.name}</Typography>
+                                <Typography variant="span"
+                                            sx={{fontWeight: "bold", wordBreak: "normal"}}>
+                                    {row.name}
+                                </Typography>
                             </TableCell>
                             <TableCell align="right">
                                 {row.type ? <Rating name="read-only" value={row.calories} readOnly/>

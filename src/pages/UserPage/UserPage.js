@@ -59,6 +59,20 @@ const CardInfoGrid = styled("div")(({theme}) => ({
     flex: "5 1 auto"
 }));
 
+const Title = styled(Typography)(({theme}) => ({
+    wordBreak: "normal",
+    "@media screen and (max-width: 540px)": {
+        fontSize: "16px",
+    }
+}));
+
+const Description = styled(Typography)(({theme}) => ({
+    wordBreak: "normal",
+    "@media screen and (max-width: 540px)": {
+        fontSize: "14px",
+    }
+}));
+
 const UserPage = () => {
     const appContext = useAppContext();
     const history = useHistory();
@@ -211,16 +225,16 @@ const UserPage = () => {
                 <Stack gap={2}>
                     {reviews && reviews.map(({id, authorName, review, rate, author}) => (
                         <div style={{borderLeft: "2px solid gray", paddingLeft: "1em"}} key={id}>
-                            <Typography sx={{margin: "0.5em 0", cursor: "pointer"}} variant="h6" component="h4"
+                            <Title sx={{margin: "0.5em 0", cursor: "pointer"}} variant="h6" component="h4"
                                         onClick={() => {
                                             history.push(`/user/${author}`)
                                         }}>
                                 {authorName || "No name"}
-                            </Typography>
+                            </Title>
                             <Rating name="read-only" value={rate || 0} readOnly/>
-                            <Typography sx={{margin: "0.5em 0"}} variant="body1" component="p" color="gray">
+                            <Description sx={{margin: "0.5em 0"}} variant="body1" component="p" color="gray">
                                 {review}
-                            </Typography>
+                            </Description>
                         </div>
                     ))}
                 </Stack>

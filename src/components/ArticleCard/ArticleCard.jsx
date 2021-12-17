@@ -1,6 +1,20 @@
 import * as React from 'react';
 import {useHistory} from "react-router-dom";
-import {Rating, Typography, Button, Card, CardContent, CardMedia, CardActions} from "@mui/material";
+import {Rating, Typography, Button, Card, CardContent, CardMedia, CardActions, styled} from "@mui/material";
+
+const Title = styled(Typography)(({theme}) => ({
+    wordBreak: "normal",
+    "@media screen and (max-width: 540px)": {
+        fontSize: "16px",
+    }
+}));
+
+const Description = styled(Typography)(({theme}) => ({
+    wordBreak: "normal",
+    "@media screen and (max-width: 540px)": {
+        fontSize: "14px",
+    }
+}));
 
 const ArticleCard = ({articleId, name, content}) => {
     const history = useHistory();
@@ -12,14 +26,14 @@ const ArticleCard = ({articleId, name, content}) => {
     return (
         <Card>
             <CardContent>
-                <Typography gutterBottom variant="h5" component="h3"
-                            sx={{cursor: "pointer"}}
-                            onClick={() => history.push(`/article/${articleId}`)}>
+                <Title gutterBottom variant="h5" component="h3"
+                       sx={{cursor: "pointer"}}
+                       onClick={() => history.push(`/article/${articleId}`)}>
                     {name?.toLowerCase()}
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
+                </Title>
+                <Description variant="body2" color="text.secondary">
                     {stripMarkdown(content?.slice(0, 90) || "")}...
-                </Typography>
+                </Description>
             </CardContent>
         </Card>
     );

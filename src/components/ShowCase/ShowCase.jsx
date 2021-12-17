@@ -17,7 +17,11 @@ const ShowCaseHeader = styled(Box)(({theme}) => ({
 }));
 
 const ShowCaseTitle = styled(Typography)(({theme}) => ({
-    fontWeight: 'bold'
+    fontWeight: 'bold',
+    wordBreak: "normal",
+    "@media screen and (max-width: 540px)": {
+        fontSize: "18px",
+    }
 }));
 
 const ShowCaseBody = styled(Box)(({theme}) => ({

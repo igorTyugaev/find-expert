@@ -46,7 +46,6 @@ const LandingPage = () => {
         return articles;
     }
     const articles = useItems();
-    console.log(articles)
 
     useEffect(() => {
         fetchNews()

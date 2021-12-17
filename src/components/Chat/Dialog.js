@@ -163,7 +163,6 @@ const Dialog = ({chatId, user, userData, openSnackbar}) => {
             btnTitle={canGoBack ? "Назад" : "Мои заказы"}
             btnHandler={canGoBack ? history.goBack : () => history.push("/")}>
             <DialogWrapper>
-
                 <ScrollableFeed>
                     <div style={{padding: "0 1em"}}>
                         {allMessages.map((message) => (

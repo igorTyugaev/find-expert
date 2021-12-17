@@ -21,6 +21,13 @@ const useStyles = makeStyles((theme) => ({
 
         "&:hover": {
             background: "#e5e5ea",
+        },
+
+        "@media screen and (max-width: 540px)": {
+            padding: 0,
+            "&:hover": {
+                backgroundColor: "transparent",
+            },
         }
     },
 
@@ -34,12 +41,22 @@ const useStyles = makeStyles((theme) => ({
 
         "&:hover": {
             background: "#e5e5ea",
+        },
+
+        "@media screen and (max-width: 540px)": {
+            padding: 0,
+            "&:hover": {
+                backgroundColor: "transparent",
+            },
         }
     },
     avatar: {
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
+        "@media screen and (max-width: 540px)": {
+            display: "none"
+        }
     },
     message: {
         display: "flex",
@@ -47,6 +64,13 @@ const useStyles = makeStyles((theme) => ({
         alignItems: "flex-start",
         justifyContent: "center",
         paddingLeft: "1rem",
+        width: "100%",
+        marginTop: "1em",
+
+        "@media screen and (max-width: 540px)": {
+            borderBottom: "1px solid #c4c4c4",
+            padding: 0
+        }
     },
     chatHeading: {
         marginBlockStart: 0,
@@ -156,7 +180,7 @@ function Messages({values, msgId, user, userData}) {
 
                     <div className={classes.chatText}>
                         {values.text.split("\n").map((txt, idx) => (
-                            <p key={idx}>
+                            <p key={idx} style={{marginTop: 0}}>
                                 <Anchorme target="_blank" rel="noreferrer noopener">
                                     {txt}
                                 </Anchorme>

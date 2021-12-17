@@ -71,14 +71,12 @@ const ItemFooter = styled('div')(({theme}) => ({
 }));
 
 const Title = styled(Typography)(({theme}) => ({
-    wordBreak: "normal",
     "@media screen and (max-width: 540px)": {
         fontSize: "16px",
     }
 }));
 
 const Description = styled(Typography)(({theme}) => ({
-    wordBreak: "normal",
     "@media screen and (max-width: 540px)": {
         fontSize: "14px",
     }

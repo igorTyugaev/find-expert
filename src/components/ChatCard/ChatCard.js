@@ -52,6 +52,17 @@ const ListBody = styled('div', {
     }
 }));
 
+const Title = styled(Typography)(({theme}) => ({
+    display: "inline-block",
+    overflow: "hidden",
+    textOverflow: "ellipsis",
+    whiteSpace: "nowrap",
+    width: "100%",
+    "@media screen and (max-width: 540px)": {
+        fontSize: "16px",
+    }
+}));
+
 const ChatCard = ({children, title, description, btnTitle, btnHandler, isPaddingBody = false}) => {
     const handlerBtnHeader = () => {
         if (!btnHandler) return;
@@ -61,14 +72,9 @@ const ChatCard = ({children, title, description, btnTitle, btnHandler, isPadding
     return (
         <ListWrapper>
             <ListHeader>
-                <Box>
-                    <Typography variant="h6" component="h3">
-                        {title}
-                    </Typography>
-                    {description && <Typography color="gray" variant="body1" component="span">
-                        {description}
-                    </Typography>}
-                </Box>
+                <Title variant="h6" component="h3">
+                    {title}
+                </Title>
                 {
                     btnTitle &&
                     <BtnHeader variant="outlined" onClick={handlerBtnHeader}>

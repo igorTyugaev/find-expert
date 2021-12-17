@@ -43,6 +43,9 @@ const ChipItem = styled(Chip)(({theme}) => ({
 const CardInfo = styled("div")(({theme}) => ({
     width: "100%",
     display: "flex",
+    "@media screen and (max-width: 830px)": {
+        flexDirection: "column"
+    }
 }));
 
 const CardInfoAvatar = styled("div")(({theme}) => ({

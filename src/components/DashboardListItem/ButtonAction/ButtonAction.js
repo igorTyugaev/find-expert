@@ -26,6 +26,7 @@ const ButtonAction = ({orderId, status, expert}) => {
     const {openSnackbar, openDialog} = appContext;
     const role = userData?.role?.toLowerCase();
     const isBusy = status === "busy" && role === "author";
+    const isHideReview = status === "completed" && role === "expert";
 
     const [open, setOpen] = useState(false);
 
@@ -83,9 +84,9 @@ const ButtonAction = ({orderId, status, expert}) => {
 
     return (
         <Container>
-            <BtnItem variant="outlined" onClick={handlerBtn}>
+            {!isHideReview && <BtnItem variant="outlined" onClick={handlerBtn}>
                 {getTitleBtn()}
-            </BtnItem>
+            </BtnItem>}
             {isBusy &&
             <BtnItem variant="outlined" onClick={handleCloseDeal}>
                 Закрыть сделку

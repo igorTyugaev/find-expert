@@ -60,14 +60,6 @@ const DashboardListItem = ({orderId, status, budget, deadline, title, descriptio
                 <BadgeHeader label={status}/>
                 <BadgeHeader icon={<LocalOfferIcon/>} label={`₽${budget}`} variant="outlined"/>
                 <BadgeHeader icon={<DateRangeIcon/>} label={deadline} variant="outlined"/>
-                <BadgeHeader
-                    label="Редактировать"
-                    onClick={() => {
-                        console.log()
-                    }}
-                    icon={<EditIcon/>}
-                    variant="outlined"
-                />
             </ItemHeader>
             <ItemBody>
                 <Title variant="h6" component="h3">
